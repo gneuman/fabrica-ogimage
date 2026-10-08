@@ -54,6 +54,34 @@ const firma = (p, color) =>
     p.sitio && h('span', {}, p.sitio),
   )
 
+/** Línea mono con *resaltado*, sin partir palabras (para etiquetas cortas). */
+const monoResaltado = (texto, acento) =>
+  texto.split(/(\*[^*]+\*)/).filter(Boolean).map((t) => h('span', { color: t.startsWith('*') ? acento : undefined, whiteSpace: 'pre' }, t.replace(/\*/g, '')))
+
+/**
+ * Terminal con título y líneas: "Nombre | > comando | ✓ paso | ✓ paso".
+ * Las líneas con ✓ salen en el color de la ventana.
+ */
+function ventana(p, texto, etiqueta, color, extra = {}) {
+  const [nombre, ...lineas] = texto.split(/\s*\|\s*/)
+  return h('div', { flexDirection: 'column', width: 440, borderRadius: 14, background: '#18191b', border: '2px solid #2c2d30', boxShadow: '0 24px 50px rgba(0,0,0,0.7)', ...extra },
+    h('div', { alignItems: 'center', padding: '12px 18px', borderBottom: '2px solid #2c2d30' },
+      ...[0, 1, 2].map(() => h('div', { width: 11, height: 11, borderRadius: 99, background: '#4a4b4f', marginRight: 8 })),
+      h('div', { marginLeft: 'auto', fontFamily: 'Mono', fontSize: 13, letterSpacing: '0.16em', color: '#8a8c91' }, etiqueta),
+    ),
+    h('div', { flexDirection: 'column', padding: '16px 20px 20px' },
+      h('div', { fontFamily: 'Lilita', fontSize: 30, textTransform: 'uppercase', color: p.texto }, nombre),
+      ...lineas.slice(0, 3).map((l) => {
+        // La fuente mono no trae ✓: la palomita se dibuja con dos bordes.
+        const hecho = /^[✓✔]/.test(l)
+        return h('div', { alignItems: 'center', marginTop: 8, fontFamily: 'Mono', fontSize: 16, color: hecho ? color : '#d6d6d2' },
+          hecho && h('div', { width: 6, height: 11, borderRight: `2px solid ${color}`, borderBottom: `2px solid ${color}`, transform: 'rotate(45deg)', margin: '0 12px 4px 3px' }),
+          hecho ? l.replace(/^[✓✔]\s*/, '') : l)
+      }),
+    ),
+  )
+}
+
 export const PLANTILLAS = {
   marca: {
     nombre: 'Marca',
@@ -284,29 +312,75 @@ export const PLANTILLAS = {
     },
   },
 
+  duelo: {
+    nombre: 'Duelo',
+    descripcion: 'Fondo negro, titular gordo y dos terminales cara a cara con un VS. Para webinars y comparativas de herramientas.',
+    campos: ['sub', 'titulo', 'fecha', 'lugar', 'izquierda', 'derecha', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#0b0b0b', texto: '#f4f4f0', acento: '#ffe500' },
+    ejemplo: {
+      sub: '*En vivo* · Sesión de preguntas',
+      titulo: 'Cómo elegir entre *n8n* y *Claude Code*',
+      fecha: 'Jueves 29 de octubre',
+      lugar: '19:00 CDMX · 45 min · *Gratis en Zoom*',
+      izquierda: 'n8n | > arma el reporte de ventas | ✓ lee Sheets, CRM y correo | ✓ todos los lunes a las 8:00',
+      derecha: 'Claude Code | > hazme un portal de clientes | ✓ login, facturas y tickets | ✓ vista previa en localhost:3000',
+    },
+    dibujar: (p) => {
+      const verde = '#3ddbb0'
+      return h('div', { width: ANCHO, height: ALTO, alignItems: 'center', padding: '0 0 0 64px', background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', width: 640 },
+          p.sub && h('div', { alignItems: 'center', fontFamily: 'Mono', fontSize: 19, letterSpacing: '0.14em', color: p.suave },
+            h('div', { width: 13, height: 13, borderRadius: 99, background: '#ff5a3c', marginRight: 14 }),
+            h('div', { flexWrap: 'wrap' }, monoResaltado(p.sub.toUpperCase(), '#ff5a3c')),
+          ),
+          h('div', { flexWrap: 'wrap', marginTop: 22, fontFamily: 'Lilita', fontSize: escala(p.titulo, [[30, 70], [50, 60], [999, 50]]), lineHeight: 1.02, textTransform: 'uppercase' }, resaltar(p.titulo, p.acento)),
+          h('div', { width: 110, height: 7, background: p.acento, marginTop: 34 }),
+          p.fecha && h('div', { marginTop: 30, fontFamily: 'Lilita', fontSize: 40 }, p.fecha),
+          p.lugar && h('div', { flexWrap: 'wrap', marginTop: 16, fontFamily: 'Mono', fontSize: 21, letterSpacing: '0.06em', color: p.suave }, monoResaltado(p.lugar.toUpperCase(), p.acento)),
+        ),
+        h('div', { flexDirection: 'column', flex: 1, alignItems: 'center', justifyContent: 'center', height: ALTO },
+          ventana(p, p.izquierda || 'Opción A', 'CONTENDIENTE 01', verde, { transform: 'rotate(-2deg) translateX(-10px)' }),
+          h('div', { alignItems: 'center', justifyContent: 'center', width: 84, height: 84, borderRadius: 99, background: p.acento, border: `5px solid ${p.fondo}`, color: p.fondo, fontFamily: 'Lilita', fontSize: 34, margin: '-26px 0', boxShadow: `0 0 34px ${p.acento}` }, 'VS'),
+          ventana(p, p.derecha || 'Opción B', 'CONTENDIENTE 02', p.acento, { transform: 'rotate(1.5deg) translateX(18px)', border: `2px solid ${p.acento}55` }),
+        ),
+      )
+    },
+  },
+
   cohort: {
     nombre: 'Cohort',
-    descripcion: 'Fechas, nombre del programa, lo que incluye y el precio. Para cohorts, cursos en vivo y programas de varias semanas.',
-    campos: ['fecha', 'titulo', 'lugar', 'puntos', 'cifra', 'boton', 'fondo', 'texto', 'acento'],
-    ejemplo: { fecha: '9 nov – 3 dic', titulo: 'Pon un *Copiloto* a trabajar en tu empresa', lugar: '4 semanas · 8 sesiones en vivo', puntos: '4 sesiones de 90 min con demos reales | 1 experto invitado | 3 talleres con soporte de configuración | Grabaciones de por vida', cifra: '$12,900 MXN', boton: 'Aparta tu lugar' },
+    descripcion: 'Nombre del programa en grande, etiqueta amarilla, una terminal con lo que incluye y franja con la fecha de arranque. Para cohorts y cursos en vivo.',
+    campos: ['titulo', 'sub', 'puntos', 'fecha', 'sitio', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#0b0b0b', texto: '#f4f4f0', acento: '#ffe500' },
+    ejemplo: {
+      titulo: 'Copiloto en 4 semanas',
+      sub: 'Cohort en vivo',
+      puntos: '4 sesiones de 90 min con demos reales | 3 talleres para configurarlo contigo | 1 experto invitado | Grabaciones de por vida',
+      fecha: 'Arranca el 9 de noviembre',
+      sitio: 'gabrielneuman.com/cohort',
+    },
     dibujar: (p) => {
       const puntos = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 4)
-      return h('div', { width: ANCHO, height: ALTO, padding: 70, background: p.fondo, color: p.texto },
-        h('div', { flexDirection: 'column', flex: 1, marginRight: 50 },
-          p.fecha && h('div', { fontSize: 24, fontWeight: 700, color: p.acento, letterSpacing: '0.12em' }, p.fecha.toUpperCase()),
-          h('div', { flexWrap: 'wrap', marginTop: 18, fontSize: escala(p.titulo, [[30, 56], [55, 46], [999, 38]]), fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
-          p.lugar && h('div', { marginTop: 16, fontSize: 28, color: p.suave }, p.lugar),
-          h('div', { flexDirection: 'column', marginTop: 'auto' },
-            ...puntos.map((t) => h('div', { alignItems: 'center', marginTop: 12, fontSize: 25 },
-              h('div', { width: 14, height: 14, borderRadius: 4, background: p.acento, marginRight: 18, flexShrink: 0 }),
-              t,
+      return h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', alignItems: 'center', paddingTop: 40, background: p.fondo, color: p.texto },
+        h('div', { fontFamily: 'Lilita', fontSize: escala(p.titulo, [[18, 76], [28, 62], [999, 50]]), lineHeight: 1, textTransform: 'uppercase', transform: 'skewX(-8deg)' }, p.titulo),
+        p.sub && h('div', { marginTop: 14, padding: '6px 30px', background: p.acento, color: p.fondo, fontFamily: 'Lilita', fontSize: 40, textTransform: 'uppercase', transform: 'skewX(-8deg) rotate(-1.5deg)' }, p.sub),
+        h('div', { flexDirection: 'column', width: 760, marginTop: 30, borderRadius: 16, background: '#1c1d1f', border: '2px solid #2c2d30', transform: 'rotate(-1.2deg)', boxShadow: '0 30px 60px rgba(0,0,0,0.6)' },
+          h('div', { alignItems: 'center', padding: '14px 20px', borderBottom: '2px solid #2c2d30' },
+            ...['#ff5f57', '#febc2e', '#28c840'].map((c) => h('div', { width: 13, height: 13, borderRadius: 99, background: c, marginRight: 9 })),
+            h('div', { marginLeft: 18, padding: '2px 0', borderBottom: `3px solid ${p.acento}`, fontFamily: 'Mono', fontSize: 18 }, 'PROGRAMA.md'),
+          ),
+          h('div', { flexDirection: 'column', padding: '14px 26px 20px' },
+            h('div', { fontFamily: 'Mono', fontSize: 21 }, h('span', { color: '#6b6d72', width: 34 }, '1'), h('span', { color: p.acento }, '## Lo que incluye')),
+            ...puntos.map((t, i) => h('div', { marginTop: 8, fontFamily: 'Mono', fontSize: 21 },
+              h('span', { color: '#6b6d72', width: 34 }, String(i + 2)),
+              h('span', {}, `- ${t}`),
             )),
           ),
         ),
-        (p.cifra || p.boton) && h('div', { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 330, borderRadius: 36, padding: 36, background: p.acento, color: p.sobreAcento, flexShrink: 0 },
-          h('div', { fontSize: 22, fontWeight: 700, letterSpacing: '0.12em', opacity: 0.8 }, 'INSCRIPCIÓN'),
-          p.cifra && h('div', { marginTop: 14, fontSize: escala(p.cifra, [[8, 64], [12, 52], [999, 40]]), fontWeight: 700, letterSpacing: '-0.02em', textAlign: 'center' }, p.cifra),
-          p.boton && h('div', { marginTop: 34, padding: '14px 32px', borderRadius: 999, background: p.sobreAcento, color: p.acento, fontSize: 26, fontWeight: 700 }, p.boton),
+        h('div', { position: 'absolute', left: 60, right: 60, bottom: 30, alignItems: 'center', height: 64, padding: '0 34px', background: p.acento, color: p.fondo, transform: 'skewX(-14deg)' },
+          p.fecha && h('div', { fontFamily: 'Lilita', fontSize: 32, textTransform: 'uppercase' }, p.fecha),
+          p.sitio && h('div', { marginLeft: 26, fontSize: 27, fontWeight: 700 }, p.sitio),
+          h('div', { marginLeft: 'auto' }, ...[0, 1, 2, 3, 4, 5].map(() => h('div', { width: 11, height: 64, background: p.fondo, marginLeft: 11 }))),
         ),
       )
     },
@@ -374,10 +448,10 @@ export const CAMPOS = {
   acento: { etiqueta: 'Acento', tipo: 'color' },
   ciudad: { etiqueta: 'Ciudad', tipo: 'texto', ayuda: 'Vacío: la de quien ve la imagen. En el título usa {ciudad} y {pais}.' },
   pais: { etiqueta: 'País (código de 2 letras)', tipo: 'texto', ayuda: 'MX, CO, AR, ES… Vacío: el de quien ve la imagen.' },
-  cifra: { etiqueta: 'Cifra', tipo: 'texto', ayuda: 'En cohort, el precio: $12,900 MXN.' },
-  izquierda: { etiqueta: 'Opción de la izquierda', tipo: 'texto' },
+  cifra: { etiqueta: 'Cifra', tipo: 'texto' },
+  izquierda: { etiqueta: 'Opción de la izquierda', tipo: 'texto', ayuda: 'En duelo: Nombre | > comando | ✓ paso | ✓ paso.' },
   derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
-  fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT. En cohort, el rango: 9 nov – 3 dic.' },
+  fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

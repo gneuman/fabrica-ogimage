@@ -7,7 +7,7 @@ import { Resvg, initWasm } from '@resvg/resvg-wasm'
 import { ANCHO, ALTO, PLANTILLAS } from './plantillas.js'
 
 const MARCA = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' }
-const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 50, derecha: 50, fecha: 14, lugar: 80, puntos: 300 }
+const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 160, derecha: 160, fecha: 40, lugar: 80, puntos: 300 }
 
 const hex = (v, def) => {
   const s = String(v ?? '').trim().replace(/^#/, '')
@@ -32,10 +32,11 @@ export function normalizar(slug, entrada = {}) {
     if (k === 'foto' || k === 'imagen') p[k] = /^(https?:\/\/|\/[^/])/.test(v) ? v : ''
     else p[k] = cortar(v, LARGO[k] ?? 120)
   }
-  p.fondo = hex(entrada.fondo, MARCA.fondo)
-  p.texto = hex(entrada.texto, luz(p.fondo) > 0.6 ? '#0f1733' : MARCA.texto)
-  p.acento = hex(entrada.acento, MARCA.acento)
-  p.suave = luz(p.fondo) > 0.6 ? '#4b5563' : '#c5d5f8'
+  const marca = { ...MARCA, ...pl.marca }
+  p.fondo = hex(entrada.fondo, marca.fondo)
+  p.texto = hex(entrada.texto, luz(p.fondo) > 0.6 ? '#0f1733' : marca.texto)
+  p.acento = hex(entrada.acento, marca.acento)
+  p.suave = luz(p.fondo) > 0.6 ? '#4b5563' : (pl.marca ? '#b9b9b4' : '#c5d5f8')
   p.sobreAcento = luz(p.acento) > 0.6 ? '#0f1733' : '#ffffff'
   if (!p.titulo && pl.campos.includes('titulo')) p.titulo = pl.ejemplo.titulo
   if (p.pais !== undefined) {
