@@ -284,6 +284,34 @@ export const PLANTILLAS = {
     },
   },
 
+  cohort: {
+    nombre: 'Cohort',
+    descripcion: 'Fechas, nombre del programa, lo que incluye y el precio. Para cohorts, cursos en vivo y programas de varias semanas.',
+    campos: ['fecha', 'titulo', 'lugar', 'puntos', 'cifra', 'boton', 'fondo', 'texto', 'acento'],
+    ejemplo: { fecha: '9 nov – 3 dic', titulo: 'Pon un *Copiloto* a trabajar en tu empresa', lugar: '4 semanas · 8 sesiones en vivo', puntos: '4 sesiones de 90 min con demos reales | 1 experto invitado | 3 talleres con soporte de configuración | Grabaciones de por vida', cifra: '$12,900 MXN', boton: 'Aparta tu lugar' },
+    dibujar: (p) => {
+      const puntos = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 4)
+      return h('div', { width: ANCHO, height: ALTO, padding: 70, background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', flex: 1, marginRight: 50 },
+          p.fecha && h('div', { fontSize: 24, fontWeight: 700, color: p.acento, letterSpacing: '0.12em' }, p.fecha.toUpperCase()),
+          h('div', { flexWrap: 'wrap', marginTop: 18, fontSize: escala(p.titulo, [[30, 56], [55, 46], [999, 38]]), fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
+          p.lugar && h('div', { marginTop: 16, fontSize: 28, color: p.suave }, p.lugar),
+          h('div', { flexDirection: 'column', marginTop: 'auto' },
+            ...puntos.map((t) => h('div', { alignItems: 'center', marginTop: 12, fontSize: 25 },
+              h('div', { width: 14, height: 14, borderRadius: 4, background: p.acento, marginRight: 18, flexShrink: 0 }),
+              t,
+            )),
+          ),
+        ),
+        (p.cifra || p.boton) && h('div', { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: 330, borderRadius: 36, padding: 36, background: p.acento, color: p.sobreAcento, flexShrink: 0 },
+          h('div', { fontSize: 22, fontWeight: 700, letterSpacing: '0.12em', opacity: 0.8 }, 'INSCRIPCIÓN'),
+          p.cifra && h('div', { marginTop: 14, fontSize: escala(p.cifra, [[8, 64], [12, 52], [999, 40]]), fontWeight: 700, letterSpacing: '-0.02em', textAlign: 'center' }, p.cifra),
+          p.boton && h('div', { marginTop: 34, padding: '14px 32px', borderRadius: 999, background: p.sobreAcento, color: p.acento, fontSize: 26, fontWeight: 700 }, p.boton),
+        ),
+      )
+    },
+  },
+
   lista: {
     nombre: 'Lista',
     descripcion: 'Un título y de 2 a 4 puntos numerados. Para guías, checklists y resúmenes.',
@@ -346,10 +374,10 @@ export const CAMPOS = {
   acento: { etiqueta: 'Acento', tipo: 'color' },
   ciudad: { etiqueta: 'Ciudad', tipo: 'texto', ayuda: 'Vacío: la de quien ve la imagen. En el título usa {ciudad} y {pais}.' },
   pais: { etiqueta: 'País (código de 2 letras)', tipo: 'texto', ayuda: 'MX, CO, AR, ES… Vacío: el de quien ve la imagen.' },
-  cifra: { etiqueta: 'Cifra', tipo: 'texto' },
+  cifra: { etiqueta: 'Cifra', tipo: 'texto', ayuda: 'En cohort, el precio: $12,900 MXN.' },
   izquierda: { etiqueta: 'Opción de la izquierda', tipo: 'texto' },
   derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
-  fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
+  fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT. En cohort, el rango: 9 nov – 3 dic.' },
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

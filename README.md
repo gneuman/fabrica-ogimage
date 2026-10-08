@@ -29,8 +29,8 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    Yo uso un VPS de [Hostinger](https://gnb.mx/HostingerHub) (link de afiliado: si contratas por ahí gano
    una comisión, sin costo extra para ti).
 
-16 plantillas: marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
-(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, lista y podcast.
+17 plantillas: marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, cohort, lista y podcast.
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
 ## La API de imágenes
