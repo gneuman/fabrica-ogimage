@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.wrangler
+.cache
+content
+src
+public/galeria
+public/_recursos
+public/_muestras

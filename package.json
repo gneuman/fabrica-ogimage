@@ -10,7 +10,8 @@
     "build": "node scripts/recursos.mjs && astro build",
     "preview": "npm run build && wrangler dev",
     "check": "astro check",
-    "galeria:agregar": "node scripts/galeria-agregar.mjs"
+    "galeria:agregar": "node scripts/galeria-agregar.mjs",
+    "servidor": "node servidor/node.js"
   },
   "dependencies": {
     "@resvg/resvg-wasm": "^2.6.2",
@@ -40,7 +41,8 @@
   },
   "files": [
     "motor",
-    "bin"
+    "bin",
+    "servidor"
   ],
   "license": "MIT"
 }
