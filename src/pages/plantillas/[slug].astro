@@ -1,7 +1,8 @@
 ---
-// Una página por plantilla con su editor. Sin JS, el formulario abre la imagen
-// (GET a /og/<plantilla>). Con JS, la vista previa y el código se actualizan
-// mientras escribes: es el único JS del sitio y es el producto.
+// Una página por plantilla con su editor. La imagen se dibuja en el navegador
+// (motor/navegador.js) y se descarga en PNG: este sitio no usa la API /og/,
+// que corre en el servidor de quien monta su copia. Es el único JS del sitio y
+// es el producto; sin JS se ve la muestra.
 import Base from '@/layouts/Base.astro'
 import Captura from '@/components/Captura.astro'
 import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
@@ -17,11 +18,11 @@ const COLORES = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' } as Rec
 // En ciudad, ciudad y país van vacíos: así la vista previa muestra los de quien la abre.
 const porUbicacion = (id: string) => slug === 'ciudad' && (id === 'ciudad' || id === 'pais')
 const campos = pl.campos.map((id: string) => ({ id, ...CAMPOS[id], valor: porUbicacion(id) ? '' : ejemplo[id] ?? (CAMPOS[id].tipo === 'color' ? COLORES[id] : '') }))
-const base = new URL(Astro.site!).origin
-const url = base + urlOg(slug, Object.fromEntries(campos.filter((c) => c.tipo !== 'color' || ejemplo[c.id]).map((c) => [c.id, c.valor])))
+// El código de ejemplo apunta al dominio de quien monta su copia, no a este sitio.
+const url = 'https://tu-dominio.com' + urlOg(slug, Object.fromEntries(campos.filter((c) => c.tipo !== 'color' || ejemplo[c.id]).map((c) => [c.id, c.valor])))
 const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
 ---
-<Base title={`Plantilla ${pl.nombre} para imágenes OG | Fábrica OG`} description={`${pl.descripcion} Cámbiale el texto y los colores en la URL y pégala en tu página.`} path={`/plantillas/${slug}/`}>
+<Base title={`Plantilla ${pl.nombre} para imágenes OG | Fábrica OG`} description={`${pl.descripcion} Ármala en el editor y descárgala en PNG, o genérala por URL en tu propio servidor.`} path={`/plantillas/${slug}/`}>
   <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
     <a href="/plantillas/" class="text-sm text-gray-600 hover:text-ink-900">Plantillas</a>
     <h1 class="mt-2 font-serif text-4xl text-ink-900">{pl.nombre}</h1>
@@ -31,15 +32,21 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
   <section class="mx-auto mt-10 grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">
     <div class="min-w-0">
       <img data-vista src={`/_muestras/${slug}.png`} alt={`Vista previa de la plantilla ${pl.nombre}`} width="1200" height="630" class="w-full rounded-xl border border-gray-200 bg-white shadow-lg" />
-      <h2 class="mt-8 font-semibold text-ink-900">Tu código</h2>
-      <p class="mt-1 text-sm text-gray-600">Pégalo dentro del <code>&lt;head&gt;</code> de tu página.</p>
+      <div class="mt-4 flex flex-wrap items-center gap-3">
+        <a data-descargar href={`/_muestras/${slug}.png`} download={`og-${slug}.png`} class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Descargar PNG</a>
+        <span data-estado class="text-sm text-gray-500"></span>
+      </div>
+      <noscript><p class="mt-3 text-sm text-gray-600">El editor necesita JavaScript. Sin él puedes descargar la muestra.</p></noscript>
+
+      <h2 class="mt-10 font-semibold text-ink-900">La misma imagen por URL</h2>
+      <p class="mt-1 text-sm text-gray-600">Si <a href="/usar/#tu-servidor" class="underline underline-offset-4">montas la fábrica en tu Cloudflare</a>, pegas esto en el <code>&lt;head&gt;</code> de tu página y cambias <code>tu-dominio.com</code> por el tuyo.</p>
       <pre class="mt-3 overflow-x-auto rounded-xl bg-ink-900 p-5 text-sm text-gray-100"><code data-codigo>{`<meta property="og:image" content="${url}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />`}</code></pre>
       <button type="button" data-copiar hidden class="mt-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-ink-900 hover:border-ink-900">Copiar</button>
     </div>
 
-    <form data-editor data-al-abrir={slug === 'ciudad' ? '1' : undefined} action={`/og/${slug}`} method="get" target="_blank" class="flex flex-col gap-4">
+    <form data-editor data-plantilla={slug} data-ciudad={slug === 'ciudad' ? '1' : undefined} class="flex flex-col gap-4" onsubmit="return false">
       {campos.map((c) => (
         <label class="flex flex-col gap-1 text-sm">
           <span class="font-medium text-ink-900">{c.etiqueta}</span>
@@ -50,7 +57,6 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
         </label>
       ))}
       {slug === 'ciudad' && <p class="rounded-lg border border-gray-300 bg-white p-3 text-xs leading-relaxed text-gray-600">Vacíos, ciudad y país salen de tu conexión. En un link compartido la imagen la pide el servidor de la red social, no tu lector: fíjalos. <a href="/usar/#ciudad" class="underline">Cómo funciona</a>.</p>}
-      <button type="submit" class="mt-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Abrir la imagen</button>
     </form>
   </section>
 
@@ -62,24 +68,56 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
 </Base>
 
 <script>
+  import resvg from '@resvg/resvg-wasm/index_bg.wasm?url'
+  import yoga from 'satori/yoga.wasm?url'
+
   const form = document.querySelector<HTMLFormElement>('[data-editor]')!
   const vista = document.querySelector<HTMLImageElement>('[data-vista]')!
+  const descargar = document.querySelector<HTMLAnchorElement>('[data-descargar]')!
+  const estado = document.querySelector<HTMLElement>('[data-estado]')!
   const codigo = document.querySelector<HTMLElement>('[data-codigo]')!
   const copiar = document.querySelector<HTMLButtonElement>('[data-copiar]')!
-  const direccion = () => {
-    const q = new URLSearchParams()
-    for (const [k, v] of new FormData(form)) if (String(v).trim()) q.set(k, String(v).trim())
-    return `${location.origin}${form.getAttribute('action')}?${q.toString().replace(/\+/g, '%20')}`
+  const slug = form.dataset.plantilla!
+
+  const valores = () => {
+    const e: Record<string, string> = {}
+    for (const [k, v] of new FormData(form)) if (String(v).trim()) e[k] = String(v).trim()
+    return e
+  }
+  // En ciudad, lo que no se escribe sale de la conexión (/api/ubicacion/).
+  const ubicacion: Promise<Record<string, string>> = form.dataset.ciudad
+    ? fetch('/api/ubicacion/').then((r) => (r.ok ? r.json() : {}), () => ({}))
+    : Promise.resolve({})
+
+  let turno = 0
+  let anterior = ''
+  const dibujar = async () => {
+    const mio = ++turno
+    estado.textContent = 'Dibujando…'
+    const e = valores()
+    const q = new URLSearchParams(e).toString().replace(/\+/g, '%20')
+    codigo.textContent = `<meta property="og:image" content="https://tu-dominio.com/og/${slug}?${q}" />\n<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />`
+    try {
+      const { pngNavegador } = await import('../../../motor/navegador.js')
+      const png = await pngNavegador(slug, { ...(await ubicacion), ...e }, { resvg, yoga })
+      if (mio !== turno) return
+      if (anterior) URL.revokeObjectURL(anterior)
+      anterior = URL.createObjectURL(png)
+      vista.src = anterior
+      descargar.href = anterior
+      estado.textContent = ''
+    } catch (err) {
+      console.error(err)
+      if (mio === turno) estado.textContent = 'No se pudo dibujar. Revisa los datos.'
+    }
   }
   let espera: number | undefined
-  const actualizar = () => {
-    const u = direccion()
-    codigo.textContent = `<meta property="og:image" content="${u}" />\n<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />`
+  form.addEventListener('input', () => {
     clearTimeout(espera)
-    espera = window.setTimeout(() => { vista.src = u }, 400)
-  }
-  form.addEventListener('input', actualizar)
-  if (form.dataset.alAbrir) actualizar()
+    espera = window.setTimeout(dibujar, 250)
+  })
+  dibujar()
+
   copiar.hidden = false
   copiar.addEventListener('click', async () => {
     await navigator.clipboard.writeText(codigo.textContent ?? '')

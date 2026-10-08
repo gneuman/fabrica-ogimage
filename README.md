@@ -3,7 +3,10 @@
 Imágenes Open Graph en español: la imagen que sale cuando compartes un link en
 WhatsApp, LinkedIn o X. Tres formas de usarla, con las mismas plantillas:
 
-1. **Por URL.** Pones la dirección en tu `og:image` y cambias el texto ahí:
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/gneuman/fabrica-ogimage)
+
+0. **En el editor del sitio.** Armas la imagen y descargas el PNG. Se dibuja en el navegador.
+1. **Por URL, en tu servidor.** Montas tu copia (botón de arriba) y pones la dirección en tu `og:image`:
    ```html
    <meta property="og:image" content="https://<dominio>/og/articulo?titulo=Mi%20post&autor=Ana" />
    ```
@@ -58,9 +61,12 @@ npm run galeria:agregar -- https://empresa.com saas marketing
 ## Publicar (Cloudflare Workers)
 
 - Build: `npm run build` · salida: `dist` · Node 22. Variable de build `SITIO` con el dominio final.
-- Sitio, editor, galería y comando funcionan en el plan gratis (son estáticos).
-- La API `/og/*` necesita **Workers Paid** (5 USD/mes): cada imagen usa de 20 a 500 ms de CPU y el
-  plan gratis da 10 ms por petición. Sin pagar, esas peticiones fallan.
+- **Con la API** (por defecto, `API_OG=on`): necesita **Workers Paid** (5 USD/mes). Cada imagen
+  usa de 20 a 500 ms de CPU y el plan gratis da 10 ms por petición.
+- **Solo sitio, gratis:** `API_OG=off` en Settings → Variables del Worker (`keep_vars` evita que
+  el deploy la borre). El editor dibuja en el navegador, las OG del sitio salen en el build y
+  `/og/*` responde 404. `/api/ubicacion/` (país y ciudad para el editor) sigue funcionando.
+  Así corre el sitio público.
 - La captura de correo va al webhook de n8n del newsletter de gabrielneuman.com.
 - Opcional: secreto `UNSPLASH_KEY` (`wrangler secret put UNSPLASH_KEY`) para que la plantilla ciudad lleve foto de fondo.
 

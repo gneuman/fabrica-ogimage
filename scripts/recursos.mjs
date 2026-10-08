@@ -1,6 +1,6 @@
 // Antes del build de Astro:
-// 1. Copia emoji (Twemoji) e íconos (Lucide) a public/_recursos/ para que el
-//    Worker los lea de los assets en vez de cargarlos en su código (no caben).
+// 1. Copia emoji (Twemoji), íconos (Lucide) y fuentes a public/_recursos/ para
+//    que el Worker y el editor del navegador los lean como archivos.
 // 2. Dibuja la muestra de cada plantilla en public/_muestras/<plantilla>.png,
 //    con sus parámetros de ejemplo. Las páginas las usan sin pasar por el Worker.
 import fs from 'node:fs'
@@ -18,7 +18,9 @@ const copiar = (origen, destino) => {
 }
 const emoji = copiar(path.dirname(requerir.resolve('@twemoji/svg/package.json')), 'public/_recursos/emoji')
 const iconos = copiar(path.join(path.dirname(requerir.resolve('lucide-static/package.json')), 'icons'), 'public/_recursos/iconos')
-console.log(`recursos: ${emoji} emoji, ${iconos} íconos`)
+fs.mkdirSync('public/_recursos/fuentes', { recursive: true })
+for (const f of ['inter-500.woff', 'inter-700.woff']) fs.copyFileSync(`motor/fuentes/${f}`, `public/_recursos/fuentes/${f}`)
+console.log(`recursos: ${emoji} emoji, ${iconos} íconos, 2 fuentes`)
 
 fs.mkdirSync('public/_muestras', { recursive: true })
 for (const [slug, pl] of Object.entries(PLANTILLAS)) {

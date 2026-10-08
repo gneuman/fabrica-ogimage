@@ -1,23 +1,38 @@
 ---
 import Base from '@/layouts/Base.astro'
 import { PLANTILLAS, CAMPOS, REPO, urlOg } from '@/lib/sitio'
-const base = new URL(Astro.site!).origin
+// Los ejemplos apuntan al dominio de quien monta su copia: este sitio no sirve la API.
+const base = 'https://tu-dominio.com'
+const desplegar = `https://deploy.workers.cloudflare.com/?url=${REPO}`
 const ejemplo = base + urlOg('articulo', { titulo: 'Mi primer post', autor: 'Ana López', acento: '3b5bdb' })
 const fija = base + urlOg('ciudad', { titulo: 'Taller presencial en {ciudad}', ciudad: 'Monterrey', pais: 'MX' })
 const auto = base + urlOg('ciudad', { titulo: 'Hola desde {pais}' })
 const filas = Object.entries(CAMPOS).map(([id, c]) => ({ id, ...c, en: Object.entries(PLANTILLAS).filter(([, p]) => p.campos.includes(id)).map(([s]) => s) }))
 ---
-<Base title="Cómo usar la fábrica en tu sitio: URL, comando y Astro | Fábrica OG" description="Tres formas de usar las plantillas de imágenes OG: una URL en tu og:image, un comando que las genera en el build de cualquier sitio estático y una integración para Astro." path="/usar/">
+<Base title="Cómo usar la fábrica: editor, comando y API en tu servidor | Fábrica OG" description="Tres formas de usar las plantillas de imágenes OG: el editor para descargar el PNG, un comando que las genera en el build de tu sitio y una API por URL que montas en tu propia cuenta de Cloudflare." path="/usar/">
   <article class="prose prose-lg mx-auto max-w-3xl px-4 pt-16 sm:px-6 prose-headings:font-serif prose-headings:text-ink-900 prose-pre:bg-ink-900">
     <h1>Úsala en tu sitio</h1>
     <p>Hay tres formas, de menos a más trabajo. Las tres usan las mismas plantillas.</p>
+    <ol>
+      <li><strong>El editor de este sitio.</strong> Eliges una <a href="/plantillas/">plantilla</a>, escribes y descargas el PNG para subirlo a tu página o a tu CMS. Gratis, sin cuenta.</li>
+      <li><strong>El comando en tu build.</strong> Genera una imagen por página al construir tu sitio. Corre en tu computadora o en tu servicio de build.</li>
+      <li><strong>La API por URL en tu servidor.</strong> Montas tu copia en tu cuenta de Cloudflare y la imagen sale de una dirección. Este sitio no la sirve: corre donde la montes.</li>
+    </ol>
 
-    <h2>¿Cómo pongo una imagen OG con solo una URL?</h2>
-    <p>Pegas la dirección de la plantilla en el <code>og:image</code> de tu página. Cada parámetro de la dirección cambia un texto o un color:</p>
+    <h2 id="tu-servidor">¿Cómo genero imágenes por URL en mi propio servidor?</h2>
+    <p>Montas tu copia de la fábrica en Cloudflare Workers y pegas la dirección en el <code>og:image</code> de tu página. Cada parámetro de la dirección cambia un texto o un color:</p>
     <pre><code>{`<meta property="og:image" content="${ejemplo}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />`}</code></pre>
-    <p>Los colores van sin <code>#</code> (<code>acento=3b5bdb</code>) y los espacios como <code>%20</code>. El editor de cada <a href="/plantillas/">plantilla</a> te arma la dirección.</p>
+    <p>Para montarla:</p>
+    <ol>
+      <li>Da clic en <a href={desplegar}>Deploy to Cloudflare</a>. Copia el repo a tu GitHub, lo conecta a tu cuenta de Cloudflare y lo publica.</li>
+      <li>Activa <strong>Workers Paid</strong> (5 USD al mes) en tu cuenta. Dibujar una imagen usa de 20 a 500 milisegundos de CPU y el plan gratis da 10 por petición; sin el plan de pago, la API falla.</li>
+      <li>Opcional: pon tu dominio en la variable de build <code>SITIO</code> y, si quieres foto de fondo en la plantilla ciudad, el secreto <code>UNSPLASH_KEY</code>.</li>
+    </ol>
+    <p>Cada dirección se dibuja una vez y se guarda un año en la caché de Cloudflare, así que la segunda petición ya no gasta CPU. La API responde con <code>Access-Control-Allow-Origin: *</code>, para que la uses desde cualquier sitio.</p>
+    <p>Si solo quieres el sitio y el editor, como este, pon <code>API_OG=off</code> en las variables del Worker: todo corre en el plan gratis y <code>/og/</code> responde 404.</p>
+    <p>Los colores van sin <code>#</code> (<code>acento=3b5bdb</code>) y los espacios como <code>%20</code>. El editor de cada plantilla te arma la dirección.</p>
 
     <h3>Parámetros</h3>
     <div class="not-prose overflow-x-auto">
@@ -62,11 +77,12 @@ export default defineConfig({
   integrations: [fabricaOg({ plantilla: 'marca', marca: 'Mi Empresa', fijos: { sitio: 'misitio.com' } })],
 })`}</code></pre>
 
-    <h2>¿Puedo montar mi propia copia?</h2>
-    <p>Sí. El código está en <a href={REPO}>GitHub</a> con licencia MIT y corre en Cloudflare Workers.</p>
+    <h2>¿Cuánto cuesta?</h2>
+    <p>El código es abierto (licencia MIT) y está en <a href={REPO}>GitHub</a>.</p>
     <ul>
-      <li><strong>Gratis:</strong> el sitio, el editor, la galería y el comando para tu build. Son archivos estáticos.</li>
-      <li><strong>Con Workers Paid (5 USD al mes):</strong> las imágenes por URL (<code>/og/…</code>). Dibujar una tarda de 20 a 500 milisegundos de CPU y el plan gratis da 10 por petición. La caché de un año hace que cada URL se dibuje una sola vez.</li>
+      <li><strong>Gratis:</strong> el editor de este sitio, la galería y el comando para tu build.</li>
+      <li><strong>En tu cuenta de Cloudflare:</strong> la API por URL necesita Workers Paid (5 USD al mes), que incluye 30 millones de milisegundos de CPU y 10 millones de peticiones al mes.</li>
     </ul>
+    <p>La ubicación para la plantilla ciudad (<code>/api/ubicacion/</code>) no dibuja nada y corre en el plan gratis: devuelve <code>{'{"pais":"MX","region":"…","ciudad":"…"}'}</code>.</p>
   </article>
 </Base>

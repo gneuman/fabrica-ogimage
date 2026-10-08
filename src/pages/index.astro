@@ -6,13 +6,13 @@ import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
 import TarjetaSitio from '@/components/TarjetaSitio.astro'
 import { GALERIA, SLUGS, NOMBRE, AUTOR, urlOg } from '@/lib/sitio'
 
-const ejemplo = new URL(urlOg('articulo', { titulo: 'Mi primer post', autor: 'Ana López' }), Astro.site).href
+const ejemplo = 'https://tu-dominio.com' + urlOg('articulo', { titulo: 'Mi primer post', autor: 'Ana López' })
 const faq = [
   { p: '¿Qué es una imagen OG?', r: 'Es la imagen que aparece cuando compartes un link en WhatsApp, LinkedIn, X o Slack. La página la declara en la etiqueta og:image y cada red la lee para armar la tarjeta. Si no hay, la red pone la primera imagen que encuentra o ninguna.' },
   { p: '¿De qué tamaño debe ser?', r: '1200 por 630 píxeles, la medida de la tarjeta grande en Facebook, LinkedIn y X. Todas las plantillas salen de ese tamaño, en PNG.' },
-  { p: '¿Cuánto cuesta?', r: 'Nada. El código es abierto (licencia MIT): puedes usar las URLs de este sitio o montar tu propia copia en Cloudflare.' },
-  { p: '¿Necesito saber programar?', r: 'No para la versión por URL: armas tu imagen en el editor de cualquier plantilla, copias la dirección y la pegas en tu página o en el campo de imagen de tu CMS. Para generarlas en el build de tu propio sitio sí hace falta correr un comando.' },
-  { p: '¿Cada cuánto se actualiza la imagen?', r: 'Cada dirección se dibuja una vez y se guarda un año en la caché de Cloudflare. Si cambias el título, cambia la dirección y sale una imagen nueva. Las redes también guardan la imagen por su lado: LinkedIn y Facebook tienen herramientas para volver a leerla.' },
+  { p: '¿Cuánto cuesta?', r: 'El editor, la galería y el comando para tu build son gratis. La API por URL corre en tu propia cuenta de Cloudflare y necesita Workers Paid, que cuesta 5 USD al mes. El código es abierto, con licencia MIT.' },
+  { p: '¿Necesito saber programar?', r: 'No para el editor: armas tu imagen, la descargas en PNG y la subes a tu página o al campo de imagen de tu CMS. Para generarlas en el build de tu sitio o montar la API por URL sí hace falta saber correr un comando.' },
+  { p: '¿Por qué mi link sigue mostrando la imagen vieja?', r: 'Las redes guardan la imagen la primera vez que leen tu página. LinkedIn (Post Inspector) y Facebook (Depurador de contenido compartido) tienen herramientas para que la vuelvan a leer. Con la API por URL, si cambias el título cambia la dirección y la red la toma como imagen nueva.' },
 ]
 ---
 <Base title={`${NOMBRE}: imágenes para compartir links, en español | ${AUTOR.nombre}`} description="Genera la imagen que sale al compartir tu página en WhatsApp, LinkedIn o X con solo una URL. Plantillas en español, gratis y de código abierto, y una galería de inspiración." path="/" schema={[{ '@context': 'https://schema.org', '@type': 'WebApplication', name: NOMBRE, applicationCategory: 'DesignApplication', operatingSystem: 'Web', inLanguage: 'es-MX', offers: { '@type': 'Offer', price: '0', priceCurrency: 'MXN' }, author: { '@type': 'Person', name: AUTOR.nombre, url: AUTOR.url } }]}>
@@ -20,7 +20,7 @@ const faq = [
     <div>
       <p class="text-xs font-semibold tracking-[0.18em] text-accent-600 uppercase">Gratis y de código abierto</p>
       <h1 class="mt-4 font-serif text-4xl leading-tight text-ink-900 sm:text-5xl">La imagen de tu link, con una URL</h1>
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-gray-700">Cuando alguien comparte tu página en WhatsApp o LinkedIn, la tarjeta que aparece es tu primera impresión. Aquí la generas cambiando el título en una dirección, sin abrir Canva para cada página.</p>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-gray-700">Cuando alguien comparte tu página en WhatsApp o LinkedIn, la tarjeta que aparece es tu primera impresión. Aquí la armas y la descargas, o montas la fábrica en tu servidor y la generas cambiando el título en una dirección.</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="/plantillas/" class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Armar la mía</a>
         <a href="/galeria/" class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-ink-900 hover:border-ink-900">Ver la galería</a>
@@ -31,14 +31,14 @@ const faq = [
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
     <h2 class="font-serif text-3xl text-ink-900">¿Cómo se usa?</h2>
-    <p class="mt-3 max-w-2xl text-gray-700">Pegas una dirección en el <code>og:image</code> de tu página y cambias el texto en la misma dirección.</p>
+    <p class="mt-3 max-w-2xl text-gray-700">Con la fábrica en tu servidor, pegas una dirección en el <code>og:image</code> de tu página y cambias el texto en la misma dirección. Sin servidor, la armas en el editor y descargas el PNG.</p>
     <pre class="mt-6 overflow-x-auto rounded-xl bg-ink-900 p-5 text-sm text-gray-100"><code>{`<meta property="og:image" content="${ejemplo}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />`}</code></pre>
     <ol class="mt-8 grid gap-6 sm:grid-cols-3">
       <li><p class="font-semibold text-ink-900">1. Elige una plantilla</p><p class="mt-1 text-sm text-gray-600">Hay {SLUGS.length}: para posts, landings, eventos, podcast, citas, cifras y capturas de tu producto.</p></li>
       <li><p class="font-semibold text-ink-900">2. Ajusta el texto y los colores</p><p class="mt-1 text-sm text-gray-600">En el editor ves la imagen mientras escribes. Lo que pongas *entre asteriscos* sale en tu color de acento.</p></li>
-      <li><p class="font-semibold text-ink-900">3. Copia la dirección</p><p class="mt-1 text-sm text-gray-600">Va en tu página o en el campo de imagen de tu CMS. Para muchas páginas, <a href="/usar/" class="underline underline-offset-4">genéralas en tu build</a>.</p></li>
+      <li><p class="font-semibold text-ink-900">3. Descárgala o úsala por URL</p><p class="mt-1 text-sm text-gray-600">El PNG va en tu página o en tu CMS. Para muchas páginas, <a href="/usar/" class="underline underline-offset-4">genéralas en tu build o monta la API</a>.</p></li>
     </ol>
   </section>
 

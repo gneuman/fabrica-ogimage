@@ -1,21 +1,22 @@
 ---
 import '@/styles/global.css'
-import { NOMBRE, AUTOR, REPO, urlOg } from '@/lib/sitio'
+import { NOMBRE, AUTOR, REPO } from '@/lib/sitio'
 
 interface Props {
   title: string
   description: string
   /** Ruta con diagonal final, p. ej. "/plantillas/". */
   path: string
-  /** La imagen OG de esta página. Por defecto, la plantilla marca con el título. */
+  /** La imagen OG de esta página. Por defecto, /_og/<ruta>.png, que dibuja la integración al terminar el build. */
   og?: string
   noindex?: boolean
   schema?: Record<string, unknown>[]
 }
 const { title, description, path, og, noindex = false, schema = [] } = Astro.props
 const canonical = new URL(path, Astro.site).href
-// La fábrica hace sus propias imágenes OG: la plantilla marca con el título de cada página.
-const ogImagen = new URL(og ?? urlOg('marca', { titulo: title.split(' | ')[0], sub: NOMBRE, autor: AUTOR.nombre, sitio: new URL(Astro.site!).hostname }), Astro.site).href
+// La fábrica hace sus propias imágenes OG con su comando (motor/astro.js en
+// astro.config): plantilla marca, con el título de cada página.
+const ogImagen = new URL(og ?? (path === '/' ? '/_og/inicio.png' : `/_og${path.replace(/\/$/, '')}.png`), Astro.site).href
 const NAV = [
   { href: '/plantillas/', label: 'Plantillas' },
   { href: '/galeria/', label: 'Galería' },

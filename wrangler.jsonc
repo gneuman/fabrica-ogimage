@@ -1,7 +1,10 @@
-// Cloudflare Workers: el sitio es estático (dist/) y el Worker solo dibuja las
-// imágenes en /og/*. Dibujar una imagen usa más CPU de la que da el plan
-// gratis (10 ms por petición): hace falta Workers Paid. La caché de un año
-// hace que cada URL se dibuje una sola vez.
+// Cloudflare Workers: el sitio es estático (dist/) y el Worker solo atiende
+// /og/* (la API de imágenes) y /api/ubicacion/.
+//
+// La API /og/ necesita Workers Paid: dibujar una imagen usa más CPU que los
+// 10 ms por petición del plan gratis. Para correr gratis (solo sitio, editor
+// en el navegador y ubicación), pon API_OG=off en Settings → Variables.
+// keep_vars hace que el deploy no borre lo que pongas ahí.
 {
   "name": "fabrica-ogimage",
   "compatibility_date": "2026-10-01",
@@ -9,11 +12,13 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": ["/og/*"],
+    "run_worker_first": ["/og/*", "/api/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
   // Las fuentes van dentro del Worker como bytes.
+  "vars": { "API_OG": "on" },
+  "keep_vars": true,
   "rules": [{ "type": "Data", "globs": ["**/*.woff"] }],
   "previews": {}
 }

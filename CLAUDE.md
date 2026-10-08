@@ -8,11 +8,12 @@ proyectos. Marca: Gabriel Neuman. Familia `gnb`: voz, cifras y decisiones en
 ## Cómo corre
 - `npm run build`: copia emoji e íconos, dibuja las muestras y construye el sitio (Astro).
 - `npm run preview`: build + `wrangler dev` (sitio y Worker juntos en :8787).
-- Cloudflare Workers: `dist/` estático; el Worker (`worker/index.js`) solo atiende `/og/*`. Necesita Workers Paid.
+- Cloudflare Workers: `dist/` estático; el Worker (`worker/index.js`) atiende `/og/*` (la API, necesita Workers Paid) y `/api/ubicacion/`.
+- El sitio público corre gratis con `API_OG=off`: el editor dibuja en el navegador (`motor/navegador.js`) y las OG del sitio salen en el build. La API es para quien monta su copia.
 
 ## Reglas
 1. Una plantilla = una entrada en `motor/plantillas.js`. El motor (`motor/`) es el mismo para el Worker, el comando (`bin/`) y el build.
 2. Satori fijo en 0.32: desde 0.33 trae harfbuzz, que no corre en Workers.
-3. Cero JS en el navegador salvo el editor de plantillas.
+3. Cero JS en el navegador salvo el editor de plantillas (que dibuja con el mismo motor).
 4. Toda URL interna termina en `/`.
 5. Commits en español: `<verbo>: <qué>`. Antes de push: `npm run build` y `npm run check` salen 0.

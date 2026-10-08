@@ -1,5 +1,10 @@
-// El Worker: solo atiende /og/<plantilla> (run_worker_first en wrangler.jsonc).
-// Todo lo demás es el sitio estático de dist/, que se sirve sin pasar por aquí.
+// El Worker: solo atiende /og/<plantilla> y /api/ubicacion/ (run_worker_first
+// en wrangler.jsonc). Todo lo demás es el sitio estático de dist/.
+//
+// /og/ es la API para quien monta su copia en su propia cuenta de Cloudflare
+// (necesita Workers Paid: dibujar pasa de los 10 ms de CPU del plan gratis).
+// Con la variable API_OG=off se apaga y responde 404 con instrucciones: así
+// corre el sitio público, que dibuja en el navegador.
 //
 // Cada combinación de parámetros da siempre la misma imagen, así que se guarda
 // en la caché de Cloudflare por un año: la plantilla se dibuja una sola vez por
@@ -20,9 +25,13 @@ const MAX_IMAGEN = 5 * 1024 * 1024
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url)
+    if (url.pathname.replace(/\/$/, '') === '/api/ubicacion') return ubicacion(request)
     const slug = url.pathname.match(/^\/og\/([a-z]+)(?:\.png)?\/?$/)?.[1]
     if (!slug || !PLANTILLAS[slug]) return env.ASSETS.fetch(request)
     if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Solo GET', { status: 405 })
+    if (env.API_OG === 'off') {
+      return new Response('Este sitio no genera imágenes por URL. Monta tu copia: https://github.com/gneuman/fabrica-ogimage\n', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
+    }
 
     // Plantilla ciudad: lo que no venga en la URL se toma de la conexión de quien
     // pide la imagen. Ojo: en un og:image quien la pide es el servidor de la red
@@ -97,4 +106,16 @@ async function fotoDe(ciudad, llave) {
   } catch {
     return ''
   }
+}
+
+/**
+ * País, región y ciudad de quien hace la petición, según Cloudflare. Lo usa el
+ * editor de la plantilla ciudad. Cabe en el plan gratis: no dibuja nada.
+ */
+function ubicacion(request) {
+  const cf = request.cf ?? {}
+  const datos = { pais: cf.country ?? '', region: cf.region ?? '', ciudad: cf.city ?? '' }
+  return new Response(JSON.stringify(datos), {
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store', 'Access-Control-Allow-Origin': '*' },
+  })
 }
