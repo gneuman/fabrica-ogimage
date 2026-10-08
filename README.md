@@ -30,7 +30,7 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    una comisión, sin costo extra para ti).
 
 22 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
-(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista y podcast.
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista, podcast y entrevista.
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
 ## La API de imágenes

@@ -638,6 +638,32 @@ export const PLANTILLAS = {
     },
   },
 
+  entrevista: {
+    nombre: 'Entrevista',
+    descripcion: 'Marca arriba, nombre del invitado en minúsculas, titular oscuro sobre franja amarilla, remate en blanco y la persona a la derecha.',
+    cuando: 'El post es de una entrevista, episodio o charla con invitado y una frase fuerte; mejor con foto recortada de la persona.',
+    campos: ['sitio', 'autor', 'titulo', 'sub', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#08090f', texto: '#ffffff', acento: '#ffe600' },
+    ejemplo: { sitio: 'The Growth | *Playbook*', autor: 'tu invitado', titulo: 'Vender servicios tiene reglas nuevas', sub: 'Esto es lo que cambió', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const ancho = p.alto ? p.W - 80 : Math.round(p.W * 0.64)
+      const [s1, s2] = (p.sitio || '').split(/\s*\|\s*/)
+      const altoFoto = p.alto ? Math.round(p.H * 0.45) : p.H
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, backgroundImage: `radial-gradient(circle at 10% 20%, #2a2f45 0%, ${p.fondo} 55%)` },
+        p.foto && img(p.foto, { position: 'absolute', right: p.alto ? Math.round(p.W * 0.1) : -20, bottom: 0, height: altoFoto, objectFit: 'contain' }),
+        h('div', { position: 'absolute', left: 40, top: 36, flexDirection: 'column', fontFamily: 'Lilita', fontSize: 30, lineHeight: 1, textTransform: 'uppercase' },
+          s1 && h('div', {}, s1.replace(/\*/g, '')),
+          s2 && h('div', { color: p.acento }, s2.replace(/\*/g, '')),
+        ),
+        h('div', { position: 'absolute', left: 40, top: p.alto ? 130 : 0, bottom: p.alto ? undefined : 0, flexDirection: 'column', justifyContent: 'center', width: ancho },
+          p.autor && h('div', { fontSize: 40, fontWeight: 700, marginLeft: 6, marginBottom: 12, textTransform: 'lowercase' }, p.autor),
+          h('div', { flexWrap: 'wrap', padding: '18px 28px 26px', background: p.acento, color: p.sobreAcento, fontSize: escala(p.titulo, [[30, 84], [50, 68], [999, 52]]), fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em' }, resaltar(p.titulo, p.sobreAcento)),
+          p.sub && h('div', { marginTop: 18, marginLeft: 6, fontSize: escala(p.sub, [[30, 44], [999, 34]]), fontWeight: 700, letterSpacing: '-0.03em', textShadow: '0 4px 12px rgba(0,0,0,0.6)' }, p.sub),
+        ),
+      )
+    },
+  },
+
   podcast: {
     nombre: 'Podcast',
     descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
