@@ -510,6 +510,66 @@ export const PLANTILLAS = {
     },
   },
 
+  escaparate: {
+    nombre: 'Escaparate',
+    descripcion: 'Franja amarilla arriba, titular blanco gigante, dos íconos en mosaico brillante a los lados y la persona al centro. Para listas, herramientas y "lo mejor de la semana".',
+    cuando: 'El post presenta herramientas, recursos o una selección ("las 5 herramientas que…"), sobre todo si nombra dos productos.',
+    campos: ['sub', 'titulo', 'icono', 'icono2', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#121212', texto: '#ffffff', acento: '#ffe600' },
+    /** El primer ícono va blanco sobre el mosaico naranja, no del color sobre el acento. */
+    colorIcono: '#ffffff',
+    ejemplo: { sub: 'Lo mejor de la semana', titulo: 'Herramientas de IA', icono: 'sparkles', icono2: 'git-branch', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const naranja = '#f25c1f'
+      const lado = p.alto ? Math.round(p.W * 0.3) : 240
+      const mosaico = (fondo, icono, tono) => h('div', { alignItems: 'center', justifyContent: 'center', width: lado, height: lado, borderRadius: Math.round(lado * 0.2), backgroundImage: fondo, border: '8px solid rgba(255,255,255,0.85)', boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.6), inset 0 0 30px ${tono}` },
+        icono && img(icono, { width: Math.round(lado * 0.56), height: Math.round(lado * 0.56) }))
+      const fondo = p.imagen
+        ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)), url(${p.imagen})`, backgroundSize: `${p.W}px ${p.H}px` }
+        : { backgroundImage: `radial-gradient(circle at 50% 35%, #3a3530 0%, ${p.fondo} 70%)` }
+      const tamTitulo = escala(p.titulo, p.alto ? [[14, 92], [22, 70], [999, 56]] : [[14, 112], [22, 92], [999, 70]])
+      // En los altos, los mosaicos van debajo de donde termina el titular.
+      const renglonesTitulo = Math.ceil((p.titulo.length * tamTitulo * 0.6) / (p.W - 80))
+      const debajoTitulo = 70 + (p.sub ? 70 : 0) + renglonesTitulo * tamTitulo + 30
+      const topMosaico = p.alto ? Math.max(Math.round(p.H * 0.27), debajoTitulo) : 250
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', flexDirection: 'column', alignItems: 'center', color: p.texto, ...fondo },
+        p.sub && h('div', { marginTop: p.alto ? 70 : 26, padding: '6px 40px', background: p.acento, color: '#111111', transform: 'skewX(-12deg)', fontSize: Math.min(escala(p.sub, [[24, 52], [999, 40]]), Math.floor((p.W - 140) / (p.sub.length * 0.62))), fontWeight: 700, textTransform: 'uppercase', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }, p.sub),
+        h('div', { marginTop: 4, padding: '0 40px', justifyContent: 'center', textAlign: 'center', fontFamily: 'Lilita', fontSize: tamTitulo, lineHeight: 1, textTransform: 'uppercase', transform: 'skewX(-8deg)', textShadow: '0 6px 0 rgba(0,0,0,0.45)' }, p.titulo),
+        h('div', { position: 'absolute', left: p.alto ? 40 : 60, top: topMosaico }, mosaico(`linear-gradient(160deg, #ff8a4c, ${naranja})`, p.iconoSvg, '#ffffff66')),
+        h('div', { position: 'absolute', right: p.alto ? 40 : 60, top: topMosaico }, mosaico('linear-gradient(160deg, #ffffff, #dcdcdc)', p.icono2Svg, '#00000022')),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W / 2 - (p.alto ? p.H * 0.5 : p.H * 0.62) * 0.7), bottom: 0, height: Math.round(p.alto ? p.H * 0.5 : p.H * 0.62), objectFit: 'contain' }),
+      )
+    },
+  },
+
+  tuit: {
+    nombre: 'Tuit',
+    descripcion: 'Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tuit.',
+    cuando: 'El post tiene una frase corta y contundente que funciona sola (una opinión, una regla, un "deja de…").',
+    campos: ['titulo', 'autor', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#1c1c1e', texto: '#ffffff', acento: '#f7c948' },
+    ejemplo: { titulo: 'Deja de vender consultoría', autor: '@gabrielneuman', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const azul = '#1d9bf0'
+      const palomita = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${azul}"/><path d="M6.5 12.5 L10.5 16 L17.5 8.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`)}`, { width: 30, height: 30, marginLeft: 10 })
+      const avatar = p.foto
+        ? h('div', { width: 64, height: 64, borderRadius: 99, overflow: 'hidden', background: '#3a3a3c', alignItems: 'flex-end', justifyContent: 'center' }, img(p.foto, { height: 64, objectFit: 'contain' }))
+        : h('div', { alignItems: 'center', justifyContent: 'center', width: 64, height: 64, borderRadius: 99, background: p.acento, color: '#111', fontSize: 28, fontWeight: 700 }, iniciales((p.autor || '?').replace('@', '')))
+      const anchoTarjeta = p.alto ? p.W - 100 : 560
+      const tarjeta = h('div', { flexDirection: 'column', width: anchoTarjeta, padding: '30px 38px 38px', borderRadius: 30, background: '#000000', border: `6px solid ${p.acento}`, boxShadow: '0 30px 60px rgba(0,0,0,0.55)' },
+        h('div', { alignItems: 'center' }, avatar, h('div', { marginLeft: 16, fontSize: 28, fontWeight: 500, color: '#e7e7e7' }, p.autor || '@tu_usuario'), palomita),
+        h('div', { flexWrap: 'wrap', marginTop: 18, fontSize: escala(p.titulo, p.alto ? [[20, 96], [40, 80], [80, 62], [999, 50]] : [[20, 84], [40, 66], [80, 52], [999, 42]]), fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em', color: p.texto }, resaltar(p.titulo, p.acento)))
+      const fondo = p.imagen
+        ? { backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0.15), rgba(0,0,0,0.5)), url(${p.imagen})`, backgroundSize: `${p.W}px ${p.H}px` }
+        : { backgroundImage: `linear-gradient(120deg, #4a4a4c 0%, ${p.fondo} 75%)` }
+      const altoFoto = Math.round(p.alto ? p.H * 0.55 : p.H * 0.92)
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, ...fondo },
+        !p.imagen && p.foto && img(p.foto, { position: 'absolute', left: p.alto ? Math.round(p.W * 0.05) : 30, bottom: 0, height: altoFoto, objectFit: 'contain' }),
+        h('div', { position: 'absolute', right: 50, left: p.alto ? 50 : undefined, top: p.alto ? 70 : 0, bottom: p.alto ? undefined : 0, alignItems: 'center' }, tarjeta),
+      )
+    },
+  },
+
   lista: {
     nombre: 'Lista',
     descripcion: 'Un título y de 2 a 4 puntos numerados. Para guías, checklists y resúmenes.',
@@ -569,6 +629,7 @@ export const CAMPOS = {
   imagen: { etiqueta: 'Captura (URL)', tipo: 'url' },
   emoji: { etiqueta: 'Emoji', tipo: 'texto' },
   icono: { etiqueta: 'Ícono de Lucide', tipo: 'texto', ayuda: 'El nombre en lucide.dev, p. ej. rocket, workflow, bot.' },
+  icono2: { etiqueta: 'Segundo ícono de Lucide', tipo: 'texto', ayuda: 'El de la derecha, sobre fondo blanco. P. ej. github, bot.' },
   fondo: { etiqueta: 'Fondo', tipo: 'color' },
   texto: { etiqueta: 'Texto', tipo: 'color' },
   acento: { etiqueta: 'Acento', tipo: 'color' },
