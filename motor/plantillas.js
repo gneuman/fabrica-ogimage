@@ -644,7 +644,7 @@ export const PLANTILLAS = {
     cuando: 'El post es de una entrevista, episodio o charla con invitado y una frase fuerte; mejor con foto recortada de la persona.',
     campos: ['sitio', 'autor', 'titulo', 'sub', 'foto', 'fondo', 'texto', 'acento'],
     marca: { fondo: '#08090f', texto: '#ffffff', acento: '#ffe600' },
-    ejemplo: { sitio: 'Tu podcast | Episodio 1', autor: 'nombre del invitado', titulo: 'Vender servicios tiene reglas nuevas', sub: 'Esto es lo que cambió', foto: '/muestras/persona.png' },
+    ejemplo: { sitio: 'Tu podcast | Episodio 1', autor: 'Gabriel Neuman', titulo: 'Vender servicios tiene reglas nuevas', sub: 'Esto es lo que cambió', foto: '/muestras/persona.png' },
     dibujar: (p) => {
       // Texto y persona no se enciman: lado a lado en OG, apilados en los altos.
       const [s1, s2] = (p.sitio || '').split(/\s*\|\s*/)
