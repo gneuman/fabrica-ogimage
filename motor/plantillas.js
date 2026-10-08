@@ -115,13 +115,13 @@ const ceoLogo = (p, tam, conEpisodio = true) =>
   )
 
 /** Una de las dos personas de la conversación: foto recortada (o iniciales) y su nombre. */
-function ceoPersona(p, src, nombre, w, alto) {
+function ceoPersona(p, src, nombre, w, alto, voltear = false) {
   // Las fotos recortadas suelen ser más anchas que su columna: se enciman un poco.
   const ancho = Math.round(w * 1.4)
   const etiqueta = Math.max(14, Math.round(w / 15))
   return h('div', { flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', width: w, height: alto, position: 'relative' },
     src
-      ? img(src, { position: 'absolute', bottom: 0, left: Math.round((w - ancho) / 2), width: ancho, height: alto, objectFit: 'contain', objectPosition: 'bottom' })
+      ? img(src, { position: 'absolute', bottom: 0, left: Math.round((w - ancho) / 2), width: ancho, height: alto, objectFit: 'contain', objectPosition: 'bottom', ...(voltear ? { transform: 'scaleX(-1)' } : {}) })
       : h('div', { alignItems: 'center', justifyContent: 'center', width: Math.round(w * 0.75), height: Math.round(w * 0.75), marginBottom: etiqueta * 4, borderRadius: 999, background: '#1a2233', border: `4px solid ${p.acento}`, fontSize: Math.round(w * 0.28), fontWeight: 700 }, iniciales(nombre)),
     h('div', { position: 'absolute', bottom: Math.round(etiqueta * 0.9), padding: '6px 14px', borderRadius: 8, background: p.fondo, border: `2px solid ${p.acento}`, fontSize: etiqueta, fontWeight: 700, whiteSpace: 'nowrap' }, nombre),
   )
@@ -714,7 +714,7 @@ export const PLANTILLAS = {
       const altoFotos = p.alto ? Math.round(p.H * (p.H / p.W > 1.5 ? 0.46 : 0.36)) : Math.round(p.H * 0.8)
       const anchoTexto = p.alto ? p.W - 80 : p.W - anchoFotos - 50
       const tam = p.alto ? escala(p.titulo, [[25, 60], [45, 50], [70, 42], [999, 34]]) : escala(p.titulo, [[25, 66], [45, 54], [70, 46], [999, 38]])
-      const persona = (src, nombre) => ceoPersona(p, src, nombre, Math.round(anchoFotos / 2), altoFotos)
+      const persona = (src, nombre, voltear) => ceoPersona(p, src, nombre, Math.round(anchoFotos / 2), altoFotos, voltear)
       return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', color: p.texto, backgroundImage: ceoFondo(p) },
         h('div', { flexDirection: 'column', flex: 1, padding: p.alto ? '36px 40px 10px' : '36px 0 36px 40px' },
           logo,
@@ -725,18 +725,18 @@ export const PLANTILLAS = {
             p.sub && h('div', { flexWrap: 'wrap', marginTop: 16, marginLeft: 4, fontSize: Math.round(tam * 0.55), fontWeight: 700, lineHeight: 1.1 }, p.sub),
           ),
         ),
-        h('div', { width: anchoFotos, alignSelf: 'flex-end' }, persona(p.foto2, anfitrion), persona(p.foto, p.autor || 'Invitado')),
+        h('div', { width: anchoFotos, alignSelf: 'flex-end' }, persona(p.foto2, anfitrion, true), persona(p.foto, p.autor || 'Invitado')),
       )
     },
   },
 
   ceoportada: {
     nombre: 'El CEO agéntico: portada',
-    descripcion: 'El ícono del podcast El CEO agéntico: logo grande, "un podcast de" y las dos personas de la conversación. Para Spotify, Apple Podcasts y el perfil.',
+    descripcion: 'El ícono del podcast El CEO agéntico: logo grande, "un podcast de" y el anfitrión. Para Spotify, Apple Podcasts y el perfil.',
     cuando: 'Se necesita la portada o el ícono del show, no la de un episodio.',
-    campos: ['anfitrion', 'autor', 'sub', 'foto2', 'foto', 'fondo', 'texto', 'acento'],
+    campos: ['anfitrion', 'sub', 'foto2', 'fondo', 'texto', 'acento'],
     marca: CEO,
-    ejemplo: { anfitrion: 'Gabriel Neuman', autor: 'Tu invitado', sub: 'Conversaciones sobre dirigir con agentes de IA', foto2: '/muestras/persona.png' },
+    ejemplo: { anfitrion: 'Gabriel Neuman', sub: 'Conversaciones sobre dirigir con agentes de IA', foto2: '/muestras/persona.png' },
     dibujar: (p) => {
       const anfitrion = p.anfitrion || 'Gabriel Neuman'
       // Siempre cuadrada al centro del lienzo: así sirve de ícono en cualquier formato.
@@ -747,9 +747,8 @@ export const PLANTILLAS = {
           h('div', { marginTop: Math.round(lado * 0.07) }, ceoLogo(p, Math.round(lado * 0.15), false)),
           h('div', { marginTop: Math.round(lado * 0.025), fontFamily: 'Mono', fontSize: Math.round(lado * 0.03), letterSpacing: '0.14em', color: p.acento, textTransform: 'uppercase' }, 'un podcast de ' + anfitrion),
           p.sub && h('div', { marginTop: Math.round(lado * 0.02), width: Math.round(lado * 0.8), justifyContent: 'center', textAlign: 'center', fontSize: Math.round(lado * 0.032), fontWeight: 500, color: p.suave }, p.sub),
-          h('div', { position: 'absolute', bottom: 0, left: Math.round(lado * 0.04) },
-            ceoPersona(p, p.foto2, anfitrion, Math.round(lado * 0.46), altoFotos),
-            ceoPersona(p, p.foto, p.autor || 'Invitado', Math.round(lado * 0.46), altoFotos)),
+          h('div', { position: 'absolute', bottom: 0, left: Math.round(lado * 0.2) },
+            ceoPersona(p, p.foto2, anfitrion, Math.round(lado * 0.6), altoFotos)),
         ),
       )
     },
@@ -779,7 +778,7 @@ export const PLANTILLAS = {
           ),
         ),
         h('div', { width: anchoFotos, alignSelf: 'flex-end' },
-          ceoPersona(p, p.foto2, anfitrion, Math.round(anchoFotos / 2), altoFotos),
+          ceoPersona(p, p.foto2, anfitrion, Math.round(anchoFotos / 2), altoFotos, true),
           ceoPersona(p, p.foto, p.autor || 'Invitado', Math.round(anchoFotos / 2), altoFotos)),
       )
     },
