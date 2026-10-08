@@ -570,6 +570,55 @@ export const PLANTILLAS = {
     },
   },
 
+  ruta: {
+    nombre: 'Ruta',
+    descripcion: 'Fondo azul, título grande y una ruta de 3 a 5 pasos en recuadros unidos con flechas punteadas, con la persona abajo. Estilo miniatura de podcast.',
+    cuando: 'El post explica un camino o proceso en pasos ("de 0 a 50 mil", "cómo pasé de X a Y", un método en etapas).',
+    campos: ['titulo', 'puntos', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#2b7bff', texto: '#ffffff', acento: '#0b2a6b' },
+    ejemplo: { titulo: 'La ruta de *50 mil*', puntos: 'Elige un nicho | Arma la oferta | Primeros 10 clientes | Automatiza | Escala', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const pasos = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 5)
+      const n = Math.max(pasos.length, 1)
+      // Zigzag: los pasos alternan arriba y abajo (en los altos, izquierda y derecha).
+      const altoFoto = p.foto ? Math.round(p.alto ? p.H * 0.28 : p.H * 0.5) : 0
+      // En los altos la ruta va entre el título y la persona: cada recuadro mide
+      // lo que deja ese espacio, para que no se enciman.
+      const zonaY0 = p.alto ? Math.max(150, Math.round(p.H * 0.15)) : 150
+      const disponible = p.H - altoFoto - zonaY0 - 30
+      const altoCaja = p.alto ? Math.min(Math.round(p.W * 0.13), Math.floor(disponible / n) - 12) : 76
+      const zonaY1 = p.alto ? zonaY0 + (n - 1) * (altoCaja + 12) : Math.round(p.H * 0.62)
+      const anchoCaja = p.alto ? Math.round(p.W * 0.52) : Math.min(230, Math.round((p.W - 80) / n) - 14)
+      const pos = pasos.map((_, i) => {
+        const t = n === 1 ? 0.5 : i / (n - 1)
+        return p.alto
+          ? { x: i % 2 ? p.W - 50 - anchoCaja : 50, y: Math.round(zonaY0 + t * (zonaY1 - zonaY0)) }
+          : { x: Math.round(40 + t * (p.W - 80 - anchoCaja)), y: i % 2 ? zonaY0 + 120 : zonaY0 }
+      })
+      const centro = (q) => [q.x + anchoCaja / 2, q.y + altoCaja / 2]
+      const flechas = pos.slice(1).map((q, i) => {
+        const [x1, y1] = centro(pos[i])
+        const [x2, y2] = centro(q)
+        const cx = (x1 + x2) / 2 + (p.alto ? 0 : 0)
+        const cy = (y1 + y2) / 2 + (p.alto ? 0 : (i % 2 ? 50 : -50))
+        return `<path d="M${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="10 10" stroke-linecap="round"/>`
+      }).join('')
+      const lienzoFlechas = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${p.W}" height="${p.H}" viewBox="0 0 ${p.W} ${p.H}">${flechas}</svg>`)}`, { position: 'absolute', left: 0, top: 0, width: p.W, height: p.H })
+      const cuadricula = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${p.W}" height="${p.H}"><defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 L0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`)}`, { position: 'absolute', left: 0, top: 0, width: p.W, height: p.H })
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, backgroundImage: `linear-gradient(170deg, ${p.fondo}, #1a56d6)` },
+        cuadricula,
+        h('div', { position: 'absolute', left: 0, right: 0, top: p.alto ? 50 : 26, justifyContent: 'center' },
+          h('div', { padding: '6px 34px', borderRadius: 18, background: p.acento, fontFamily: 'Lilita', fontSize: escala(p.titulo, p.alto ? [[20, 64], [32, 52], [999, 42]] : [[20, 70], [32, 58], [999, 46]]), textTransform: 'uppercase', boxShadow: '0 8px 0 rgba(0,0,0,0.25)' },
+            resaltar(p.titulo, '#ffe600'))),
+        lienzoFlechas,
+        ...pasos.map((t, i) => h('div', { position: 'absolute', left: pos[i].x, top: pos[i].y, width: anchoCaja, height: altoCaja, alignItems: 'center', justifyContent: 'center', padding: '0 14px', borderRadius: 16, background: '#ffffff', color: '#0b1b3a', border: `4px solid ${p.acento}`, boxShadow: '0 8px 0 rgba(0,0,0,0.2)', fontSize: Math.round(Math.min(p.alto ? 32 : 24, altoCaja * 0.42) * (t.length > 18 ? 0.85 : 1)), fontWeight: 700, textAlign: 'center', lineHeight: 1.1 },
+          h('div', { position: 'absolute', left: -14, top: -14, width: 34, height: 34, borderRadius: 99, background: '#ffe600', color: '#0b1b3a', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700 }, String(i + 1)),
+          t)),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W / 2 - altoFoto * 0.7), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+      )
+    },
+  },
+
   lista: {
     nombre: 'Lista',
     descripcion: 'Un título y de 2 a 4 puntos numerados. Para guías, checklists y resúmenes.',
