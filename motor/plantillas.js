@@ -43,7 +43,7 @@ const escala = (texto, pasos) => pasos.find(([max]) => texto.length <= max)?.[1]
  * Texto con *resaltado*: lo que va entre asteriscos sale en el color de acento.
  * Satori no parte líneas entre spans distintos, así que va palabra por palabra.
  */
-function resaltar(texto, acento) {
+function resaltar(texto, acento, estiloMarcado = {}) {
   const palabras = []
   let anterior = ''
   texto.split(/(\*[^*]+\*)/).filter(Boolean).forEach((trozo) => {
@@ -59,7 +59,7 @@ function resaltar(texto, acento) {
     anterior = trozo
   })
   return palabras.map((partes) =>
-    h('span', { marginRight: '0.24em' }, partes.map(({ p, marcado }) => h('span', { color: marcado ? acento : undefined }, p))),
+    h('span', { marginRight: '0.24em' }, partes.map(({ p, marcado }) => h('span', marcado ? { color: acento, ...estiloMarcado } : {}, p))),
   )
 }
 
@@ -416,6 +416,96 @@ export const PLANTILLAS = {
           p.sitio && h('div', { marginLeft: p.alto ? 0 : 26, marginTop: p.alto ? 4 : 0, fontSize: 27, fontWeight: 700, whiteSpace: 'nowrap' }, p.sitio),
           !p.alto && h('div', { marginLeft: 'auto' }, ...[0, 1, 2, 3, 4, 5].map(() => h('div', { width: 11, height: 64, background: p.fondo, marginLeft: 11 }))),
         ),
+      )
+    },
+  },
+
+  miniatura: {
+    nombre: 'Miniatura',
+    descripcion: 'Estilo miniatura de YouTube: titular gordo por renglones en neón y blanco, persona recortada, ventana con flecha, gráfica rosa que sube y botón de play.',
+    cuando: 'El post presume un resultado o enlaza a un video, una demo o un caso; mejor con foto recortada (PNG sin fondo) de la persona.',
+    campos: ['titulo', 'boton', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#0a0f2c', texto: '#ffffff', acento: '#ffe94a' },
+    ejemplo: { titulo: '*Copiloto en* | *4 semanas* | sin contratar | a nadie más | *con IA*', boton: 'Ver ahora', foto: '/muestras/persona.png', imagen: '/muestras/captura.png' },
+    dibujar: (p) => {
+      const rosa = '#ff2d87'
+      const morado = '#7b5cff'
+      const svg = (cuerpo, vb) => `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${cuerpo}</svg>`)}`
+
+      // Titular por renglones (separados con |). Un renglón con *asteriscos* sale en
+      // neón y más grande; los demás en blanco. Cada renglón se ajusta a su ancho.
+      const anchoTitulo = p.alto ? p.W - 100 : Math.round(p.W * 0.47)
+      const renglones = p.titulo.includes('|') ? p.titulo.split(/\s*\|\s*/).filter(Boolean).slice(0, 6) : null
+      const brillo = `0 0 22px ${p.acento}99, 0 0 6px ${p.acento}`
+      const lineas = (renglones ?? []).map((r) => {
+        const neon = /\*/.test(r)
+        const texto = r.replace(/\*/g, '').toUpperCase()
+        const tope = neon ? (p.alto ? 72 : 96) : (p.alto ? 50 : 64)
+        return { neon, texto, tam: Math.min(tope, Math.floor(anchoTitulo / (texto.length * 0.56))) }
+      })
+      // Alto del titular, para poner la ventana debajo en los formatos altos.
+      const altoTitulo = renglones ? lineas.reduce((n, l) => n + l.tam * 0.98, 0) : 3 * 70
+      const titulo = renglones
+        ? h('div', { flexDirection: 'column' },
+            ...lineas.map(({ neon, texto, tam }) =>
+              h('div', { fontFamily: 'Lilita', fontSize: tam, lineHeight: 0.98, whiteSpace: 'nowrap', color: neon ? p.acento : p.texto, textShadow: neon ? brillo : undefined }, texto)))
+        : h('div', { flexWrap: 'wrap', width: anchoTitulo, fontFamily: 'Lilita', fontSize: escala(p.titulo, [[30, 84], [50, 70], [999, 56]]), lineHeight: 1, textTransform: 'uppercase', color: p.texto },
+            resaltar(p.titulo, p.acento, { textShadow: brillo }))
+
+      // Gráfica que sube, con brillo: dos trazos rosas (uno ancho y borroso) y uno morado.
+      const grafica = img(svg(
+        `<defs><filter id="b" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>` +
+        `<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${morado}" stop-opacity="0.35"/><stop offset="1" stop-color="${morado}" stop-opacity="0"/></linearGradient></defs>` +
+        `<path d="M0 230 L160 200 L300 215 L470 150 L620 170 L800 95 L1000 60 L1200 20 L1200 260 L0 260 Z" fill="url(#a)"/>` +
+        `<polyline points="0,250 180,235 330,245 500,190 650,205 830,140 1020,110 1200,60" fill="none" stroke="${morado}" stroke-width="4"/>` +
+        `<polyline points="0,230 160,200 300,215 470,150 620,170 800,95 1000,60 1200,20" fill="none" stroke="${rosa}" stroke-width="14" filter="url(#b)" opacity="0.8"/>` +
+        `<polyline points="0,230 160,200 300,215 470,150 620,170 800,95 1000,60 1200,20" fill="none" stroke="${rosa}" stroke-width="4"/>`,
+        '0 0 1200 260'), { position: 'absolute', left: 0, bottom: 0, width: p.W, height: Math.round(p.W * 0.22) })
+
+      const anchoVentana = p.alto ? Math.round(p.W * 0.62) : 400
+      const ventana = h('div', { flexDirection: 'column', width: anchoVentana, borderRadius: 14, overflow: 'hidden', background: '#e9ecf5', border: '3px solid rgba(255,255,255,0.3)', boxShadow: '0 24px 50px rgba(0,0,0,0.6)' },
+        h('div', { alignItems: 'center', height: 28, padding: '0 12px', background: '#d6dbe8' },
+          ...['#ff5f57', '#febc2e', '#28c840'].map((c) => h('div', { width: 10, height: 10, borderRadius: 99, background: c, marginRight: 6 })),
+        ),
+        p.imagen
+          ? img(p.imagen, { width: anchoVentana, height: Math.round(anchoVentana * 0.56), objectFit: 'cover', objectPosition: 'top' })
+          : h('div', { flexDirection: 'column', padding: 18, height: Math.round(anchoVentana * 0.56), background: '#f5f7fc' },
+              h('div', { width: '60%', height: 18, borderRadius: 6, background: '#c5cbe0' }),
+              h('div', { marginTop: 14 }, ...[0, 1, 2].map(() => h('div', { flex: 1, height: 70, marginRight: 10, borderRadius: 10, background: '#dfe4f2' }))),
+            ),
+      )
+      const flecha = img(svg(`<path d="M10 70 C 60 5, 160 0, 205 45" fill="none" stroke="${p.acento}" stroke-width="10" stroke-linecap="round"/><path d="M182 30 L212 54 L176 62 Z" fill="${p.acento}"/>`, '0 0 220 80'), { width: 150, height: 55 })
+
+      const boton = p.boton && h('div', { alignItems: 'center', padding: '10px 12px 10px 30px', borderRadius: 999, backgroundImage: `linear-gradient(90deg, ${rosa}, #ff6fb0)`, color: '#ffffff', fontSize: 34, fontWeight: 700, boxShadow: `0 10px 30px ${rosa}88` },
+        p.boton,
+        h('div', { alignItems: 'center', justifyContent: 'center', width: 50, height: 50, borderRadius: 99, background: '#ffffff', marginLeft: 20 },
+          img(svg(`<path d="M0 0 L20 12 L0 24 Z" fill="${rosa}"/>`, '0 0 20 24'), { width: 18, height: 22, marginLeft: 4 }),
+        ),
+      )
+
+      const altoFoto = p.alto ? Math.round(p.H * 0.42) : Math.round(p.H * 0.74)
+      const aro = h('div', { position: 'absolute', width: altoFoto, height: altoFoto, borderRadius: 999, border: '2px solid rgba(255,255,255,0.08)', background: 'rgba(80,90,200,0.12)' })
+      const fondo = { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', backgroundImage: `radial-gradient(circle at 70% 45%, #1d2a6b 0%, ${p.fondo} 65%)`, color: p.texto }
+
+      if (p.alto) {
+        return h('div', fondo,
+          grafica,
+          h('div', { position: 'absolute', left: 50, top: 50 }, titulo),
+          h('div', { position: 'absolute', right: 40, top: Math.round(50 + altoTitulo + 40), transform: 'rotate(3deg)' }, ventana),
+          h('div', { position: 'absolute', left: Math.round(p.W * 0.06), top: Math.round(50 + altoTitulo + 10) }, flecha),
+          h('div', { position: 'absolute', left: Math.round((p.W - altoFoto) / 2), bottom: 0, width: altoFoto, height: altoFoto, alignItems: 'center', justifyContent: 'center' }, aro),
+          p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W * 0.12), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+          boton && h('div', { position: 'absolute', right: 40, bottom: 40 }, boton),
+        )
+      }
+      return h('div', fondo,
+        grafica,
+        h('div', { position: 'absolute', right: 34, top: 40, transform: 'rotate(3deg)' }, ventana),
+        h('div', { position: 'absolute', right: 300, top: 6, transform: 'rotate(-8deg)' }, flecha),
+        h('div', { position: 'absolute', left: Math.round(p.W * 0.48), bottom: -Math.round(altoFoto * 0.1), width: altoFoto, height: altoFoto, alignItems: 'center', justifyContent: 'center' }, aro),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W * 0.5), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+        h('div', { position: 'absolute', left: 44, top: 0, bottom: 0, alignItems: 'center' }, titulo),
+        boton && h('div', { position: 'absolute', right: 40, bottom: 40 }, boton),
       )
     },
   },
