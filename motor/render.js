@@ -4,7 +4,7 @@
 // forma de leer recursos.
 import satori, { init as iniciarYoga } from 'satori/standalone'
 import { Resvg, initWasm } from '@resvg/resvg-wasm'
-import { ANCHO, ALTO, PLANTILLAS } from './plantillas.js'
+import { FORMATOS, PLANTILLAS } from './plantillas.js'
 
 const MARCA = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' }
 const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 160, derecha: 160, fecha: 40, lugar: 80, puntos: 300 }
@@ -38,6 +38,11 @@ export function normalizar(slug, entrada = {}) {
   p.acento = hex(entrada.acento, marca.acento)
   p.suave = luz(p.fondo) > 0.6 ? '#4b5563' : (pl.marca ? '#b9b9b4' : '#c5d5f8')
   p.sobreAcento = luz(p.acento) > 0.6 ? '#0f1733' : '#ffffff'
+  p.formato = FORMATOS[leer('formato')] ? leer('formato') : 'og'
+  const f = FORMATOS[p.formato]
+  p.W = f.lienzo
+  p.H = Math.round((f.H * f.lienzo) / f.W)
+  p.alto = p.H >= p.W
   if (!p.titulo && pl.campos.includes('titulo')) p.titulo = pl.ejemplo.titulo
   if (p.pais !== undefined) {
     p.pais = /^[a-z]{2}$/i.test(p.pais) ? p.pais.toUpperCase() : ''
@@ -92,8 +97,8 @@ export async function generarSvg(slug, entrada, recursos) {
   }
 
   return satori(pl.dibujar(p), {
-    width: ANCHO,
-    height: ALTO,
+    width: p.W,
+    height: p.H,
     fonts: recursos.fuentes,
     loadAdditionalAsset: async (tipo, segmento) => {
       if (tipo !== 'emoji') return []
@@ -113,6 +118,7 @@ export const iniciar = (resvgWasm, yogaWasm) => (listo ??= Promise.all([initWasm
 
 export async function generarPng(slug, entrada, recursos, { escala = 1 } = {}) {
   const svg = await generarSvg(slug, entrada, recursos)
-  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: ANCHO * escala }, font: { loadSystemFonts: false } })
+  const ancho = (FORMATOS[String(entrada?.formato ?? '')] ?? FORMATOS.og).W
+  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: ancho * escala }, font: { loadSystemFonts: false } })
   return resvg.render().asPng()
 }
