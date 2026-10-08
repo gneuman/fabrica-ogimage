@@ -43,7 +43,7 @@ const escala = (texto, pasos) => pasos.find(([max]) => texto.length <= max)?.[1]
  * Texto con *resaltado*: lo que va entre asteriscos sale en el color de acento.
  * Satori no parte líneas entre spans distintos, así que va palabra por palabra.
  */
-function resaltar(texto, acento) {
+function resaltar(texto, acento, estiloMarcado = {}) {
   const palabras = []
   let anterior = ''
   texto.split(/(\*[^*]+\*)/).filter(Boolean).forEach((trozo) => {
@@ -59,7 +59,7 @@ function resaltar(texto, acento) {
     anterior = trozo
   })
   return palabras.map((partes) =>
-    h('span', { marginRight: '0.24em' }, partes.map(({ p, marcado }) => h('span', { color: marcado ? acento : undefined }, p))),
+    h('span', { marginRight: '0.24em' }, partes.map(({ p, marcado }) => h('span', marcado ? { color: acento, ...estiloMarcado } : {}, p))),
   )
 }
 
@@ -420,6 +420,205 @@ export const PLANTILLAS = {
     },
   },
 
+  miniatura: {
+    nombre: 'Miniatura',
+    descripcion: 'Estilo miniatura de YouTube: titular gordo por renglones en neón y blanco, persona recortada, ventana con flecha, gráfica rosa que sube y botón de play.',
+    cuando: 'El post presume un resultado o enlaza a un video, una demo o un caso; mejor con foto recortada (PNG sin fondo) de la persona.',
+    campos: ['titulo', 'boton', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#0a0f2c', texto: '#ffffff', acento: '#ffe94a' },
+    ejemplo: { titulo: '*Copiloto en* | *4 semanas* | sin contratar | a nadie más | *con IA*', boton: 'Ver ahora', foto: '/muestras/persona.png', imagen: '/muestras/captura.png' },
+    dibujar: (p) => {
+      const rosa = '#ff2d87'
+      const morado = '#7b5cff'
+      const svg = (cuerpo, vb) => `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${cuerpo}</svg>`)}`
+
+      // Titular por renglones (separados con |). Un renglón con *asteriscos* sale en
+      // neón y más grande; los demás en blanco. Cada renglón se ajusta a su ancho.
+      const anchoTitulo = p.alto ? p.W - 100 : Math.round(p.W * 0.47)
+      const renglones = p.titulo.includes('|') ? p.titulo.split(/\s*\|\s*/).filter(Boolean).slice(0, 6) : null
+      const brillo = `0 0 22px ${p.acento}99, 0 0 6px ${p.acento}`
+      const lineas = (renglones ?? []).map((r) => {
+        const neon = /\*/.test(r)
+        const texto = r.replace(/\*/g, '').toUpperCase()
+        const tope = neon ? (p.alto ? 72 : 96) : (p.alto ? 50 : 64)
+        return { neon, texto, tam: Math.min(tope, Math.floor(anchoTitulo / (texto.length * 0.56))) }
+      })
+      // Alto del titular, para poner la ventana debajo en los formatos altos.
+      const altoTitulo = renglones ? lineas.reduce((n, l) => n + l.tam * 0.98, 0) : 3 * 70
+      const titulo = renglones
+        ? h('div', { flexDirection: 'column' },
+            ...lineas.map(({ neon, texto, tam }) =>
+              h('div', { fontFamily: 'Lilita', fontSize: tam, lineHeight: 0.98, whiteSpace: 'nowrap', color: neon ? p.acento : p.texto, textShadow: neon ? brillo : undefined }, texto)))
+        : h('div', { flexWrap: 'wrap', width: anchoTitulo, fontFamily: 'Lilita', fontSize: escala(p.titulo, [[30, 84], [50, 70], [999, 56]]), lineHeight: 1, textTransform: 'uppercase', color: p.texto },
+            resaltar(p.titulo, p.acento, { textShadow: brillo }))
+
+      // Gráfica que sube, con brillo: dos trazos rosas (uno ancho y borroso) y uno morado.
+      const grafica = img(svg(
+        `<defs><filter id="b" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>` +
+        `<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${morado}" stop-opacity="0.35"/><stop offset="1" stop-color="${morado}" stop-opacity="0"/></linearGradient></defs>` +
+        `<path d="M0 230 L160 200 L300 215 L470 150 L620 170 L800 95 L1000 60 L1200 20 L1200 260 L0 260 Z" fill="url(#a)"/>` +
+        `<polyline points="0,250 180,235 330,245 500,190 650,205 830,140 1020,110 1200,60" fill="none" stroke="${morado}" stroke-width="4"/>` +
+        `<polyline points="0,230 160,200 300,215 470,150 620,170 800,95 1000,60 1200,20" fill="none" stroke="${rosa}" stroke-width="14" filter="url(#b)" opacity="0.8"/>` +
+        `<polyline points="0,230 160,200 300,215 470,150 620,170 800,95 1000,60 1200,20" fill="none" stroke="${rosa}" stroke-width="4"/>`,
+        '0 0 1200 260'), { position: 'absolute', left: 0, bottom: 0, width: p.W, height: Math.round(p.W * 0.22) })
+
+      const anchoVentana = p.alto ? Math.round(p.W * 0.62) : 400
+      const ventana = h('div', { flexDirection: 'column', width: anchoVentana, borderRadius: 14, overflow: 'hidden', background: '#e9ecf5', border: '3px solid rgba(255,255,255,0.3)', boxShadow: '0 24px 50px rgba(0,0,0,0.6)' },
+        h('div', { alignItems: 'center', height: 28, padding: '0 12px', background: '#d6dbe8' },
+          ...['#ff5f57', '#febc2e', '#28c840'].map((c) => h('div', { width: 10, height: 10, borderRadius: 99, background: c, marginRight: 6 })),
+        ),
+        p.imagen
+          ? img(p.imagen, { width: anchoVentana, height: Math.round(anchoVentana * 0.56), objectFit: 'cover', objectPosition: 'top' })
+          : h('div', { flexDirection: 'column', padding: 18, height: Math.round(anchoVentana * 0.56), background: '#f5f7fc' },
+              h('div', { width: '60%', height: 18, borderRadius: 6, background: '#c5cbe0' }),
+              h('div', { marginTop: 14 }, ...[0, 1, 2].map(() => h('div', { flex: 1, height: 70, marginRight: 10, borderRadius: 10, background: '#dfe4f2' }))),
+            ),
+      )
+      const flecha = img(svg(`<path d="M10 70 C 60 5, 160 0, 205 45" fill="none" stroke="${p.acento}" stroke-width="10" stroke-linecap="round"/><path d="M182 30 L212 54 L176 62 Z" fill="${p.acento}"/>`, '0 0 220 80'), { width: 150, height: 55 })
+
+      const boton = p.boton && h('div', { alignItems: 'center', padding: '10px 12px 10px 30px', borderRadius: 999, backgroundImage: `linear-gradient(90deg, ${rosa}, #ff6fb0)`, color: '#ffffff', fontSize: 34, fontWeight: 700, boxShadow: `0 10px 30px ${rosa}88` },
+        p.boton,
+        h('div', { alignItems: 'center', justifyContent: 'center', width: 50, height: 50, borderRadius: 99, background: '#ffffff', marginLeft: 20 },
+          img(svg(`<path d="M0 0 L20 12 L0 24 Z" fill="${rosa}"/>`, '0 0 20 24'), { width: 18, height: 22, marginLeft: 4 }),
+        ),
+      )
+
+      const altoFoto = p.alto ? Math.round(p.H * 0.42) : Math.round(p.H * 0.74)
+      const aro = h('div', { position: 'absolute', width: altoFoto, height: altoFoto, borderRadius: 999, border: '2px solid rgba(255,255,255,0.08)', background: 'rgba(80,90,200,0.12)' })
+      const fondo = { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', backgroundImage: `radial-gradient(circle at 70% 45%, #1d2a6b 0%, ${p.fondo} 65%)`, color: p.texto }
+
+      if (p.alto) {
+        return h('div', fondo,
+          grafica,
+          h('div', { position: 'absolute', left: 50, top: 50 }, titulo),
+          h('div', { position: 'absolute', right: 40, top: Math.round(50 + altoTitulo + 40), transform: 'rotate(3deg)' }, ventana),
+          h('div', { position: 'absolute', left: Math.round(p.W * 0.06), top: Math.round(50 + altoTitulo + 10) }, flecha),
+          h('div', { position: 'absolute', left: Math.round((p.W - altoFoto) / 2), bottom: 0, width: altoFoto, height: altoFoto, alignItems: 'center', justifyContent: 'center' }, aro),
+          p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W * 0.12), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+          boton && h('div', { position: 'absolute', right: 40, bottom: 40 }, boton),
+        )
+      }
+      return h('div', fondo,
+        grafica,
+        h('div', { position: 'absolute', right: 34, top: 40, transform: 'rotate(3deg)' }, ventana),
+        h('div', { position: 'absolute', right: 300, top: 6, transform: 'rotate(-8deg)' }, flecha),
+        h('div', { position: 'absolute', left: Math.round(p.W * 0.48), bottom: -Math.round(altoFoto * 0.1), width: altoFoto, height: altoFoto, alignItems: 'center', justifyContent: 'center' }, aro),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W * 0.5), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+        h('div', { position: 'absolute', left: 44, top: 0, bottom: 0, alignItems: 'center' }, titulo),
+        boton && h('div', { position: 'absolute', right: 40, bottom: 40 }, boton),
+      )
+    },
+  },
+
+  escaparate: {
+    nombre: 'Escaparate',
+    descripcion: 'Franja amarilla arriba, titular blanco gigante, dos íconos en mosaico brillante a los lados y la persona al centro. Para listas, herramientas y "lo mejor de la semana".',
+    cuando: 'El post presenta herramientas, recursos o una selección ("las 5 herramientas que…"), sobre todo si nombra dos productos.',
+    campos: ['sub', 'titulo', 'icono', 'icono2', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#121212', texto: '#ffffff', acento: '#ffe600' },
+    /** El primer ícono va blanco sobre el mosaico naranja, no del color sobre el acento. */
+    colorIcono: '#ffffff',
+    ejemplo: { sub: 'Lo mejor de la semana', titulo: 'Herramientas de IA', icono: 'sparkles', icono2: 'git-branch', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const naranja = '#f25c1f'
+      const lado = p.alto ? Math.round(p.W * 0.3) : 240
+      const mosaico = (fondo, icono, tono) => h('div', { alignItems: 'center', justifyContent: 'center', width: lado, height: lado, borderRadius: Math.round(lado * 0.2), backgroundImage: fondo, border: '8px solid rgba(255,255,255,0.85)', boxShadow: `0 0 0 3px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.6), inset 0 0 30px ${tono}` },
+        icono && img(icono, { width: Math.round(lado * 0.56), height: Math.round(lado * 0.56) }))
+      const fondo = p.imagen
+        ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)), url(${p.imagen})`, backgroundSize: `${p.W}px ${p.H}px` }
+        : { backgroundImage: `radial-gradient(circle at 50% 35%, #3a3530 0%, ${p.fondo} 70%)` }
+      const tamTitulo = escala(p.titulo, p.alto ? [[14, 92], [22, 70], [999, 56]] : [[14, 112], [22, 92], [999, 70]])
+      // En los altos, los mosaicos van debajo de donde termina el titular.
+      const renglonesTitulo = Math.ceil((p.titulo.length * tamTitulo * 0.6) / (p.W - 80))
+      const debajoTitulo = 70 + (p.sub ? 70 : 0) + renglonesTitulo * tamTitulo + 30
+      const topMosaico = p.alto ? Math.max(Math.round(p.H * 0.27), debajoTitulo) : 250
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', flexDirection: 'column', alignItems: 'center', color: p.texto, ...fondo },
+        p.sub && h('div', { marginTop: p.alto ? 70 : 26, padding: '6px 40px', background: p.acento, color: '#111111', transform: 'skewX(-12deg)', fontSize: Math.min(escala(p.sub, [[24, 52], [999, 40]]), Math.floor((p.W - 140) / (p.sub.length * 0.62))), fontWeight: 700, textTransform: 'uppercase', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }, p.sub),
+        h('div', { marginTop: 4, padding: '0 40px', justifyContent: 'center', textAlign: 'center', fontFamily: 'Lilita', fontSize: tamTitulo, lineHeight: 1, textTransform: 'uppercase', transform: 'skewX(-8deg)', textShadow: '0 6px 0 rgba(0,0,0,0.45)' }, p.titulo),
+        h('div', { position: 'absolute', left: p.alto ? 40 : 60, top: topMosaico }, mosaico(`linear-gradient(160deg, #ff8a4c, ${naranja})`, p.iconoSvg, '#ffffff66')),
+        h('div', { position: 'absolute', right: p.alto ? 40 : 60, top: topMosaico }, mosaico('linear-gradient(160deg, #ffffff, #dcdcdc)', p.icono2Svg, '#00000022')),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W / 2 - (p.alto ? p.H * 0.5 : p.H * 0.62) * 0.7), bottom: 0, height: Math.round(p.alto ? p.H * 0.5 : p.H * 0.62), objectFit: 'contain' }),
+      )
+    },
+  },
+
+  tuit: {
+    nombre: 'Tuit',
+    descripcion: 'Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tuit.',
+    cuando: 'El post tiene una frase corta y contundente que funciona sola (una opinión, una regla, un "deja de…").',
+    campos: ['titulo', 'autor', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#1c1c1e', texto: '#ffffff', acento: '#f7c948' },
+    ejemplo: { titulo: 'Deja de vender consultoría', autor: '@gabrielneuman', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const azul = '#1d9bf0'
+      const palomita = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${azul}"/><path d="M6.5 12.5 L10.5 16 L17.5 8.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`)}`, { width: 30, height: 30, marginLeft: 10 })
+      const avatar = p.foto
+        ? h('div', { width: 64, height: 64, borderRadius: 99, overflow: 'hidden', background: '#3a3a3c', alignItems: 'flex-end', justifyContent: 'center' }, img(p.foto, { height: 64, objectFit: 'contain' }))
+        : h('div', { alignItems: 'center', justifyContent: 'center', width: 64, height: 64, borderRadius: 99, background: p.acento, color: '#111', fontSize: 28, fontWeight: 700 }, iniciales((p.autor || '?').replace('@', '')))
+      const anchoTarjeta = p.alto ? p.W - 100 : 560
+      const tarjeta = h('div', { flexDirection: 'column', width: anchoTarjeta, padding: '30px 38px 38px', borderRadius: 30, background: '#000000', border: `6px solid ${p.acento}`, boxShadow: '0 30px 60px rgba(0,0,0,0.55)' },
+        h('div', { alignItems: 'center' }, avatar, h('div', { marginLeft: 16, fontSize: 28, fontWeight: 500, color: '#e7e7e7' }, p.autor || '@tu_usuario'), palomita),
+        h('div', { flexWrap: 'wrap', marginTop: 18, fontSize: escala(p.titulo, p.alto ? [[20, 96], [40, 80], [80, 62], [999, 50]] : [[20, 84], [40, 66], [80, 52], [999, 42]]), fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em', color: p.texto }, resaltar(p.titulo, p.acento)))
+      const fondo = p.imagen
+        ? { backgroundImage: `linear-gradient(90deg, rgba(0,0,0,0.15), rgba(0,0,0,0.5)), url(${p.imagen})`, backgroundSize: `${p.W}px ${p.H}px` }
+        : { backgroundImage: `linear-gradient(120deg, #4a4a4c 0%, ${p.fondo} 75%)` }
+      const altoFoto = Math.round(p.alto ? p.H * 0.55 : p.H * 0.92)
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, ...fondo },
+        !p.imagen && p.foto && img(p.foto, { position: 'absolute', left: p.alto ? Math.round(p.W * 0.05) : 30, bottom: 0, height: altoFoto, objectFit: 'contain' }),
+        h('div', { position: 'absolute', right: 50, left: p.alto ? 50 : undefined, top: p.alto ? 70 : 0, bottom: p.alto ? undefined : 0, alignItems: 'center' }, tarjeta),
+      )
+    },
+  },
+
+  ruta: {
+    nombre: 'Ruta',
+    descripcion: 'Fondo azul, título grande y una ruta de 3 a 5 pasos en recuadros unidos con flechas punteadas, con la persona abajo. Estilo miniatura de podcast.',
+    cuando: 'El post explica un camino o proceso en pasos ("de 0 a 50 mil", "cómo pasé de X a Y", un método en etapas).',
+    campos: ['titulo', 'puntos', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#2b7bff', texto: '#ffffff', acento: '#0b2a6b' },
+    ejemplo: { titulo: 'La ruta de *50 mil*', puntos: 'Elige un nicho | Arma la oferta | Primeros 10 clientes | Automatiza | Escala', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const pasos = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 5)
+      const n = Math.max(pasos.length, 1)
+      // Zigzag: los pasos alternan arriba y abajo (en los altos, izquierda y derecha).
+      const altoFoto = p.foto ? Math.round(p.alto ? p.H * 0.28 : p.H * 0.5) : 0
+      // En los altos la ruta va entre el título y la persona: cada recuadro mide
+      // lo que deja ese espacio, para que no se enciman.
+      const zonaY0 = p.alto ? Math.max(150, Math.round(p.H * 0.15)) : 150
+      const disponible = p.H - altoFoto - zonaY0 - 30
+      const altoCaja = p.alto ? Math.min(Math.round(p.W * 0.13), Math.floor(disponible / n) - 12) : 76
+      const zonaY1 = p.alto ? zonaY0 + (n - 1) * (altoCaja + 12) : Math.round(p.H * 0.62)
+      const anchoCaja = p.alto ? Math.round(p.W * 0.52) : Math.min(230, Math.round((p.W - 80) / n) - 14)
+      const pos = pasos.map((_, i) => {
+        const t = n === 1 ? 0.5 : i / (n - 1)
+        return p.alto
+          ? { x: i % 2 ? p.W - 50 - anchoCaja : 50, y: Math.round(zonaY0 + t * (zonaY1 - zonaY0)) }
+          : { x: Math.round(40 + t * (p.W - 80 - anchoCaja)), y: i % 2 ? zonaY0 + 120 : zonaY0 }
+      })
+      const centro = (q) => [q.x + anchoCaja / 2, q.y + altoCaja / 2]
+      const flechas = pos.slice(1).map((q, i) => {
+        const [x1, y1] = centro(pos[i])
+        const [x2, y2] = centro(q)
+        const cx = (x1 + x2) / 2 + (p.alto ? 0 : 0)
+        const cy = (y1 + y2) / 2 + (p.alto ? 0 : (i % 2 ? 50 : -50))
+        return `<path d="M${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="10 10" stroke-linecap="round"/>`
+      }).join('')
+      const lienzoFlechas = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${p.W}" height="${p.H}" viewBox="0 0 ${p.W} ${p.H}">${flechas}</svg>`)}`, { position: 'absolute', left: 0, top: 0, width: p.W, height: p.H })
+      const cuadricula = img(`data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${p.W}" height="${p.H}"><defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 L0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`)}`, { position: 'absolute', left: 0, top: 0, width: p.W, height: p.H })
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, backgroundImage: `linear-gradient(170deg, ${p.fondo}, #1a56d6)` },
+        cuadricula,
+        h('div', { position: 'absolute', left: 0, right: 0, top: p.alto ? 50 : 26, justifyContent: 'center' },
+          h('div', { padding: '6px 34px', borderRadius: 18, background: p.acento, fontFamily: 'Lilita', fontSize: escala(p.titulo, p.alto ? [[20, 64], [32, 52], [999, 42]] : [[20, 70], [32, 58], [999, 46]]), textTransform: 'uppercase', boxShadow: '0 8px 0 rgba(0,0,0,0.25)' },
+            resaltar(p.titulo, '#ffe600'))),
+        lienzoFlechas,
+        ...pasos.map((t, i) => h('div', { position: 'absolute', left: pos[i].x, top: pos[i].y, width: anchoCaja, height: altoCaja, alignItems: 'center', justifyContent: 'center', padding: '0 14px', borderRadius: 16, background: '#ffffff', color: '#0b1b3a', border: `4px solid ${p.acento}`, boxShadow: '0 8px 0 rgba(0,0,0,0.2)', fontSize: Math.round(Math.min(p.alto ? 32 : 24, altoCaja * 0.42) * (t.length > 18 ? 0.85 : 1)), fontWeight: 700, textAlign: 'center', lineHeight: 1.1 },
+          h('div', { position: 'absolute', left: -14, top: -14, width: 34, height: 34, borderRadius: 99, background: '#ffe600', color: '#0b1b3a', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 700 }, String(i + 1)),
+          t)),
+        p.foto && img(p.foto, { position: 'absolute', left: Math.round(p.W / 2 - altoFoto * 0.7), bottom: 0, height: altoFoto, objectFit: 'contain' }),
+      )
+    },
+  },
+
   lista: {
     nombre: 'Lista',
     descripcion: 'Un título y de 2 a 4 puntos numerados. Para guías, checklists y resúmenes.',
@@ -479,6 +678,7 @@ export const CAMPOS = {
   imagen: { etiqueta: 'Captura (URL)', tipo: 'url' },
   emoji: { etiqueta: 'Emoji', tipo: 'texto' },
   icono: { etiqueta: 'Ícono de Lucide', tipo: 'texto', ayuda: 'El nombre en lucide.dev, p. ej. rocket, workflow, bot.' },
+  icono2: { etiqueta: 'Segundo ícono de Lucide', tipo: 'texto', ayuda: 'El de la derecha, sobre fondo blanco. P. ej. github, bot.' },
   fondo: { etiqueta: 'Fondo', tipo: 'color' },
   texto: { etiqueta: 'Texto', tipo: 'color' },
   acento: { etiqueta: 'Acento', tipo: 'color' },

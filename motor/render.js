@@ -47,7 +47,13 @@ export async function generarSvg(slug, entrada, recursos) {
   if (p.icono !== undefined) {
     const nombre = (p.icono || 'sparkles').toLowerCase().replace(/[^a-z0-9-]/g, '')
     const svg = (await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))
-    p.iconoSvg = svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', p.sobreAcento))) : ''
+    p.iconoSvg = svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', pl.colorIcono ?? p.sobreAcento))) : ''
+  }
+  // El segundo ícono (escaparate) va oscuro sobre un mosaico blanco.
+  if (p.icono2 !== undefined) {
+    const nombre = (p.icono2 || 'github').toLowerCase().replace(/[^a-z0-9-]/g, '')
+    const svg = (await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))
+    p.icono2Svg = svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', '#111111'))) : ''
   }
 
   return satori(pl.dibujar(p), {
