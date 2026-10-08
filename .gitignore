@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+public/_recursos/
+public/_muestras/
+.DS_Store

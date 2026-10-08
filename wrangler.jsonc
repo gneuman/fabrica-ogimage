@@ -1,0 +1,19 @@
+// Cloudflare Workers: el sitio es estático (dist/) y el Worker solo dibuja las
+// imágenes en /og/*. Dibujar una imagen usa más CPU de la que da el plan
+// gratis (10 ms por petición): hace falta Workers Paid. La caché de un año
+// hace que cada URL se dibuje una sola vez.
+{
+  "name": "fabrica-ogimage",
+  "compatibility_date": "2026-10-01",
+  "main": "./worker/index.js",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/og/*"],
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // Las fuentes van dentro del Worker como bytes.
+  "rules": [{ "type": "Data", "globs": ["**/*.woff"] }],
+  "previews": {}
+}

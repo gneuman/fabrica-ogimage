@@ -1,0 +1,32 @@
+{
+  "name": "fabrica-ogimage",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "fabrica-ogimage": "./bin/fabrica-ogimage.mjs"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/recursos.mjs && astro build",
+    "preview": "npm run build && wrangler dev",
+    "check": "astro check",
+    "galeria:agregar": "node scripts/galeria-agregar.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/lora": "^5.3.0",
+    "@resvg/resvg-wasm": "^2.6.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@twemoji/svg": "^15.0.0",
+    "astro": "^7.3.7",
+    "lucide-static": "^1.52.0",
+    "satori": "^0.32.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.148.0"
+  }
+}
