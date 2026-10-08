@@ -3,6 +3,8 @@ import Base from '@/layouts/Base.astro'
 import { PLANTILLAS, CAMPOS, REPO, urlOg } from '@/lib/sitio'
 const base = new URL(Astro.site!).origin
 const ejemplo = base + urlOg('articulo', { titulo: 'Mi primer post', autor: 'Ana López', acento: '3b5bdb' })
+const fija = base + urlOg('ciudad', { titulo: 'Taller presencial en {ciudad}', ciudad: 'Monterrey', pais: 'MX' })
+const auto = base + urlOg('ciudad', { titulo: 'Hola desde {pais}' })
 const filas = Object.entries(CAMPOS).map(([id, c]) => ({ id, ...c, en: Object.entries(PLANTILLAS).filter(([, p]) => p.campos.includes(id)).map(([s]) => s) }))
 ---
 <Base title="Cómo usar la fábrica en tu sitio: URL, comando y Astro | Fábrica OG" description="Tres formas de usar las plantillas de imágenes OG: una URL en tu og:image, un comando que las genera en el build de cualquier sitio estático y una integración para Astro." path="/usar/">
@@ -25,6 +27,26 @@ const filas = Object.entries(CAMPOS).map(([id, c]) => ({ id, ...c, en: Object.en
       </table>
     </div>
 
+    <h2 id="ciudad">¿Cómo funciona la imagen por país y ciudad?</h2>
+    <p>La plantilla <a href="/plantillas/ciudad/">ciudad</a> pone la bandera y la ciudad en la imagen. Cada dato sale de la URL o, si no viene, de la conexión de quien pide la imagen.</p>
+    <div class="not-prose overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead><tr class="border-b border-gray-300"><th class="py-2 pr-4">Parámetro</th><th class="py-2 pr-4">Si viene en la URL</th><th class="py-2">Si no viene</th></tr></thead>
+        <tbody>
+          <tr class="border-b border-gray-200 align-top"><td class="py-2 pr-4"><code>pais</code></td><td class="py-2 pr-4">Código de 2 letras (ISO 3166): <code>MX</code>, <code>CO</code>, <code>ES</code>. Pone la bandera y el nombre en español.</td><td class="py-2">El país de la conexión, según Cloudflare.</td></tr>
+          <tr class="border-b border-gray-200 align-top"><td class="py-2 pr-4"><code>ciudad</code></td><td class="py-2 pr-4">El texto tal cual: <code>Monterrey</code>.</td><td class="py-2">La ciudad de la conexión, según Cloudflare. A veces no la sabe; entonces queda el país.</td></tr>
+          <tr class="border-b border-gray-200 align-top"><td class="py-2 pr-4"><code>titulo</code>, <code>sub</code></td><td class="py-2 pr-4" colspan="2">Aceptan <code>{'{ciudad}'}</code> y <code>{'{pais}'}</code>, que se cambian por los valores de arriba.</td></tr>
+          <tr class="border-b border-gray-200 align-top"><td class="py-2 pr-4"><code>imagen</code></td><td class="py-2 pr-4">Foto de fondo, con un velo oscuro encima.</td><td class="py-2">Degradado de <code>fondo</code> a <code>acento</code>, o una foto de la ciudad si la instalación tiene llave de Unsplash.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Con los dos datos fijos, la imagen es igual para todos y se guarda un año:</p>
+    <pre><code>{fija}</code></pre>
+    <p>Sin ellos, cambia según quién la pide:</p>
+    <pre><code>{auto}</code></pre>
+    <p>Cuando la ubicación sale de la conexión, cada país y ciudad se guarda aparte en la caché, y la respuesta lleva <code>Cache-Control: private, max-age=3600</code> para que ninguna caché intermedia le muestre a un visitante la ciudad de otro.</p>
+    <p><strong>Antes de usarla en un link:</strong> cuando compartes una página, la imagen OG la pide el servidor de WhatsApp, LinkedIn, X o Facebook, no la persona. Ese servidor casi siempre está en Estados Unidos, así que con detección automática la tarjeta saldría con la ciudad del servidor. En un <code>og:image</code>, fija <code>ciudad</code> y <code>pais</code>. La detección automática sirve en imágenes que carga la persona: dentro de una página, en una landing o en el editor de esta misma fábrica.</p>
+
     <h2>¿Cómo genero una imagen para cada página de mi sitio?</h2>
     <p>Con el comando, después de construir tu sitio. Lee el <code>&lt;title&gt;</code> de cada página, dibuja su imagen en <code>og/</code> y, si la página no tiene <code>og:image</code>, le agrega las etiquetas. Funciona con cualquier generador que deje HTML en una carpeta (Astro, Next en modo estático, Hugo, Eleventy).</p>
     <pre><code>{`npm i -D github:gneuman/fabrica-ogimage
@@ -41,6 +63,10 @@ export default defineConfig({
 })`}</code></pre>
 
     <h2>¿Puedo montar mi propia copia?</h2>
-    <p>Sí. El código está en <a href={REPO}>GitHub</a> con licencia MIT y corre en Cloudflare Workers. Dibujar imágenes usa más CPU de la que da el plan gratis (10 ms por petición), así que necesitas Workers Paid; la caché de un año hace que cada URL se dibuje una sola vez.</p>
+    <p>Sí. El código está en <a href={REPO}>GitHub</a> con licencia MIT y corre en Cloudflare Workers.</p>
+    <ul>
+      <li><strong>Gratis:</strong> el sitio, el editor, la galería y el comando para tu build. Son archivos estáticos.</li>
+      <li><strong>Con Workers Paid (5 USD al mes):</strong> las imágenes por URL (<code>/og/…</code>). Dibujar una tarda de 20 a 500 milisegundos de CPU y el plan gratis da 10 por petición. La caché de un año hace que cada URL se dibuje una sola vez.</li>
+    </ul>
   </article>
 </Base>

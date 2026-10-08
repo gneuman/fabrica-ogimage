@@ -18,6 +18,26 @@ WhatsApp, LinkedIn o X. Tres formas de usarla, con las mismas plantillas:
 (detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, lista y podcast.
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
+## La API de imágenes
+
+`GET /og/<plantilla>?<parámetros>` devuelve un PNG de 1200×630. Los parámetros de cada
+plantilla están en `/usar/` y en `motor/plantillas.js` (`CAMPOS`). Respuesta:
+`Cache-Control: public, max-age=31536000, immutable` y `Access-Control-Allow-Origin: *`.
+
+### País y ciudad (plantilla `ciudad`)
+
+| Parámetro | Si viene | Si no viene |
+|---|---|---|
+| `pais` | Código ISO de 2 letras (`MX`). Bandera y nombre en español | `request.cf.country` de Cloudflare |
+| `ciudad` | Texto tal cual | `request.cf.city` (puede faltar) |
+| `titulo`, `sub` | Aceptan `{ciudad}` y `{pais}` | |
+| `imagen` | Foto de fondo con velo | Degradado, o foto de Unsplash si hay `UNSPLASH_KEY` |
+
+- Con ubicación detectada, la caché se guarda por `país/ciudad` y la respuesta sale con
+  `Cache-Control: private, max-age=3600` y `Vary: CF-IPCountry`.
+- En un `og:image` la imagen la pide el servidor de la red social (casi siempre en EE. UU.),
+  no el lector: ahí se fijan `ciudad` y `pais`. La detección sirve para imágenes que carga la persona.
+
 ## Cómo está hecho
 
 | Pieza | Dónde |
@@ -38,7 +58,9 @@ npm run galeria:agregar -- https://empresa.com saas marketing
 ## Publicar (Cloudflare Workers)
 
 - Build: `npm run build` · salida: `dist` · Node 22. Variable de build `SITIO` con el dominio final.
-- Dibujar una imagen usa más CPU de la que da el plan gratis (10 ms): hace falta **Workers Paid**.
+- Sitio, editor, galería y comando funcionan en el plan gratis (son estáticos).
+- La API `/og/*` necesita **Workers Paid** (5 USD/mes): cada imagen usa de 20 a 500 ms de CPU y el
+  plan gratis da 10 ms por petición. Sin pagar, esas peticiones fallan.
 - La captura de correo va al webhook de n8n del newsletter de gabrielneuman.com.
 - Opcional: secreto `UNSPLASH_KEY` (`wrangler secret put UNSPLASH_KEY`) para que la plantilla ciudad lleve foto de fondo.
 
