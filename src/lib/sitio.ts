@@ -9,6 +9,9 @@ export const NOMBRE = 'Fábrica de imágenes OG'
 export const AUTOR = { nombre: 'Gabriel Neuman', url: 'https://www.gabrielneuman.com/' }
 export const POST = 'https://www.gabrielneuman.com/fabrica-ogimage-imagenes-og-en-espanol/'
 export const REPO = 'https://github.com/gneuman/fabrica-ogimage'
+export const DESPLEGAR = `https://deploy.workers.cloudflare.com/?url=${REPO}`
+/** Link de afiliado de Hostinger (VPS). Siempre con su aviso al lado. */
+export const HOSTINGER = 'https://gnb.mx/HostingerHub'
 
 /** Receptor de la captura: el mismo webhook de n8n que el newsletter de gabrielneuman.com. */
 export const FORMULARIO = 'https://n8n.gnb.mx/webhook/websiteForm'
@@ -36,9 +39,15 @@ export interface Sitio {
 }
 
 const archivos = import.meta.glob<Sitio>('../../content/galeria/*.json', { eager: true, import: 'default' })
-/** Los propios primero, luego por fecha de alta, los más nuevos arriba. */
+
+/** Las que abren la galería: marcas que cualquiera reconoce. El resto va por fecha de alta. */
+const DESTACADOS = ['stripe-com', 'linear-app', 'vercel-com', 'raycast-com', 'figma-com', 'framer-com', 'openai-com', 'slack-com', 'discord-com', 'webflow-com', 'mailchimp-com', 'intercom-com', 'loops-so', 'retool-com', 'pitch-com', 'attio-com', 'tally-so', 'klarna-com']
+const orden = (s: Sitio) => {
+  const i = DESTACADOS.indexOf(s.slug)
+  return s.fuente === 'propia' ? -1 : i >= 0 ? i : DESTACADOS.length
+}
 export const GALERIA: Sitio[] = Object.values(archivos).sort(
-  (a, b) => Number(b.fuente === 'propia') - Number(a.fuente === 'propia') || (b.agregado ?? '').localeCompare(a.agregado ?? '') || a.slug.localeCompare(b.slug),
+  (a, b) => orden(a) - orden(b) || (b.agregado ?? '').localeCompare(a.agregado ?? '') || a.slug.localeCompare(b.slug),
 )
 
 export const CATEGORIAS_CON_OTROS: Record<string, { nombre: string }> = { ...CATEGORIAS, otros: { nombre: 'Otros' } }

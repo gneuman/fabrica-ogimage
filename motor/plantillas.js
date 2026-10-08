@@ -89,7 +89,7 @@ export const PLANTILLAS = {
     nombre: 'Titular',
     descripcion: 'Un titular centrado con una palabra resaltada y un botón. Para landings.',
     campos: ['titulo', 'sub', 'boton', 'fondo', 'texto', 'acento'],
-    ejemplo: { titulo: 'Imágenes OG en *un minuto*', sub: 'Plantillas por URL, en español y gratis.', boton: 'Hacer la mía' },
+    ejemplo: { titulo: 'Imágenes OG en *un minuto*', sub: 'En español, gratis y de código abierto.', boton: 'Hacer la mía' },
     dibujar: (p) =>
       h('div', { width: ANCHO, height: ALTO, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 80, background: p.fondo, color: p.texto, textAlign: 'center' },
         h('div', { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', fontSize: escala(p.titulo, [[24, 92], [44, 76], [70, 62], [999, 50]]), fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),

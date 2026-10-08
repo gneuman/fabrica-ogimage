@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // La API de imágenes en Node, para correrla fuera de Cloudflare: un VPS, Docker,
 // Render, Railway o Fly. Mismo motor y mismas URLs que el Worker:
 //

@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "bin": {
-    "fabrica-ogimage": "./bin/fabrica-ogimage.mjs"
+    "fabrica-ogimage": "./bin/fabrica-ogimage.mjs",
+    "fabrica-ogimage-servidor": "./servidor/node.js"
   },
   "scripts": {
     "dev": "astro dev",

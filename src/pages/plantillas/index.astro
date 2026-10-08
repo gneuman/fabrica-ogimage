@@ -8,7 +8,7 @@ import { SLUGS } from '@/lib/sitio'
     <h1 class="font-serif text-4xl text-ink-900">Plantillas</h1>
     <p class="mt-4 max-w-2xl text-lg text-gray-700">Elige una, cambia el texto en el editor y copia la dirección. Todas salen a 1200×630 en PNG.</p>
   </section>
-  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
     {SLUGS.map((s) => <TarjetaPlantilla slug={s} />)}
   </section>
 </Base>
