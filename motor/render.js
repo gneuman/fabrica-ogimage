@@ -4,50 +4,10 @@
 // forma de leer recursos.
 import satori, { init as iniciarYoga } from 'satori/standalone'
 import { Resvg, initWasm } from '@resvg/resvg-wasm'
-import { ANCHO, ALTO, PLANTILLAS } from './plantillas.js'
+import { FORMATOS, PLANTILLAS } from './plantillas.js'
+import { normalizar } from './normalizar.js'
 
-const MARCA = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' }
-const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 50, derecha: 50, fecha: 14, lugar: 80, puntos: 300 }
-
-const hex = (v, def) => {
-  const s = String(v ?? '').trim().replace(/^#/, '')
-  return /^([0-9a-f]{3}|[0-9a-f]{6})$/i.test(s) ? `#${s}` : def
-}
-const luz = (c) => {
-  const s = c.slice(1).length === 3 ? c.slice(1).replace(/./g, '$&$&') : c.slice(1)
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(s.slice(i, i + 2), 16) / 255)
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-const cortar = (s, max) => (s.length > max ? s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…' : s)
-
-/** Los parámetros de la URL, recortados y con los colores de la marca por defecto. */
-export function normalizar(slug, entrada = {}) {
-  const pl = PLANTILLAS[slug]
-  const leer = (k) => String(entrada[k] ?? '').trim()
-  const p = {}
-  for (const k of pl.campos) {
-    if (k in MARCA) continue
-    const v = leer(k)
-    // URL completa, o ruta del propio sitio ("/muestras/captura.png").
-    if (k === 'foto' || k === 'imagen') p[k] = /^(https?:\/\/|\/[^/])/.test(v) ? v : ''
-    else p[k] = cortar(v, LARGO[k] ?? 120)
-  }
-  p.fondo = hex(entrada.fondo, MARCA.fondo)
-  p.texto = hex(entrada.texto, luz(p.fondo) > 0.6 ? '#0f1733' : MARCA.texto)
-  p.acento = hex(entrada.acento, MARCA.acento)
-  p.suave = luz(p.fondo) > 0.6 ? '#4b5563' : '#c5d5f8'
-  p.sobreAcento = luz(p.acento) > 0.6 ? '#0f1733' : '#ffffff'
-  if (!p.titulo && pl.campos.includes('titulo')) p.titulo = pl.ejemplo.titulo
-  if (p.pais !== undefined) {
-    p.pais = /^[a-z]{2}$/i.test(p.pais) ? p.pais.toUpperCase() : ''
-    // "MX" → 🇲🇽 (dos letras indicadoras regionales) y "México".
-    p.bandera = p.pais ? String.fromCodePoint(...[...p.pais].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)) : ''
-    p.nombrePais = p.pais ? (paises.of(p.pais) ?? p.pais) : ''
-  }
-  return p
-}
-
-const paises = new Intl.DisplayNames(['es-MX'], { type: 'region' })
+export { normalizar }
 
 /** Emoji → nombre de archivo de Twemoji ("🚀" → "1f680"). */
 export function codigoEmoji(segmento) {
@@ -91,8 +51,8 @@ export async function generarSvg(slug, entrada, recursos) {
   }
 
   return satori(pl.dibujar(p), {
-    width: ANCHO,
-    height: ALTO,
+    width: p.W,
+    height: p.H,
     fonts: recursos.fuentes,
     loadAdditionalAsset: async (tipo, segmento) => {
       if (tipo !== 'emoji') return []
@@ -112,6 +72,7 @@ export const iniciar = (resvgWasm, yogaWasm) => (listo ??= Promise.all([initWasm
 
 export async function generarPng(slug, entrada, recursos, { escala = 1 } = {}) {
   const svg = await generarSvg(slug, entrada, recursos)
-  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: ANCHO * escala }, font: { loadSystemFonts: false } })
+  const ancho = (FORMATOS[String(entrada?.formato ?? '')] ?? FORMATOS.og).W
+  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: ancho * escala }, font: { loadSystemFonts: false } })
   return resvg.render().asPng()
 }

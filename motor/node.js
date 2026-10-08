@@ -17,6 +17,8 @@ const DIRS = {
 export const fuentes = [
   { name: 'Inter', data: fs.readFileSync(path.join(aqui, 'fuentes/inter-700.woff')), weight: 700 },
   { name: 'Inter', data: fs.readFileSync(path.join(aqui, 'fuentes/inter-500.woff')), weight: 500 },
+  { name: 'Lilita', data: fs.readFileSync(path.join(aqui, 'fuentes/lilita-400.woff')), weight: 400 },
+  { name: 'Mono', data: fs.readFileSync(path.join(aqui, 'fuentes/mono-500.woff')), weight: 500 },
 ]
 
 const TIPOS = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml' }
