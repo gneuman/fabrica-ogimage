@@ -1,0 +1,19 @@
+{
+  "slug": "beseda-chat",
+  "nombre": "Convy",
+  "dominio": "beseda.chat",
+  "url": "https://beseda.chat/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "communication"
+  ],
+  "descripcion": "Convy is a more structured, asynchronous and less distracting messenger for remote team communication.",
+  "color": "#081808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,17 @@
+{
+  "slug": "bank-green",
+  "nombre": "Bank Green",
+  "dominio": "bank.green",
+  "url": "https://bank.green",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "finance",
+    "sustainability"
+  ],
+  "descripcion": "Bank Green is a website that helps people find ethical and sustainable banks in their area.",
+  "color": "#e8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-15"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "vercel-com",
+  "nombre": "Vercel",
+  "dominio": "vercel.com",
+  "url": "https://vercel.com/analytics",
+  "categorias": [
+    "marketing",
+    "saas"
+  ],
+  "etiquetas": [
+    "analytics",
+    "saas",
+    "performance"
+  ],
+  "descripcion": "Vercel is a analytics and performance monitoring platform that provides real-time traffic insights and tools to optimize website performance.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

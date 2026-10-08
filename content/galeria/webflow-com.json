@@ -1,0 +1,20 @@
+{
+  "slug": "webflow-com",
+  "nombre": "Webflow",
+  "dominio": "webflow.com",
+  "url": "https://webflow.com/tv",
+  "categorias": [
+    "desarrollo",
+    "diseno",
+    "saas"
+  ],
+  "etiquetas": [
+    "website-builder",
+    "web-design",
+    "cms"
+  ],
+  "descripcion": "Webflow is a visual website builder that allows you to create custom, responsive websites with the power of code. It offers a flexible CMS, top-tier hosting, and a visual interface to design and build your site.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

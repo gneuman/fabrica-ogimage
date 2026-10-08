@@ -1,0 +1,19 @@
+{
+  "slug": "spline-design",
+  "nombre": "Spline",
+  "dominio": "spline.design",
+  "url": "https://spline.design/",
+  "categorias": [
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "3d-design",
+    "collaboration",
+    "design"
+  ],
+  "descripcion": "Spline is a free 3D design software with real-time collaboration to create web interactive experiences in the browser.",
+  "color": "#181818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

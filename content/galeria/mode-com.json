@@ -1,0 +1,19 @@
+{
+  "slug": "mode-com",
+  "nombre": "Mode",
+  "dominio": "mode.com",
+  "url": "https://mode.com/",
+  "categorias": [
+    "saas",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "data-analytics",
+    "business-intelligence"
+  ],
+  "descripcion": "Mode is a collaborative data platform that combines SQL, R, Python, and visual analytics in one place to help users connect, analyze, and share data faster.",
+  "color": "#083828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

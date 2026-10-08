@@ -1,0 +1,20 @@
+{
+  "slug": "okikio-dev",
+  "nombre": "Okiki Ojo",
+  "dominio": "okikio.dev",
+  "url": "https://okikio.dev/",
+  "categorias": [
+    "agencias",
+    "desarrollo",
+    "diseno"
+  ],
+  "etiquetas": [
+    "portfolio",
+    "web-development",
+    "web-design"
+  ],
+  "descripcion": "Okiki Ojo is a web developer and designer based in Ontario, Canada, with an eye for great design (UI) and even better user experience (UX).",
+  "color": "#f8f808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "tines-com",
+  "nombre": "Tines",
+  "dominio": "tines.com",
+  "url": "https://www.tines.com/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "ia"
+  ],
+  "etiquetas": [
+    "saas",
+    "workflow",
+    "automation"
+  ],
+  "descripcion": "Tines is a smart, secure workflow builder for teams to break down barriers across systems with less duplicate efforts, unnecessary alerts and information silos.",
+  "color": "#8878e8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

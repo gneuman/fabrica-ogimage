@@ -1,0 +1,20 @@
+{
+  "slug": "screamingfrog-co-uk",
+  "nombre": "Screaming Frog",
+  "dominio": "screamingfrog.co.uk",
+  "url": "https://www.screamingfrog.co.uk/seo-spider/",
+  "categorias": [
+    "saas",
+    "marketing",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "software",
+    "seo",
+    "web-development"
+  ],
+  "descripcion": "Screaming Frog is a website crawler and technical SEO auditing software for Windows, macOS and Ubuntu.",
+  "color": "#383838",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-10"
+}

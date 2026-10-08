@@ -1,0 +1,25 @@
+---
+// La rejilla de la galería con sus filtros por categoría y la paginación.
+import TarjetaSitio from '@/components/TarjetaSitio.astro'
+import { CATEGORIAS_CON_OTROS, GALERIA, type Sitio } from '@/lib/sitio'
+interface Props { sitios: Sitio[]; actual?: string; pagina?: number; paginas?: number }
+const { sitios, actual, pagina = 1, paginas = 1 } = Astro.props
+const cuenta = (c: string) => GALERIA.filter((s) => s.categorias.includes(c)).length
+const href = (n: number) => (n === 1 ? '/galeria/' : `/galeria/pagina/${n}/`)
+---
+<nav class="mx-auto flex max-w-6xl flex-wrap gap-2 px-4 sm:px-6" aria-label="Categorías">
+  <a href="/galeria/" class:list={['rounded-full border px-3 py-1 text-sm', !actual ? 'border-ink-900 bg-ink-900 text-white' : 'border-gray-300 text-gray-700 hover:border-ink-900']}>Todas ({GALERIA.length})</a>
+  {Object.entries(CATEGORIAS_CON_OTROS).filter(([c]) => cuenta(c) > 0).map(([c, { nombre }]) => (
+    <a href={`/galeria/categoria/${c}/`} class:list={['rounded-full border px-3 py-1 text-sm', actual === c ? 'border-ink-900 bg-ink-900 text-white' : 'border-gray-300 text-gray-700 hover:border-ink-900']}>{nombre} ({cuenta(c)})</a>
+  ))}
+</nav>
+<div class="mx-auto mt-10 grid max-w-6xl grid-cols-2 gap-6 px-4 sm:px-6 lg:grid-cols-3">
+  {sitios.map((s, i) => <TarjetaSitio s={s} prioridad={i < 3} />)}
+</div>
+{paginas > 1 && (
+  <nav class="mx-auto mt-12 flex max-w-6xl flex-wrap gap-2 px-4 sm:px-6" aria-label="Páginas">
+    {Array.from({ length: paginas }, (_, i) => i + 1).map((n) => (
+      <a href={href(n)} aria-current={n === pagina ? 'page' : undefined} class:list={['rounded-lg border px-3 py-1 text-sm', n === pagina ? 'border-ink-900 bg-ink-900 text-white' : 'border-gray-300 hover:border-ink-900']}>{n}</a>
+    ))}
+  </nav>
+)}

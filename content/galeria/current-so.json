@@ -1,0 +1,19 @@
+{
+  "slug": "current-so",
+  "nombre": "Current",
+  "dominio": "current.so",
+  "url": "https://current.so/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "collaboration"
+  ],
+  "descripcion": "Current is a saas platform to increase team speed, collaboration and alignment by finding and sharing work in progress across a company.",
+  "color": "#e8f878",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

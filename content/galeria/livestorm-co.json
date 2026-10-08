@@ -1,0 +1,20 @@
+{
+  "slug": "livestorm-co",
+  "nombre": "Livestorm",
+  "dominio": "livestorm.co",
+  "url": "https://livestorm.co/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "medios"
+  ],
+  "etiquetas": [
+    "saas",
+    "video-conferencing",
+    "webinars"
+  ],
+  "descripcion": "Livestorm is a video conferencing and webinar hosting platform to create and manage virtual meetings, video conferences, webinars, virtual events, and screen sharing.",
+  "color": "#182828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

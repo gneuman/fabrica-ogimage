@@ -1,0 +1,18 @@
+{
+  "slug": "thalby-com",
+  "nombre": "Thalby",
+  "dominio": "thalby.com",
+  "url": "https://thalby.com/",
+  "categorias": [
+    "medios"
+  ],
+  "etiquetas": [
+    "travel",
+    "guides",
+    "education"
+  ],
+  "descripcion": "Thalby is a travel guide website that provides concise information about countries to help people understand and connect with the places they visit.",
+  "color": "#f8e8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

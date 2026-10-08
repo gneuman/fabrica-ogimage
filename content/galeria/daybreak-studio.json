@@ -1,0 +1,19 @@
+{
+  "slug": "daybreak-studio",
+  "nombre": "Daybreak Studio",
+  "dominio": "daybreak.studio",
+  "url": "https://www.daybreak.studio/",
+  "categorias": [
+    "agencias",
+    "saas"
+  ],
+  "etiquetas": [
+    "agency",
+    "portfolio",
+    "saas"
+  ],
+  "descripcion": "Daybreak Studio is a creative studio that creates opinionated software and expressive brands.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

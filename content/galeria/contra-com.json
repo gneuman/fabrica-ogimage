@@ -1,0 +1,20 @@
+{
+  "slug": "contra-com",
+  "nombre": "Contra",
+  "dominio": "contra.com",
+  "url": "https://contra.com/",
+  "categorias": [
+    "tiendas",
+    "agencias",
+    "productividad"
+  ],
+  "etiquetas": [
+    "marketplace",
+    "freelance",
+    "jobs"
+  ],
+  "descripcion": "Contra is a commission-free freelance marketplace shaping the future of work. You bring the skills, they provide the tools and opportunities.",
+  "color": "#181818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

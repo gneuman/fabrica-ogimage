@@ -1,0 +1,19 @@
+{
+  "slug": "deck-gallery",
+  "nombre": "Deck Gallery",
+  "dominio": "deck.gallery",
+  "url": "https://www.deck.gallery/",
+  "categorias": [
+    "productividad",
+    "diseno"
+  ],
+  "etiquetas": [
+    "presentations",
+    "design",
+    "gallery"
+  ],
+  "descripcion": "Deck Gallery is a curated collection of beautifully designed presentation decks, slides, keynotes and guidelines chosen for their exceptional design quality.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-02-25"
+}

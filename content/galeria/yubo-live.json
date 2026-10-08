@@ -1,0 +1,18 @@
+{
+  "slug": "yubo-live",
+  "nombre": "Yubo",
+  "dominio": "yubo.live",
+  "url": "https://yubo.live/",
+  "categorias": [
+    "marketing",
+    "medios"
+  ],
+  "etiquetas": [
+    "social",
+    "entertainment"
+  ],
+  "descripcion": "Yubo is a social discovery app for chatting, playing games and live streaming. It brings people together to connect in real time.",
+  "color": "#f8e808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

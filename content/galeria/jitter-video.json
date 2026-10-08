@@ -1,0 +1,19 @@
+{
+  "slug": "jitter-video",
+  "nombre": "Jitter",
+  "dominio": "jitter.video",
+  "url": "https://jitter.video/",
+  "categorias": [
+    "saas",
+    "diseno"
+  ],
+  "etiquetas": [
+    "saas",
+    "design",
+    "animation"
+  ],
+  "descripcion": "Jitter is a software as a service tool for creating professional animated content such as user interfaces, videos, social media posts, websites, apps, logos and more.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

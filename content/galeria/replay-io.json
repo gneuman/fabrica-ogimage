@@ -1,0 +1,19 @@
+{
+  "slug": "replay-io",
+  "nombre": "Replay",
+  "dominio": "replay.io",
+  "url": "https://www.replay.io/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "software",
+    "developer-tools",
+    "debugging"
+  ],
+  "descripcion": "Replay is a time-travel debugger that records and replays applications with DevTools.",
+  "color": "#181828",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

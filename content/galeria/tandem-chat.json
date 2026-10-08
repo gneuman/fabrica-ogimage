@@ -1,0 +1,18 @@
+{
+  "slug": "tandem-chat",
+  "nombre": "Tandem",
+  "dominio": "tandem.chat",
+  "url": "https://tandem.chat/",
+  "categorias": [
+    "productividad"
+  ],
+  "etiquetas": [
+    "remote-work",
+    "productivity",
+    "collaboration"
+  ],
+  "descripcion": "Tandem is a virtual office for remote teams to re-discover the flow of working together in-person. It allows teams to easily see who's available, in a meeting or busy. Users can start conversations as easily as tapping someone's shoulder to unlock spontaneous collaboration.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

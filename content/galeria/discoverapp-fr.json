@@ -1,0 +1,18 @@
+{
+  "slug": "discoverapp-fr",
+  "nombre": "Discover",
+  "dominio": "discoverapp.fr",
+  "url": "https://discoverapp.fr/",
+  "categorias": [
+    "marketing"
+  ],
+  "etiquetas": [
+    "social",
+    "travel",
+    "local"
+  ],
+  "descripcion": "Discover is a social media app for sharing and recommending points of interest around you.",
+  "color": "#d8e8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

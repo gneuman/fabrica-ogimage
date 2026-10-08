@@ -1,0 +1,18 @@
+{
+  "slug": "drinkonda-com",
+  "nombre": "Onda",
+  "dominio": "drinkonda.com",
+  "url": "https://drinkonda.com/",
+  "categorias": [
+    "tiendas"
+  ],
+  "etiquetas": [
+    "alcohol",
+    "beverage",
+    "seltzer"
+  ],
+  "descripcion": "Onda is a producer of premium tequila-based seltzers made with real fruit juice. The seltzers are light, refreshing, and gluten-free with 100 calories and 4.5% alcohol per can.",
+  "color": "#087888",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

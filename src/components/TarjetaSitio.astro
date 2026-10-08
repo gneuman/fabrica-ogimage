@@ -1,0 +1,10 @@
+---
+import type { Sitio } from '@/lib/sitio'
+interface Props { s: Sitio; prioridad?: boolean }
+const { s, prioridad = false } = Astro.props
+---
+<a href={`/galeria/${s.slug}/`} class="group block">
+  <img src={`/galeria/img/${s.slug}-600.jpg`} alt={`Imagen OG de ${s.nombre}`} width="600" height="315" loading={prioridad ? 'eager' : 'lazy'} decoding="async" class="aspect-[1200/630] w-full rounded-lg border border-gray-200 bg-white object-cover transition group-hover:shadow-lg" />
+  <p class="mt-2 text-sm font-medium text-ink-900">{s.nombre}</p>
+  <p class="text-xs text-gray-500">{s.dominio}</p>
+</a>

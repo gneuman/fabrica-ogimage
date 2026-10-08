@@ -1,0 +1,19 @@
+{
+  "slug": "detail-co",
+  "nombre": "Detail",
+  "dominio": "detail.co",
+  "url": "https://detail.co/",
+  "categorias": [
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "photography",
+    "video",
+    "productivity"
+  ],
+  "descripcion": "Detail is a camera and video editing app for storytellers to record and edit faster on iOS and macOS.",
+  "color": "#180848",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

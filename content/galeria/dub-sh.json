@@ -1,0 +1,20 @@
+{
+  "slug": "dub-sh",
+  "nombre": "Dub",
+  "dominio": "dub.sh",
+  "url": "https://dub.sh/",
+  "categorias": [
+    "saas",
+    "marketing",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "marketing",
+    "productivity"
+  ],
+  "descripcion": "Dub is a open-source link management tool for modern marketing teams to create, share, and track short links.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

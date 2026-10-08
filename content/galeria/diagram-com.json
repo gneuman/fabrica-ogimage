@@ -1,0 +1,20 @@
+{
+  "slug": "diagram-com",
+  "nombre": "Diagram",
+  "dominio": "diagram.com",
+  "url": "https://diagram.com/",
+  "categorias": [
+    "saas",
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "design",
+    "productivity"
+  ],
+  "descripcion": "Diagram is a design tool provider offering AI-powered solutions to unleash creativity.",
+  "color": "#181818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

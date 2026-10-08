@@ -1,0 +1,17 @@
+{
+  "slug": "igloo-shop",
+  "nombre": "Igloo",
+  "dominio": "igloo.shop",
+  "url": "https://igloo.shop/",
+  "categorias": [
+    "tiendas"
+  ],
+  "etiquetas": [
+    "ecommerce",
+    "fashion"
+  ],
+  "descripcion": "Igloo is a clothing and accessories ecommerce store selling their Spring/Summer 2023 collection.",
+  "color": "#c8e8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "dyte-io",
+  "nombre": "Dyte",
+  "dominio": "dyte.io",
+  "url": "https://dyte.io/",
+  "categorias": [
+    "saas",
+    "medios",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "live-streaming",
+    "video-conferencing"
+  ],
+  "descripcion": "Dyte is a saas platform that provides everything you need to create immersive live experiences in a single scalable SDK.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

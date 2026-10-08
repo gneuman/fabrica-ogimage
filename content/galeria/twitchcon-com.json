@@ -1,0 +1,18 @@
+{
+  "slug": "twitchcon-com",
+  "nombre": "TwitchCon",
+  "dominio": "twitchcon.com",
+  "url": "https://twitchcon.com/en/paris-2023/",
+  "categorias": [
+    "medios"
+  ],
+  "etiquetas": [
+    "entertainment",
+    "community",
+    "gaming"
+  ],
+  "descripcion": "TwitchCon is an annual convention for the live streaming platform Twitch, where creators and fans get together in person for panels, meetups, concerts and more.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "anytype-io",
+  "nombre": "Anytype",
+  "dominio": "anytype.io",
+  "url": "https://anytype.io/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "collaboration"
+  ],
+  "descripcion": "Anytype is a platform for those who celebrate trust & autonomy.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

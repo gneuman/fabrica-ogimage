@@ -1,0 +1,19 @@
+{
+  "slug": "clearbit-com",
+  "nombre": "Clearbit",
+  "dominio": "clearbit.com",
+  "url": "https://clearbit.com/",
+  "categorias": [
+    "saas",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "sales",
+    "marketing"
+  ],
+  "descripcion": "Clearbit is a saas platform that provides sales intelligence and prospecting solutions for HubSpot users. It helps identify top target accounts, understand buyer readiness, and instantly find contact information.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

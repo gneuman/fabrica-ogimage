@@ -1,0 +1,20 @@
+{
+  "slug": "liveblocks-io",
+  "nombre": "Liveblocks",
+  "dominio": "liveblocks.io",
+  "url": "https://liveblocks.io/",
+  "categorias": [
+    "saas",
+    "desarrollo",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "developer-tools",
+    "collaboration"
+  ],
+  "descripcion": "Liveblocks is a real-time collaboration toolkit that provides developers with performant collaboration features to embed into their products in days instead of months.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

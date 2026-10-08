@@ -1,0 +1,20 @@
+{
+  "slug": "deepbrain-io",
+  "nombre": "Deepbrain",
+  "dominio": "deepbrain.io",
+  "url": "https://www.deepbrain.io/",
+  "categorias": [
+    "ia",
+    "diseno",
+    "saas"
+  ],
+  "etiquetas": [
+    "ai",
+    "video-production",
+    "saas"
+  ],
+  "descripcion": "Deepbrain is an AI video generator that creates videos quickly using simple text input. It has amazing multi-language support.",
+  "color": "#0868a8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-13"
+}

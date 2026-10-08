@@ -1,0 +1,13 @@
+---
+import Base from '@/layouts/Base.astro'
+import Rejilla from '@/components/Rejilla.astro'
+import { GALERIA } from '@/lib/sitio'
+import { PAGINAS, tramo } from '@/lib/paginas'
+---
+<Base title="Galería de imágenes OG de empresas reales | Fábrica OG" description={`${GALERIA.length} imágenes OG de empresas reales, por categoría: software, diseño, tiendas, finanzas, IA y más. Para sacar ideas antes de hacer la tuya.`} path="/galeria/">
+  <section class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
+    <h1 class="font-serif text-4xl text-ink-900">Galería</h1>
+    <p class="mt-4 max-w-2xl text-lg text-gray-700">La imagen que usan {GALERIA.length} empresas cuando alguien comparte su sitio. Cada una abre su ficha con el enlace a la empresa.</p>
+  </section>
+  <Rejilla sitios={tramo(1)} pagina={1} paginas={PAGINAS} />
+</Base>

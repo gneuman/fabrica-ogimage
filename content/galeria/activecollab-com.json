@@ -1,0 +1,19 @@
+{
+  "slug": "activecollab-com",
+  "nombre": "ActiveCollab",
+  "dominio": "activecollab.com",
+  "url": "https://activecollab.com/",
+  "categorias": [
+    "productividad",
+    "saas"
+  ],
+  "etiquetas": [
+    "project-management",
+    "collaboration",
+    "saas"
+  ],
+  "descripcion": "ActiveCollab is a collaborative project management software that gives you complete control over your work including tasks, communication, team members and files.",
+  "color": "#c8d8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

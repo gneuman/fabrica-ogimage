@@ -1,0 +1,20 @@
+{
+  "slug": "wistia-com",
+  "nombre": "Wistia",
+  "dominio": "wistia.com",
+  "url": "https://wistia.com/better-together",
+  "categorias": [
+    "saas",
+    "diseno",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "video",
+    "analytics"
+  ],
+  "descripcion": "Wistia is a video hosting and analytics service for businesses.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

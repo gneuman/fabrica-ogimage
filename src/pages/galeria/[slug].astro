@@ -1,0 +1,31 @@
+---
+import Base from '@/layouts/Base.astro'
+import TarjetaSitio from '@/components/TarjetaSitio.astro'
+import { CATEGORIAS_CON_OTROS, GALERIA } from '@/lib/sitio'
+export function getStaticPaths() {
+  return GALERIA.map((s) => ({ params: { slug: s.slug }, props: { s } }))
+}
+const { s } = Astro.props
+const parecidos = GALERIA.filter((o) => o.slug !== s.slug && o.categorias.some((c) => s.categorias.includes(c))).slice(0, 6)
+const og = `/galeria/img/${s.slug}.jpg`
+---
+<Base title={`Imagen OG de ${s.nombre} (${s.dominio}) | Fábrica OG`} description={`Así se ve el sitio de ${s.nombre} cuando alguien lo comparte en redes. ${s.descripcion}`.slice(0, 300)} path={`/galeria/${s.slug}/`} og={og}>
+  <article class="mx-auto max-w-4xl px-4 pt-16 sm:px-6">
+    <a href="/galeria/" class="text-sm text-gray-600 hover:text-ink-900">Galería</a>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900">{s.nombre}</h1>
+    <p class="mt-2 text-gray-600"><a href={s.url} rel="noopener" class="underline underline-offset-4">{s.dominio}</a></p>
+    <img src={og} alt={`Imagen OG de ${s.nombre}`} width="1200" height="630" class="mt-8 w-full rounded-xl border border-gray-200 bg-white shadow-lg" fetchpriority="high" />
+    <dl class="mt-8 grid gap-4 text-sm sm:grid-cols-3">
+      <div><dt class="text-gray-500">Categorías</dt><dd class="mt-1 flex flex-wrap gap-2">{s.categorias.map((c) => <a href={`/galeria/categoria/${c}/`} class="rounded-full border border-gray-300 px-2 py-0.5 hover:border-ink-900">{CATEGORIAS_CON_OTROS[c]?.nombre ?? c}</a>)}</dd></div>
+      <div><dt class="text-gray-500">Color dominante</dt><dd class="mt-1 flex items-center gap-2"><span class="inline-block h-5 w-5 rounded border border-gray-300" style={`background:${s.color}`}></span><code>{s.color}</code></dd></div>
+      <div><dt class="text-gray-500">Haz una parecida</dt><dd class="mt-1"><a href="/plantillas/" class="font-semibold text-accent-600 underline-offset-4 hover:underline">Ver plantillas</a></dd></div>
+    </dl>
+    {s.descripcion && <p class="mt-8 leading-relaxed text-gray-700"><span class="text-gray-500">Cómo se describe la empresa:</span> {s.descripcion}</p>}
+  </article>
+  {parecidos.length > 0 && (
+    <section class="mx-auto mt-16 max-w-6xl px-4 sm:px-6">
+      <h2 class="font-serif text-2xl text-ink-900">Parecidas</h2>
+      <div class="mt-6 grid grid-cols-2 gap-6 lg:grid-cols-3">{parecidos.map((o) => <TarjetaSitio s={o} />)}</div>
+    </section>
+  )}
+</Base>

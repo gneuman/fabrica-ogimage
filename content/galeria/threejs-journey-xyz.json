@@ -1,0 +1,19 @@
+{
+  "slug": "threejs-journey-xyz",
+  "nombre": "Three.js Journey",
+  "dominio": "threejs-journey.xyz",
+  "url": "https://threejs-journey.xyz/",
+  "categorias": [
+    "medios",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "education",
+    "web-development",
+    "programming"
+  ],
+  "descripcion": "Three.js Journey is an educational platform that teaches webgl development with the three.js library, suitable for beginners and advanced developers.",
+  "color": "#d8d8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "ready-so",
+  "nombre": "Ready",
+  "dominio": "ready.so",
+  "url": "https://ready.so/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "collaboration"
+  ],
+  "descripcion": "Ready is a calendar and workspace designed for teams to instantly improve meetings.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

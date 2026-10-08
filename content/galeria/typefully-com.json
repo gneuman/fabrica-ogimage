@@ -1,0 +1,17 @@
+{
+  "slug": "typefully-com",
+  "nombre": "Typefully",
+  "dominio": "typefully.com",
+  "url": "https://typefully.com/",
+  "categorias": [
+    "marketing"
+  ],
+  "etiquetas": [
+    "social",
+    "analytics"
+  ],
+  "descripcion": "Typefully is a social media analytics and management platform for Twitter.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "store-solana-com",
+  "nombre": "Solana Merch",
+  "dominio": "store.solana.com",
+  "url": "https://store.solana.com/",
+  "categorias": [
+    "tiendas",
+    "finanzas"
+  ],
+  "etiquetas": [
+    "ecommerce",
+    "crypto",
+    "apparel"
+  ],
+  "descripcion": "Solana Merch is an online store selling merchandise related to the Solana blockchain and ecosystem.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

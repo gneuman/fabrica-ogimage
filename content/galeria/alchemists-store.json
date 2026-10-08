@@ -1,0 +1,18 @@
+{
+  "slug": "alchemists-store",
+  "nombre": "The Alchemists",
+  "dominio": "alchemists.store",
+  "url": "https://alchemists.store/",
+  "categorias": [
+    "tiendas"
+  ],
+  "etiquetas": [
+    "food-and-drink",
+    "ecommerce",
+    "coffee"
+  ],
+  "descripcion": "The Alchemists is a specialty coffee roaster committed to roasting exceptional coffees from farmers they trust.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

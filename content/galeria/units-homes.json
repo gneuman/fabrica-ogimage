@@ -1,0 +1,18 @@
+{
+  "slug": "units-homes",
+  "nombre": "Units Living",
+  "dominio": "units.homes",
+  "url": "https://units.homes/",
+  "categorias": [
+    "productividad"
+  ],
+  "etiquetas": [
+    "real-estate",
+    "rentals",
+    "remote-work"
+  ],
+  "descripcion": "Units Living is a service that provides fully-furnished apartment rentals designed for remote working professionals seeking a comfortable living environment.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

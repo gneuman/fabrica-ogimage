@@ -1,0 +1,18 @@
+{
+  "slug": "discord-com",
+  "nombre": "Discord",
+  "dominio": "discord.com",
+  "url": "https://discord.com/",
+  "categorias": [
+    "marketing",
+    "productividad"
+  ],
+  "etiquetas": [
+    "social",
+    "communication"
+  ],
+  "descripcion": "Discord is a social platform that allows users to communicate via voice, video and text.",
+  "color": "#3848e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

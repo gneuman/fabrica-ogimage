@@ -1,0 +1,19 @@
+{
+  "slug": "ahrefs-com",
+  "nombre": "Ahrefs",
+  "dominio": "ahrefs.com",
+  "url": "https://ahrefs.com",
+  "categorias": [
+    "saas",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "seo",
+    "marketing"
+  ],
+  "descripcion": "Ahrefs is a saas toolset with seo resources to grow search traffic. It provides easy to use but powerful features to help users rank higher.",
+  "color": "#0848d8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-10"
+}

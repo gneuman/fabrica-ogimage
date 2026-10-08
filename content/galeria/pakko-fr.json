@@ -1,0 +1,18 @@
+{
+  "slug": "pakko-fr",
+  "nombre": "Pakko",
+  "dominio": "pakko.fr",
+  "url": "https://pakko.fr/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "fintech",
+    "accounting",
+    "invoicing"
+  ],
+  "descripcion": "Pakko is a software that provides invoicing, quotes, contribution ceilings and more for micro-entrepreneurs to help them save time.",
+  "color": "#080828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

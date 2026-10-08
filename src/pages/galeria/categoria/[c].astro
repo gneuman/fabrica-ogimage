@@ -1,0 +1,21 @@
+---
+import Base from '@/layouts/Base.astro'
+import Rejilla from '@/components/Rejilla.astro'
+import { CATEGORIAS_CON_OTROS, GALERIA } from '@/lib/sitio'
+export function getStaticPaths() {
+  return Object.keys(CATEGORIAS_CON_OTROS)
+    .filter((c) => GALERIA.some((s) => s.categorias.includes(c)))
+    .map((c) => ({ params: { c } }))
+}
+const c = Astro.params.c!
+const { nombre } = CATEGORIAS_CON_OTROS[c]
+const sitios = GALERIA.filter((s) => s.categorias.includes(c))
+---
+<Base title={`Imágenes OG de ${nombre.toLowerCase()}: ${sitios.length} ejemplos | Fábrica OG`} description={`Cómo se ve la imagen al compartir el sitio de ${sitios.length} empresas de ${nombre.toLowerCase()}. Ejemplos reales para sacar ideas.`} path={`/galeria/categoria/${c}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
+    <a href="/galeria/" class="text-sm text-gray-600 hover:text-ink-900">Galería</a>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900">{nombre}</h1>
+    <p class="mt-4 text-lg text-gray-700">{sitios.length} ejemplos.</p>
+  </section>
+  <Rejilla sitios={sitios} actual={c} />
+</Base>

@@ -1,0 +1,17 @@
+{
+  "slug": "forum-design",
+  "nombre": "Forum",
+  "dominio": "forum.design",
+  "url": "https://forum.design/",
+  "categorias": [
+    "medios"
+  ],
+  "etiquetas": [
+    "forum",
+    "community"
+  ],
+  "descripcion": "Forum is a online platform for discussions and knowledge sharing",
+  "color": "#282828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

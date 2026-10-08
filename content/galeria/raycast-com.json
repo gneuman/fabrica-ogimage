@@ -1,0 +1,18 @@
+{
+  "slug": "raycast-com",
+  "nombre": "Raycast",
+  "dominio": "raycast.com",
+  "url": "https://www.raycast.com/",
+  "categorias": [
+    "productividad",
+    "saas"
+  ],
+  "etiquetas": [
+    "productivity",
+    "utility"
+  ],
+  "descripcion": "Raycast is a productivity app that lets you control your tools and keep focused with just a few keystrokes.",
+  "color": "#180838",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

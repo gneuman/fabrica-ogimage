@@ -1,0 +1,19 @@
+{
+  "slug": "around-co",
+  "nombre": "Around",
+  "dominio": "around.co",
+  "url": "https://www.around.co/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "video-conferencing",
+    "remote-work"
+  ],
+  "descripcion": "Around is a video calling platform designed to help hybrid and remote teams create, collaborate and celebrate together through uniquely tailored video call experiences.",
+  "color": "#282828",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

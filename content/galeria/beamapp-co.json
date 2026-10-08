@@ -1,0 +1,19 @@
+{
+  "slug": "beamapp-co",
+  "nombre": "Beam",
+  "dominio": "beamapp.co",
+  "url": "https://beamapp.co/",
+  "categorias": [
+    "productividad",
+    "medios"
+  ],
+  "etiquetas": [
+    "productivity",
+    "writing",
+    "publishing"
+  ],
+  "descripcion": "Beam is a software allowing users to browse the web, capture content, write notes and publish online.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

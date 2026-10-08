@@ -1,0 +1,19 @@
+{
+  "slug": "coreto-io",
+  "nombre": "Coreto",
+  "dominio": "coreto.io",
+  "url": "https://www.coreto.io/",
+  "categorias": [
+    "marketing",
+    "finanzas"
+  ],
+  "etiquetas": [
+    "social",
+    "finance",
+    "blockchain"
+  ],
+  "descripcion": "Coreto is a social platform built on blockchain technology that bridges the trust gap between top investors, influencers and project teams.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

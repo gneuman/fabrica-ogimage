@@ -1,0 +1,20 @@
+{
+  "slug": "indiehackers-com",
+  "nombre": "Indie Hackers",
+  "dominio": "indiehackers.com",
+  "url": "https://www.indiehackers.com/",
+  "categorias": [
+    "medios",
+    "saas",
+    "tiendas"
+  ],
+  "etiquetas": [
+    "community",
+    "saas",
+    "ecommerce"
+  ],
+  "descripcion": "Indie Hackers is a community platform where developers share strategies and revenue numbers behind their online businesses and side projects.",
+  "color": "#082838",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

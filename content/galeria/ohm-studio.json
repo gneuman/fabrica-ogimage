@@ -1,0 +1,18 @@
+{
+  "slug": "ohm-studio",
+  "nombre": "OHM Studio",
+  "dominio": "ohm.studio",
+  "url": "https://ohm.studio/",
+  "categorias": [
+    "tiendas"
+  ],
+  "etiquetas": [
+    "furniture",
+    "ecommerce",
+    "manufacturer"
+  ],
+  "descripcion": "OHM Studio is a manufacturer and retailer of collectible furniture.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

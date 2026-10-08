@@ -1,0 +1,19 @@
+{
+  "slug": "directus-io",
+  "nombre": "Directus",
+  "dominio": "directus.io",
+  "url": "https://directus.io",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "saas",
+    "api",
+    "database"
+  ],
+  "descripcion": "Directus is a composable data platform to create and deploy data-rich apps.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

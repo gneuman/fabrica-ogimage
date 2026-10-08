@@ -1,0 +1,18 @@
+{
+  "slug": "nuro-dev",
+  "nombre": "Nuro",
+  "dominio": "nuro.dev",
+  "url": "https://nuro.dev/",
+  "categorias": [
+    "agencias",
+    "medios"
+  ],
+  "etiquetas": [
+    "portfolio",
+    "blog"
+  ],
+  "descripcion": "Nuro is a personal developer portfolio and blog",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

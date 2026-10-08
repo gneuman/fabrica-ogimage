@@ -1,0 +1,18 @@
+{
+  "slug": "privacy-com",
+  "nombre": "Privacy",
+  "dominio": "privacy.com",
+  "url": "https://privacy.com/",
+  "categorias": [
+    "finanzas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "finance",
+    "security"
+  ],
+  "descripcion": "Privacy is an online service that provides virtual credit and debit cards to protect users' payment information and prevent fraud.",
+  "color": "#f8f8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

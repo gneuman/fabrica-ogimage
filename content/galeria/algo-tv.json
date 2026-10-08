@@ -1,0 +1,20 @@
+{
+  "slug": "algo-tv",
+  "nombre": "Algo Video Automation",
+  "dominio": "algo.tv",
+  "url": "https://algo.tv/",
+  "categorias": [
+    "saas",
+    "marketing",
+    "diseno"
+  ],
+  "etiquetas": [
+    "saas",
+    "data-visualization",
+    "video-production"
+  ],
+  "descripcion": "Algo Video Automation is a data-visualization studio specializing in video automation. They run a platform that turns data into videos, at scale.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

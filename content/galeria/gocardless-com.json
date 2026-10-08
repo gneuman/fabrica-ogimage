@@ -1,0 +1,20 @@
+{
+  "slug": "gocardless-com",
+  "nombre": "GoCardless",
+  "dominio": "gocardless.com",
+  "url": "https://gocardless.com/",
+  "categorias": [
+    "saas",
+    "tiendas",
+    "finanzas"
+  ],
+  "etiquetas": [
+    "saas",
+    "ecommerce",
+    "finance"
+  ],
+  "descripcion": "GoCardless is a saas platform that provides online payment processing solutions for businesses.",
+  "color": "#181818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

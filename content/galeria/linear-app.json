@@ -1,0 +1,20 @@
+{
+  "slug": "linear-app",
+  "nombre": "Linear",
+  "dominio": "linear.app",
+  "url": "https://linear.app/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "saas",
+    "project-management",
+    "software-development"
+  ],
+  "descripcion": "Linear is a project management software that streamlines issues, sprints, and product roadmaps. It's a new standard for modern software development.",
+  "color": "#080818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

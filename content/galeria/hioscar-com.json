@@ -1,0 +1,17 @@
+{
+  "slug": "hioscar-com",
+  "nombre": "Oscar Health",
+  "dominio": "hioscar.com",
+  "url": "https://www.hioscar.com/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "health",
+    "insurance"
+  ],
+  "descripcion": "Oscar Health is a health insurance provider offering plans for individuals, families and small businesses.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

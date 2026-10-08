@@ -1,0 +1,46 @@
+---
+import Base from '@/layouts/Base.astro'
+import { PLANTILLAS, CAMPOS, REPO, urlOg } from '@/lib/sitio'
+const base = new URL(Astro.site!).origin
+const ejemplo = base + urlOg('articulo', { titulo: 'Mi primer post', autor: 'Ana López', acento: '3b5bdb' })
+const filas = Object.entries(CAMPOS).map(([id, c]) => ({ id, ...c, en: Object.entries(PLANTILLAS).filter(([, p]) => p.campos.includes(id)).map(([s]) => s) }))
+---
+<Base title="Cómo usar la fábrica en tu sitio: URL, comando y Astro | Fábrica OG" description="Tres formas de usar las plantillas de imágenes OG: una URL en tu og:image, un comando que las genera en el build de cualquier sitio estático y una integración para Astro." path="/usar/">
+  <article class="prose prose-lg mx-auto max-w-3xl px-4 pt-16 sm:px-6 prose-headings:font-serif prose-headings:text-ink-900 prose-pre:bg-ink-900">
+    <h1>Úsala en tu sitio</h1>
+    <p>Hay tres formas, de menos a más trabajo. Las tres usan las mismas plantillas.</p>
+
+    <h2>¿Cómo pongo una imagen OG con solo una URL?</h2>
+    <p>Pegas la dirección de la plantilla en el <code>og:image</code> de tu página. Cada parámetro de la dirección cambia un texto o un color:</p>
+    <pre><code>{`<meta property="og:image" content="${ejemplo}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />`}</code></pre>
+    <p>Los colores van sin <code>#</code> (<code>acento=3b5bdb</code>) y los espacios como <code>%20</code>. El editor de cada <a href="/plantillas/">plantilla</a> te arma la dirección.</p>
+
+    <h3>Parámetros</h3>
+    <div class="not-prose overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead><tr class="border-b border-gray-300"><th class="py-2 pr-4">Parámetro</th><th class="py-2 pr-4">Qué cambia</th><th class="py-2">En qué plantillas</th></tr></thead>
+        <tbody>{filas.map((f) => <tr class="border-b border-gray-200 align-top"><td class="py-2 pr-4"><code>{f.id}</code></td><td class="py-2 pr-4">{f.etiqueta}{f.ayuda && <span class="block text-gray-500">{f.ayuda}</span>}</td><td class="py-2 text-gray-600">{f.en.join(', ')}</td></tr>)}</tbody>
+      </table>
+    </div>
+
+    <h2>¿Cómo genero una imagen para cada página de mi sitio?</h2>
+    <p>Con el comando, después de construir tu sitio. Lee el <code>&lt;title&gt;</code> de cada página, dibuja su imagen en <code>og/</code> y, si la página no tiene <code>og:image</code>, le agrega las etiquetas. Funciona con cualquier generador que deje HTML en una carpeta (Astro, Next en modo estático, Hugo, Eleventy).</p>
+    <pre><code>{`npm i -D github:gneuman/fabrica-ogimage
+npx fabrica-ogimage dist --url https://misitio.com --plantilla articulo --autor "Ana López" --marca "Mi Empresa"`}</code></pre>
+    <p><code>--marca</code> quita el nombre de tu empresa del título ("Precios | Mi Empresa" queda en "Precios"). Si una página ya declara un <code>og:image</code> de tu sitio dentro de <code>/og/</code>, el comando dibuja la imagen en esa ruta y no toca el HTML.</p>
+
+    <h2>¿Y si mi sitio es Astro?</h2>
+    <p>Usa la integración: corre lo mismo al terminar cada build y toma la URL de tu <code>astro.config</code>.</p>
+    <pre><code>{`import fabricaOg from 'fabrica-ogimage/astro'
+
+export default defineConfig({
+  site: 'https://misitio.com',
+  integrations: [fabricaOg({ plantilla: 'marca', marca: 'Mi Empresa', fijos: { sitio: 'misitio.com' } })],
+})`}</code></pre>
+
+    <h2>¿Puedo montar mi propia copia?</h2>
+    <p>Sí. El código está en <a href={REPO}>GitHub</a> con licencia MIT y corre en Cloudflare Workers. Dibujar imágenes usa más CPU de la que da el plan gratis (10 ms por petición), así que necesitas Workers Paid; la caché de un año hace que cada URL se dibuje una sola vez.</p>
+  </article>
+</Base>

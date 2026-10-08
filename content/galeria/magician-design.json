@@ -1,0 +1,20 @@
+{
+  "slug": "magician-design",
+  "nombre": "Magician",
+  "dominio": "magician.design",
+  "url": "https://magician.design/",
+  "categorias": [
+    "diseno",
+    "productividad",
+    "saas"
+  ],
+  "etiquetas": [
+    "design",
+    "productivity",
+    "saas"
+  ],
+  "descripcion": "Magician is a magical design tool for Figma powered by AI.",
+  "color": "#180838",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "magicbeans-app",
+  "nombre": "Magic Beans",
+  "dominio": "magicbeans.app",
+  "url": "https://magicbeans.app/",
+  "categorias": [
+    "finanzas",
+    "saas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas",
+    "startup"
+  ],
+  "descripcion": "Magic Beans is a finance saas that helps startups run their finances from Notion by creating invoices, tracking expenses and generating financial reports.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "atlar-com",
+  "nombre": "Atlar",
+  "dominio": "atlar.com",
+  "url": "https://www.atlar.com/",
+  "categorias": [
+    "finanzas",
+    "saas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas",
+    "money-management"
+  ],
+  "descripcion": "Atlar is a finance platform that lets you automate money movement, unify bank data, and sync everything with your internal systems and ERP.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "wearebloom-io",
+  "nombre": "Bloom",
+  "dominio": "wearebloom.io",
+  "url": "https://wearebloom.io/",
+  "categorias": [
+    "productividad",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "recruitment",
+    "software-engineering",
+    "product-engineering"
+  ],
+  "descripcion": "Bloom is a recruitment agency specializing in product and software engineering roles, with a personal touch and vibrant culture.",
+  "color": "#7848e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

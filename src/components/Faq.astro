@@ -1,0 +1,18 @@
+---
+// Preguntas con <details>: sin JS. Lleva su FAQPage para buscadores.
+interface Props { items: { p: string; r: string }[] }
+const { items } = Astro.props
+const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map((i) => ({ '@type': 'Question', name: i.p, acceptedAnswer: { '@type': 'Answer', text: i.r } })) }
+---
+<div class="mt-8">
+  {items.map((it) => (
+    <details class="group border-t border-gray-200">
+      <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-5">
+        <h3 class="text-base font-medium text-ink-900">{it.p}</h3>
+        <span aria-hidden="true" class="text-lg text-gray-400 transition-transform group-open:rotate-45">+</span>
+      </summary>
+      <p class="pb-6 pr-10 leading-relaxed text-gray-600">{it.r}</p>
+    </details>
+  ))}
+</div>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

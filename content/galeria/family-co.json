@@ -1,0 +1,18 @@
+{
+  "slug": "family-co",
+  "nombre": "Family",
+  "dominio": "family.co",
+  "url": "https://family.co/",
+  "categorias": [
+    "finanzas",
+    "saas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas"
+  ],
+  "descripcion": "Family is a crypto wallet for managing digital assets.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "image-social",
+  "nombre": "Image.Social",
+  "dominio": "image.social",
+  "url": "https://image.social/",
+  "categorias": [
+    "marketing",
+    "saas"
+  ],
+  "etiquetas": [
+    "social",
+    "saas",
+    "marketing"
+  ],
+  "descripcion": "ImageSocial is a service that generates open-graph social images for websites using screenshots to increase click rates.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-05-02"
+}

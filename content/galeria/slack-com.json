@@ -1,0 +1,19 @@
+{
+  "slug": "slack-com",
+  "nombre": "Slack",
+  "dominio": "slack.com",
+  "url": "https://slack.com/i",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "communication"
+  ],
+  "descripcion": "Slack is a saas platform where work flows. It's where the people you need, the information you share, and the tools you use come together to get things done.",
+  "color": "#c8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

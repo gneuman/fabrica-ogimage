@@ -1,0 +1,20 @@
+{
+  "slug": "xnapper-com",
+  "nombre": "Xnapper",
+  "dominio": "xnapper.com",
+  "url": "https://xnapper.com/",
+  "categorias": [
+    "productividad",
+    "diseno",
+    "saas"
+  ],
+  "etiquetas": [
+    "productivity",
+    "design",
+    "software"
+  ],
+  "descripcion": "Xnapper is a software that takes beautiful screenshots instantly. It handles backgrounds, text recognition, annotations and more so you can focus on your content.",
+  "color": "#181828",
+  "fuente": "ogimage.org",
+  "agregado": "2024-04-28"
+}

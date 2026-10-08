@@ -1,0 +1,17 @@
+{
+  "slug": "zen-ly",
+  "nombre": "Zenly",
+  "dominio": "zen.ly",
+  "url": "https://zen.ly/",
+  "categorias": [
+    "marketing"
+  ],
+  "etiquetas": [
+    "social",
+    "location"
+  ],
+  "descripcion": "Zenly is a social media app for connecting with friends and family by sharing locations.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

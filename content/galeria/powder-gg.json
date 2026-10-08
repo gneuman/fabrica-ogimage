@@ -1,0 +1,20 @@
+{
+  "slug": "powder-gg",
+  "nombre": "Powder",
+  "dominio": "powder.gg",
+  "url": "https://powder.gg/",
+  "categorias": [
+    "saas",
+    "marketing",
+    "medios"
+  ],
+  "etiquetas": [
+    "saas",
+    "social",
+    "gaming"
+  ],
+  "descripcion": "Powder is a ai-powered clipping software for gaming that turns streams into shareable game clips optimized for social media platforms like TikTok, Twitter, Instagram & YouTube.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

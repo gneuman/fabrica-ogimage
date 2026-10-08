@@ -1,0 +1,20 @@
+{
+  "slug": "chester-how",
+  "nombre": "Chester's Garden",
+  "dominio": "chester.how",
+  "url": "https://chester.how/",
+  "categorias": [
+    "agencias",
+    "medios",
+    "productividad"
+  ],
+  "etiquetas": [
+    "personal",
+    "blog",
+    "wiki"
+  ],
+  "descripcion": "Chester's Garden is a personal digital garden and online space that grows over time.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

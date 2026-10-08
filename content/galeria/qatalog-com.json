@@ -1,0 +1,19 @@
+{
+  "slug": "qatalog-com",
+  "nombre": "Qatalog",
+  "dominio": "qatalog.com",
+  "url": "https://qatalog.com/",
+  "categorias": [
+    "saas",
+    "ia"
+  ],
+  "etiquetas": [
+    "saas",
+    "enterprise-software",
+    "ai"
+  ],
+  "descripcion": "Qatalog is a saas platform that enables real-time AI search without data indexing for enterprises.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

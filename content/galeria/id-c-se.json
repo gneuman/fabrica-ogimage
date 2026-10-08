@@ -1,0 +1,19 @@
+{
+  "slug": "id-c-se",
+  "nombre": "ID-C",
+  "dominio": "id-c.se",
+  "url": "https://id-c.se/",
+  "categorias": [
+    "agencias",
+    "diseno"
+  ],
+  "etiquetas": [
+    "agency",
+    "design",
+    "branding"
+  ],
+  "descripcion": "ID-C is a collective of independent senior designers working together with brand and digital experiences.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

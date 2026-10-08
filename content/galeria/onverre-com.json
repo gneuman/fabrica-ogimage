@@ -1,0 +1,19 @@
+{
+  "slug": "onverre-com",
+  "nombre": "Onverre",
+  "dominio": "onverre.com",
+  "url": "https://onverre.com/",
+  "categorias": [
+    "saas",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "analytics",
+    "business-intelligence"
+  ],
+  "descripcion": "Onverre is a saas analytics service that leverages existing customer data to provide clear insights without cookies, scripts or complex BI tools.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

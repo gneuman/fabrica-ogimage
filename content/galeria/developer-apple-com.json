@@ -1,0 +1,19 @@
+{
+  "slug": "developer-apple-com",
+  "nombre": "Apple Developer",
+  "dominio": "developer.apple.com",
+  "url": "https://developer.apple.com/design/",
+  "categorias": [
+    "desarrollo",
+    "diseno"
+  ],
+  "etiquetas": [
+    "technology",
+    "development",
+    "design"
+  ],
+  "descripcion": "Apple Developer is a platform that provides documentation and resources for designing great apps for Apple products.",
+  "color": "#f8f8b8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "glideapps-com",
+  "nombre": "Glide",
+  "dominio": "glideapps.com",
+  "url": "https://www.glideapps.com/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "saas",
+    "nocode",
+    "app-builder"
+  ],
+  "descripcion": "Glide is a no-code app builder that makes it easy to create custom, AI-powered apps with no coding required.",
+  "color": "#082838",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

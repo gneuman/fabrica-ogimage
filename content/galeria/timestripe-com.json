@@ -1,0 +1,18 @@
+{
+  "slug": "timestripe-com",
+  "nombre": "Timestripe",
+  "dominio": "timestripe.com",
+  "url": "https://timestripe.com/",
+  "categorias": [
+    "productividad"
+  ],
+  "etiquetas": [
+    "productivity",
+    "goal-tracking",
+    "time-management"
+  ],
+  "descripcion": "Timestripe is a goal manager that helps users stay focused on their goals daily. It offers features like a beautiful calendar, shared to-do lists, and powerful notes to boost productivity.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

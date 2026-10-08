@@ -1,0 +1,18 @@
+{
+  "slug": "pry-co",
+  "nombre": "Pry Financials",
+  "dominio": "pry.co",
+  "url": "https://pry.co/",
+  "categorias": [
+    "finanzas",
+    "saas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas"
+  ],
+  "descripcion": "Pry Financials is a financial planning and analysis software providing tools for financial forecasting, headcount planning, and KPI dashboards.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

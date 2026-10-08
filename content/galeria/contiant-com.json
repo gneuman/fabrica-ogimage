@@ -1,0 +1,18 @@
+{
+  "slug": "contiant-com",
+  "nombre": "Contiant",
+  "dominio": "contiant.com",
+  "url": "https://www.contiant.com/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "finance",
+    "fintech",
+    "payments"
+  ],
+  "descripcion": "Contiant is a financial technology company that enables instant payments using open banking technology.",
+  "color": "#e8e8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

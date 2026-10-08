@@ -1,0 +1,19 @@
+{
+  "slug": "scrnshts-club",
+  "nombre": "Scrnshts",
+  "dominio": "scrnshts.club",
+  "url": "https://scrnshts.club/",
+  "categorias": [
+    "diseno",
+    "saas"
+  ],
+  "etiquetas": [
+    "design",
+    "screenshots",
+    "apps"
+  ],
+  "descripcion": "Scrnshts is a hand-picked collection of the finest app store design screenshots.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

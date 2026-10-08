@@ -1,0 +1,19 @@
+{
+  "slug": "easol-com",
+  "nombre": "Easol",
+  "dominio": "easol.com",
+  "url": "https://easol.com/",
+  "categorias": [
+    "saas",
+    "tiendas"
+  ],
+  "etiquetas": [
+    "saas",
+    "ecommerce",
+    "travel"
+  ],
+  "descripcion": "Easol is an all-in-one platform to run your entire experience business, on your terms.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

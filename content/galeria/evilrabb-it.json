@@ -1,0 +1,18 @@
+{
+  "slug": "evilrabb-it",
+  "nombre": "Evil Rabbit",
+  "dominio": "evilrabb.it",
+  "url": "https://evilrabb.it/",
+  "categorias": [
+    "diseno",
+    "agencias"
+  ],
+  "etiquetas": [
+    "design",
+    "portfolio"
+  ],
+  "descripcion": "Evil Rabbit is a principal brand designer at Vercel",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

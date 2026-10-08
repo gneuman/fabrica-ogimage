@@ -1,0 +1,18 @@
+{
+  "slug": "prisma-io",
+  "nombre": "Prisma",
+  "dominio": "prisma.io",
+  "url": "https://www.prisma.io/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "software",
+    "database"
+  ],
+  "descripcion": "Prisma is a next-generation ORM for Node.js & TypeScript that provides type-safety, automated migrations, and an intuitive data model.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

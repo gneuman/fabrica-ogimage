@@ -1,0 +1,11 @@
+---
+import { PLANTILLAS, type Plantilla } from '@/lib/sitio'
+interface Props { slug: Plantilla }
+const { slug } = Astro.props
+const pl = PLANTILLAS[slug]
+---
+<a href={`/plantillas/${slug}/`} class="group block">
+  <img src={`/_muestras/${slug}.png`} alt={`Plantilla ${pl.nombre}`} width="1200" height="630" loading="lazy" decoding="async" class="aspect-[1200/630] w-full rounded-lg border border-gray-200 object-cover transition group-hover:shadow-lg" />
+  <p class="mt-3 font-semibold text-ink-900">{pl.nombre}</p>
+  <p class="text-sm text-gray-600">{pl.descripcion}</p>
+</a>

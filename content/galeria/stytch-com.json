@@ -1,0 +1,19 @@
+{
+  "slug": "stytch-com",
+  "nombre": "Stytch",
+  "dominio": "stytch.com",
+  "url": "https://stytch.com/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "saas",
+    "security",
+    "developer-tools"
+  ],
+  "descripcion": "Stytch is an identity platform built for developers to help secure and scale their products. It provides APIs and SDKs for authentication, fraud protection and other identity use cases.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

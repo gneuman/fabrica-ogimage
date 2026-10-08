@@ -1,0 +1,18 @@
+{
+  "slug": "capital-xyz",
+  "nombre": "Capital",
+  "dominio": "capital.xyz",
+  "url": "https://capital.xyz/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "fintech",
+    "finance",
+    "money-management"
+  ],
+  "descripcion": "Capital is a financial technology company that provides tools to raise, hold, spend, and send funds all in one place.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

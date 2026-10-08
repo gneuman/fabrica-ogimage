@@ -1,0 +1,20 @@
+{
+  "slug": "clig-dev",
+  "nombre": "Command Line Interface Guidelines",
+  "dominio": "clig.dev",
+  "url": "https://clig.dev/",
+  "categorias": [
+    "saas",
+    "desarrollo",
+    "medios"
+  ],
+  "etiquetas": [
+    "software",
+    "programming",
+    "reference"
+  ],
+  "descripcion": "Command Line Interface Guidelines is a website providing an open-source guide to help you write better command-line programs, taking traditional UNIX principles and updating them for the modern day.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

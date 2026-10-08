@@ -1,0 +1,19 @@
+{
+  "slug": "toggl-com",
+  "nombre": "Toggl",
+  "dominio": "toggl.com",
+  "url": "https://toggl.com/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "project-management"
+  ],
+  "descripcion": "Toggl is a time tracking and project management software designed for remote teams to plan projects and track time.",
+  "color": "#180828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

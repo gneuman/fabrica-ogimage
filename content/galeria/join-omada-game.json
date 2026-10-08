@@ -1,0 +1,19 @@
+{
+  "slug": "join-omada-game",
+  "nombre": "Omada",
+  "dominio": "join.omada.game",
+  "url": "https://join.omada.game/",
+  "categorias": [
+    "medios",
+    "marketing"
+  ],
+  "etiquetas": [
+    "sports",
+    "social",
+    "entertainment"
+  ],
+  "descripcion": "Omada is a sports game to play with your friends",
+  "color": "#480878",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "peggy-com",
+  "nombre": "Peggy",
+  "dominio": "peggy.com",
+  "url": "https://peggy.com/",
+  "categorias": [
+    "tiendas",
+    "diseno"
+  ],
+  "etiquetas": [
+    "ecommerce",
+    "marketplace",
+    "art"
+  ],
+  "descripcion": "Peggy is a social marketplace that allows you to discover, buy and sell art online. It's a platform for both art enthusiasts and experts, galleries and artists.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

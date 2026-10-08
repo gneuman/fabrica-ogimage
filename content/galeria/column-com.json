@@ -1,0 +1,18 @@
+{
+  "slug": "column-com",
+  "nombre": "Column",
+  "dominio": "column.com",
+  "url": "https://column.com/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "finance",
+    "banking",
+    "fintech"
+  ],
+  "descripcion": "Column is a nationally chartered bank built to enable developers and builders to create new financial services.",
+  "color": "#e8e8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

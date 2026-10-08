@@ -1,0 +1,20 @@
+{
+  "slug": "runwayml-com",
+  "nombre": "Runway",
+  "dominio": "runwayml.com",
+  "url": "https://runwayml.com/",
+  "categorias": [
+    "ia",
+    "medios",
+    "diseno"
+  ],
+  "etiquetas": [
+    "ai",
+    "research",
+    "creativity"
+  ],
+  "descripcion": "Runway is an applied AI research company shaping the next era of art, entertainment and human creativity.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

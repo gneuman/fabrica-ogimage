@@ -1,0 +1,20 @@
+{
+  "slug": "automator-design",
+  "nombre": "Automator",
+  "dominio": "automator.design",
+  "url": "https://automator.design/",
+  "categorias": [
+    "saas",
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "design",
+    "productivity"
+  ],
+  "descripcion": "Automator is a SaaS tool that helps automate repetitive tasks in Figma.",
+  "color": "#e8e8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

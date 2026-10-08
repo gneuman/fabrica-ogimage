@@ -1,0 +1,20 @@
+{
+  "slug": "coastpay-com",
+  "nombre": "Coast",
+  "dominio": "coastpay.com",
+  "url": "https://coastpay.com/",
+  "categorias": [
+    "finanzas",
+    "saas",
+    "tiendas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas",
+    "ecommerce"
+  ],
+  "descripcion": "Coast is a visa fleet fuel and gas card plus expense management solution that helps fleets control and track employee spending on fuel and other expenses.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

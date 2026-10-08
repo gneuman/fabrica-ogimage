@@ -1,0 +1,19 @@
+{
+  "slug": "sabato-studio",
+  "nombre": "Sabato Studio",
+  "dominio": "sabato.studio",
+  "url": "https://sabato.studio/",
+  "categorias": [
+    "diseno",
+    "medios"
+  ],
+  "etiquetas": [
+    "design",
+    "research",
+    "product-design"
+  ],
+  "descripcion": "Sabato Studio is a design research and product design studio specializing in blending realities through systems and experiences.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

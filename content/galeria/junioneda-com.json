@@ -1,0 +1,20 @@
+{
+  "slug": "junioneda-com",
+  "nombre": "Jun Ioneda",
+  "dominio": "junioneda.com",
+  "url": "https://junioneda.com/",
+  "categorias": [
+    "agencias",
+    "diseno",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "portfolio",
+    "design",
+    "development"
+  ],
+  "descripcion": "Jun Ioneda is a personal portfolio website showcasing his work as a designer and developer",
+  "color": "#0888e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

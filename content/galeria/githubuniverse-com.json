@@ -1,0 +1,19 @@
+{
+  "slug": "githubuniverse-com",
+  "nombre": "GitHub Universe",
+  "dominio": "githubuniverse.com",
+  "url": "https://githubuniverse.com/",
+  "categorias": [
+    "desarrollo",
+    "medios"
+  ],
+  "etiquetas": [
+    "software-development",
+    "technology",
+    "conference"
+  ],
+  "descripcion": "GitHub Universe is a global developer conference focusing on the future of software development.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

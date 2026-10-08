@@ -1,0 +1,20 @@
+{
+  "slug": "otter-ai",
+  "nombre": "Otter.ai",
+  "dominio": "otter.ai",
+  "url": "https://otter.ai/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "ia"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "transcription"
+  ],
+  "descripcion": "Otter.ai is an AI-powered meeting assistant that provides real-time transcription, note-taking, recording, and summary generation for meetings.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

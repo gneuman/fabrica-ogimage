@@ -1,0 +1,18 @@
+{
+  "slug": "uxmaps-co",
+  "nombre": "UXMaps",
+  "dominio": "uxmaps.co",
+  "url": "https://uxmaps.co/",
+  "categorias": [
+    "diseno"
+  ],
+  "etiquetas": [
+    "ui-design",
+    "ux-design",
+    "design-inspiration"
+  ],
+  "descripcion": "UXMaps is a user interface and user experience design library with examples and user flows.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

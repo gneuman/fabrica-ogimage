@@ -1,0 +1,85 @@
+---
+// Una página por plantilla con su editor. Sin JS, el formulario abre la imagen
+// (GET a /og/<plantilla>). Con JS, la vista previa y el código se actualizan
+// mientras escribes: es el único JS del sitio y es el producto.
+import Base from '@/layouts/Base.astro'
+import Captura from '@/components/Captura.astro'
+import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
+import { PLANTILLAS, CAMPOS, SLUGS, urlOg, type Plantilla } from '@/lib/sitio'
+
+export function getStaticPaths() {
+  return SLUGS.map((slug) => ({ params: { slug } }))
+}
+const slug = Astro.params.slug as Plantilla
+const pl = PLANTILLAS[slug]
+const ejemplo: Record<string, string> = pl.ejemplo
+const COLORES = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' } as Record<string, string>
+const campos = pl.campos.map((id: string) => ({ id, ...CAMPOS[id], valor: ejemplo[id] ?? (CAMPOS[id].tipo === 'color' ? COLORES[id] : '') }))
+const base = new URL(Astro.site!).origin
+const url = base + urlOg(slug, Object.fromEntries(campos.filter((c) => c.tipo !== 'color' || ejemplo[c.id]).map((c) => [c.id, c.valor])))
+const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
+---
+<Base title={`Plantilla ${pl.nombre} para imágenes OG | Fábrica OG`} description={`${pl.descripcion} Cámbiale el texto y los colores en la URL y pégala en tu página.`} path={`/plantillas/${slug}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+    <a href="/plantillas/" class="text-sm text-gray-600 hover:text-ink-900">Plantillas</a>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900">{pl.nombre}</h1>
+    <p class="mt-3 max-w-2xl text-lg text-gray-700">{pl.descripcion}</p>
+  </section>
+
+  <section class="mx-auto mt-10 grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">
+    <div class="min-w-0">
+      <img data-vista src={`/_muestras/${slug}.png`} alt={`Vista previa de la plantilla ${pl.nombre}`} width="1200" height="630" class="w-full rounded-xl border border-gray-200 bg-white shadow-lg" />
+      <h2 class="mt-8 font-semibold text-ink-900">Tu código</h2>
+      <p class="mt-1 text-sm text-gray-600">Pégalo dentro del <code>&lt;head&gt;</code> de tu página.</p>
+      <pre class="mt-3 overflow-x-auto rounded-xl bg-ink-900 p-5 text-sm text-gray-100"><code data-codigo>{`<meta property="og:image" content="${url}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />`}</code></pre>
+      <button type="button" data-copiar hidden class="mt-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-ink-900 hover:border-ink-900">Copiar</button>
+    </div>
+
+    <form data-editor action={`/og/${slug}`} method="get" target="_blank" class="flex flex-col gap-4">
+      {campos.map((c) => (
+        <label class="flex flex-col gap-1 text-sm">
+          <span class="font-medium text-ink-900">{c.etiqueta}</span>
+          {c.tipo === 'color'
+            ? <input type="color" name={c.id} value={c.valor} class="h-10 w-20 cursor-pointer rounded border border-gray-300 bg-white" />
+            : <input type={c.tipo === 'url' ? 'url' : 'text'} name={c.id} value={c.valor} placeholder={c.tipo === 'url' ? 'https://…' : ''} class="rounded-lg border border-gray-300 bg-white px-3 py-2 outline-none focus:border-ink-900" />}
+          {c.ayuda && <span class="text-xs text-gray-500">{c.ayuda}</span>}
+        </label>
+      ))}
+      <button type="submit" class="mt-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Abrir la imagen</button>
+    </form>
+  </section>
+
+  <section class="mx-auto mt-20 max-w-6xl px-4 sm:px-6">
+    <h2 class="font-serif text-2xl text-ink-900">Otras plantillas</h2>
+    <div class="mt-6 grid gap-8 sm:grid-cols-3">{otras.map((s) => <TarjetaPlantilla slug={s} />)}</div>
+  </section>
+  <section class="mx-auto mt-20 max-w-6xl px-4 sm:px-6"><Captura /></section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-editor]')!
+  const vista = document.querySelector<HTMLImageElement>('[data-vista]')!
+  const codigo = document.querySelector<HTMLElement>('[data-codigo]')!
+  const copiar = document.querySelector<HTMLButtonElement>('[data-copiar]')!
+  const direccion = () => {
+    const q = new URLSearchParams()
+    for (const [k, v] of new FormData(form)) if (String(v).trim()) q.set(k, String(v).trim())
+    return `${location.origin}${form.getAttribute('action')}?${q.toString().replace(/\+/g, '%20')}`
+  }
+  let espera: number | undefined
+  const actualizar = () => {
+    const u = direccion()
+    codigo.textContent = `<meta property="og:image" content="${u}" />\n<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />`
+    clearTimeout(espera)
+    espera = window.setTimeout(() => { vista.src = u }, 400)
+  }
+  form.addEventListener('input', actualizar)
+  copiar.hidden = false
+  copiar.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(codigo.textContent ?? '')
+    copiar.textContent = 'Copiado'
+    setTimeout(() => { copiar.textContent = 'Copiar' }, 1500)
+  })
+</script>

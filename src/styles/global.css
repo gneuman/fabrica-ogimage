@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/lora';
+
+/* Mismos tokens que gabrielneuman.com (gnb-website/src/styles/global.css). */
+@theme {
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-serif: 'Lora Variable', Georgia, Cambria, serif;
+
+  --color-brand-200: #c5d5f8;
+  --color-brand-500: #3b5bdb;
+  --color-canvas: #f7f6f2;
+  --color-ink-800: #1a2547;
+  --color-ink-900: #0f1733;
+  --color-accent-500: #e2553d;
+  --color-accent-600: #c9462f;
+  --color-accent-700: #b03d29;
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-canvas font-sans text-gray-900 antialiased; }

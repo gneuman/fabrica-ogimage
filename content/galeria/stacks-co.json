@@ -1,0 +1,18 @@
+{
+  "slug": "stacks-co",
+  "nombre": "Stacks",
+  "dominio": "stacks.co",
+  "url": "https://www.stacks.co/",
+  "categorias": [
+    "finanzas"
+  ],
+  "etiquetas": [
+    "cryptocurrency",
+    "defi",
+    "nft"
+  ],
+  "descripcion": "Stacks is a bitcoin layer enabling smart contracts, decentralized finance, NFTs and decentralized applications built on bitcoin.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

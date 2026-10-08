@@ -1,0 +1,20 @@
+{
+  "slug": "frame-io",
+  "nombre": "Frame",
+  "dominio": "frame.io",
+  "url": "https://www.frame.io/",
+  "categorias": [
+    "saas",
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "video",
+    "collaboration"
+  ],
+  "descripcion": "Frame is a video review and collaboration platform. Share media, collect feedback, manage reviews, and deliver finished work faster — from anywhere in the world.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

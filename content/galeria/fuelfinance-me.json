@@ -1,0 +1,18 @@
+{
+  "slug": "fuelfinance-me",
+  "nombre": "Fuel Finance",
+  "dominio": "fuelfinance.me",
+  "url": "https://fuelfinance.me/",
+  "categorias": [
+    "finanzas",
+    "saas"
+  ],
+  "etiquetas": [
+    "finance",
+    "saas"
+  ],
+  "descripcion": "Fuel Finance is a finance saas that provides cloud-based financial services like spreadsheets, graphs, and automation. You get financial statements, cash flow, projections, budgeting, unit economics, and peace of mind.",
+  "color": "#08f868",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "campsite-design",
+  "nombre": "Campsite",
+  "dominio": "campsite.design",
+  "url": "https://www.campsite.design/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "diseno"
+  ],
+  "etiquetas": [
+    "software",
+    "productivity",
+    "design"
+  ],
+  "descripcion": "Campsite is a software platform that helps design teams share work-in-progress content and keep up with project updates.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

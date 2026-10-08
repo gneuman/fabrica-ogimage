@@ -1,0 +1,19 @@
+{
+  "slug": "createwithplay-com",
+  "nombre": "Play",
+  "dominio": "createwithplay.com",
+  "url": "https://www.createwithplay.com/",
+  "categorias": [
+    "diseno",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "design",
+    "mobile",
+    "development"
+  ],
+  "descripcion": "Play is a mobile app design platform that combines a familiar design canvas with the power of Apple's native iOS elements and SwiftUI for easy, powerful, and native app creation.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

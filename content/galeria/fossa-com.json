@@ -1,0 +1,19 @@
+{
+  "slug": "fossa-com",
+  "nombre": "FOSSA",
+  "dominio": "fossa.com",
+  "url": "https://fossa.com/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "software",
+    "security",
+    "saas"
+  ],
+  "descripcion": "FOSSA is a software composition analysis platform that provides audit-grade open source dependency protection.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

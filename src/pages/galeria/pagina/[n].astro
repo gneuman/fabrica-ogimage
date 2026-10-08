@@ -1,0 +1,15 @@
+---
+import Base from '@/layouts/Base.astro'
+import Rejilla from '@/components/Rejilla.astro'
+import { PAGINAS, tramo } from '@/lib/paginas'
+export function getStaticPaths() {
+  return Array.from({ length: PAGINAS - 1 }, (_, i) => ({ params: { n: String(i + 2) } }))
+}
+const n = Number(Astro.params.n)
+---
+<Base title={`Galería de imágenes OG, página ${n} | Fábrica OG`} description={`Página ${n} de ${PAGINAS} de la galería de imágenes OG de empresas reales.`} path={`/galeria/pagina/${n}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
+    <h1 class="font-serif text-4xl text-ink-900">Galería, página {n}</h1>
+  </section>
+  <Rejilla sitios={tramo(n)} pagina={n} paginas={PAGINAS} />
+</Base>

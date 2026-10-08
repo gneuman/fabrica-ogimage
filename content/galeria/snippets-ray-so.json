@@ -1,0 +1,19 @@
+{
+  "slug": "snippets-ray-so",
+  "nombre": "Snippet Explorer",
+  "dominio": "snippets.ray.so",
+  "url": "https://snippets.ray.so/symbols",
+  "categorias": [
+    "desarrollo",
+    "productividad"
+  ],
+  "etiquetas": [
+    "development",
+    "productivity",
+    "code"
+  ],
+  "descripcion": "Snippet Explorer is a tool to easily browse and import code snippets directly to Raycast.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,19 @@
+---
+// Captura de correo: el mismo webhook de n8n que el newsletter de
+// gabrielneuman.com (formulario=newsletter). POST nativo, sin JS. El campo
+// `origen` dice que llegó desde la fábrica.
+import { FORMULARIO } from '@/lib/sitio'
+interface Props { titulo?: string; texto?: string }
+const { titulo = 'Te aviso cuando salga algo nuevo', texto = 'Plantillas nuevas, la galería de empresas de México y lo que voy aprendiendo al dirigir agentes de IA. Llega a tu correo con El CEO agéntico, mi newsletter.' } = Astro.props
+---
+<div class="rounded-2xl bg-ink-900 px-6 py-10 text-white sm:px-12">
+  <h2 class="max-w-xl font-serif text-3xl leading-tight">{titulo}</h2>
+  <p class="mt-4 max-w-xl leading-relaxed text-gray-300">{texto}</p>
+  <form action={FORMULARIO} method="post" class="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
+    <input type="hidden" name="formulario" value="newsletter" />
+    <input type="hidden" name="origen" value="fabrica-ogimage" />
+    <div class="hidden" aria-hidden="true"><label>No llenes este campo <input type="text" name="sitio_web" tabindex="-1" autocomplete="off" /></label></div>
+    <input type="email" name="email" required placeholder="tu@correo.com" aria-label="Correo electrónico" class="min-w-0 flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm text-white placeholder-gray-400 outline-none focus:border-white/60" />
+    <button type="submit" class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold whitespace-nowrap text-white hover:bg-accent-700">Avísame</button>
+  </form>
+</div>

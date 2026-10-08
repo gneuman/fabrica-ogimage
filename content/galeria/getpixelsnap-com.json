@@ -1,0 +1,20 @@
+{
+  "slug": "getpixelsnap-com",
+  "nombre": "PixelSnap",
+  "dominio": "getpixelsnap.com",
+  "url": "https://getpixelsnap.com/",
+  "categorias": [
+    "productividad",
+    "diseno",
+    "saas"
+  ],
+  "etiquetas": [
+    "productivity",
+    "design",
+    "mac"
+  ],
+  "descripcion": "PixelSnap is a screen measurement tool for macOS. It allows you to quickly and easily measure anything on your screen like a pro.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "voicenotes-com",
+  "nombre": "Voicenotes",
+  "dominio": "voicenotes.com",
+  "url": "https://voicenotes.com/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "ia"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "transcription"
+  ],
+  "descripcion": "Voicenotes is an ai-powered note-taking app that transcribes recordings and allows users to ask questions about the content.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-04-29"
+}

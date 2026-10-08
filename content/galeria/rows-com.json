@@ -1,0 +1,19 @@
+{
+  "slug": "rows-com",
+  "nombre": "Rows",
+  "dominio": "rows.com",
+  "url": "https://rows.com/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "collaboration"
+  ],
+  "descripcion": "Rows is a spreadsheet software with slick design, built-in integrations, and revolutionary sharing capabilities that help teams collaborate faster.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

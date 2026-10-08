@@ -1,0 +1,18 @@
+{
+  "slug": "flyzipline-com",
+  "nombre": "Zipline",
+  "dominio": "flyzipline.com",
+  "url": "https://www.flyzipline.com/",
+  "categorias": [
+    "otros"
+  ],
+  "etiquetas": [
+    "logistics",
+    "transportation",
+    "drone"
+  ],
+  "descripcion": "Zipline is an autonomous delivery system, specializing in on-demand drone delivery and instant logistics.",
+  "color": "#e8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

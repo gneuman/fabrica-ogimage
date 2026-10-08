@@ -1,0 +1,18 @@
+{
+  "slug": "canvas-com",
+  "nombre": "Canvas",
+  "dominio": "canvas.com",
+  "url": "https://www.canvas.com/",
+  "categorias": [
+    "medios",
+    "saas"
+  ],
+  "etiquetas": [
+    "education",
+    "software"
+  ],
+  "descripcion": "Canvas is a learning management system for educational institutions to manage online courses and content.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

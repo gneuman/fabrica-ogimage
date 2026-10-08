@@ -1,0 +1,19 @@
+{
+  "slug": "retool-com",
+  "nombre": "Retool",
+  "dominio": "retool.com",
+  "url": "https://retool.com/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "saas",
+    "software",
+    "development"
+  ],
+  "descripcion": "Retool is a software development platform that allows users to build business applications quickly by using pre-built components that connect to databases and APIs.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

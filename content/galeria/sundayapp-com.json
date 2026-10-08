@@ -1,0 +1,19 @@
+{
+  "slug": "sundayapp-com",
+  "nombre": "Sunday",
+  "dominio": "sundayapp.com",
+  "url": "https://sundayapp.com/",
+  "categorias": [
+    "tiendas",
+    "saas"
+  ],
+  "etiquetas": [
+    "food",
+    "saas",
+    "ecommerce"
+  ],
+  "descripcion": "Sunday is a restaurant application and ultimate ordering and payment app for restaurants to experience the future of dining.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

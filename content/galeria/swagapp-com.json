@@ -1,0 +1,20 @@
+{
+  "slug": "swagapp-com",
+  "nombre": "Swag",
+  "dominio": "swagapp.com",
+  "url": "https://swagapp.com/",
+  "categorias": [
+    "saas",
+    "productividad",
+    "finanzas"
+  ],
+  "etiquetas": [
+    "saas",
+    "career",
+    "finance"
+  ],
+  "descripcion": "Swag is an all-in-one superapp for easier work, rewarding careers, faster pay, and everyday savings.",
+  "color": "#d888f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

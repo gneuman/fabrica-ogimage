@@ -1,0 +1,20 @@
+{
+  "slug": "framer-com",
+  "nombre": "Framer",
+  "dominio": "framer.com",
+  "url": "https://www.framer.com/",
+  "categorias": [
+    "saas",
+    "diseno",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "design",
+    "productivity"
+  ],
+  "descripcion": "Framer is a design tool that enables teams to design and publish stunning websites.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

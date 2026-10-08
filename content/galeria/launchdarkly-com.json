@@ -1,0 +1,20 @@
+{
+  "slug": "launchdarkly-com",
+  "nombre": "LaunchDarkly",
+  "dominio": "launchdarkly.com",
+  "url": "https://launchdarkly.com/",
+  "categorias": [
+    "saas",
+    "marketing",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "software",
+    "analytics",
+    "testing"
+  ],
+  "descripcion": "LaunchDarkly is a software feature management and experimentation platform that provides tools to control feature releases and conduct experiments across users.",
+  "color": "#181818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

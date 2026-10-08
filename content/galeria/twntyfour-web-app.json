@@ -1,0 +1,20 @@
+{
+  "slug": "twntyfour-web-app",
+  "nombre": "Twnty Four",
+  "dominio": "twntyfour.web.app",
+  "url": "https://twntyfour.web.app/",
+  "categorias": [
+    "tiendas",
+    "diseno",
+    "medios"
+  ],
+  "etiquetas": [
+    "lifestyle",
+    "photography",
+    "storytelling"
+  ],
+  "descripcion": "Twnty Four is a website that captures moments from an ordinary day in life through photos, videos and stories",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "scale-com",
+  "nombre": "Scale AI",
+  "dominio": "scale.com",
+  "url": "https://scale.com/",
+  "categorias": [
+    "ia",
+    "marketing",
+    "saas"
+  ],
+  "etiquetas": [
+    "ai",
+    "data",
+    "saas"
+  ],
+  "descripcion": "Scale AI is a provider of high quality training data for AI applications such as self-driving cars, mapping, AR/VR, robotics and more.",
+  "color": "#080828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

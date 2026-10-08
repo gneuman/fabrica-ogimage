@@ -1,0 +1,19 @@
+{
+  "slug": "graphite-space",
+  "nombre": "Graphite",
+  "dominio": "graphite.space",
+  "url": "https://graphite.space/",
+  "categorias": [
+    "desarrollo",
+    "diseno"
+  ],
+  "etiquetas": [
+    "website-builder",
+    "no-code",
+    "web-design"
+  ],
+  "descripcion": "Graphite is a no-code website builder that allows users to create responsive websites like a professional frontend developer, but without needing to code.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

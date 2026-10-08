@@ -1,0 +1,19 @@
+{
+  "slug": "duffel-com",
+  "nombre": "Duffel",
+  "dominio": "duffel.com",
+  "url": "https://duffel.com/",
+  "categorias": [
+    "saas",
+    "desarrollo"
+  ],
+  "etiquetas": [
+    "travel",
+    "saas",
+    "api"
+  ],
+  "descripcion": "Duffel is a travel technology company that provides an API to help businesses search, book, and manage travel services including flights, accommodations, and ancillaries.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

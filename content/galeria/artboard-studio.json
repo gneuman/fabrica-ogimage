@@ -1,0 +1,20 @@
+{
+  "slug": "artboard-studio",
+  "nombre": "Artboard Studio",
+  "dominio": "artboard.studio",
+  "url": "https://artboard.studio/",
+  "categorias": [
+    "saas",
+    "diseno",
+    "marketing"
+  ],
+  "etiquetas": [
+    "saas",
+    "design",
+    "content-creation"
+  ],
+  "descripcion": "Artboard Studio is a graphic and motion design software with automation features and an extensive content library to easily create one design into thousands.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

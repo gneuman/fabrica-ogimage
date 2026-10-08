@@ -1,0 +1,18 @@
+{
+  "slug": "gumroad-com",
+  "nombre": "Gumroad",
+  "dominio": "gumroad.com",
+  "url": "https://gumroad.com/",
+  "categorias": [
+    "tiendas",
+    "saas"
+  ],
+  "etiquetas": [
+    "ecommerce",
+    "saas"
+  ],
+  "descripcion": "Gumroad is an e-commerce platform for selling digital products, memberships and more.",
+  "color": "#f888e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

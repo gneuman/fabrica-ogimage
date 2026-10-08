@@ -1,0 +1,19 @@
+{
+  "slug": "attio-com",
+  "nombre": "Attio",
+  "dominio": "attio.com",
+  "url": "https://attio.com/",
+  "categorias": [
+    "saas",
+    "tiendas"
+  ],
+  "etiquetas": [
+    "saas",
+    "ecommerce",
+    "crm"
+  ],
+  "descripcion": "Attio is a customer relationship management software that makes it easy to build flexible, data-driven CRM tailored to your business needs.",
+  "color": "#282828",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

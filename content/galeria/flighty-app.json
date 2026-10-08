@@ -1,0 +1,17 @@
+{
+  "slug": "flighty-app",
+  "nombre": "Flighty",
+  "dominio": "flighty.app",
+  "url": "https://flighty.app/",
+  "categorias": [
+    "otros"
+  ],
+  "etiquetas": [
+    "travel",
+    "transportation"
+  ],
+  "descripcion": "Flighty is a service for tracking flights and getting updates on flight statuses.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

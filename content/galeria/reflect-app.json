@@ -1,0 +1,19 @@
+{
+  "slug": "reflect-app",
+  "nombre": "Reflect",
+  "dominio": "reflect.app",
+  "url": "https://reflect.app/",
+  "categorias": [
+    "productividad",
+    "ia"
+  ],
+  "etiquetas": [
+    "productivity",
+    "notes",
+    "ai"
+  ],
+  "descripcion": "Reflect is a beautifully minimalist note-taking app designed to mirror the way you think. It now has a native AI integration.",
+  "color": "#080818",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

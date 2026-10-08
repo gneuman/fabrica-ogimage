@@ -1,0 +1,20 @@
+{
+  "slug": "brewbike-com",
+  "nombre": "Brewbike",
+  "dominio": "brewbike.com",
+  "url": "https://www.brewbike.com/",
+  "categorias": [
+    "medios",
+    "tiendas",
+    "marketing"
+  ],
+  "etiquetas": [
+    "education",
+    "food",
+    "social"
+  ],
+  "descripcion": "Brewbike is a social enterprise that partners with students to launch innovative coffee shops, develop entrepreneurial skills and energize their communities.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

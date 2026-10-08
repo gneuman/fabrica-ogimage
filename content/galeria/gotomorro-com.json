@@ -1,0 +1,19 @@
+{
+  "slug": "gotomorro-com",
+  "nombre": "Tomorro",
+  "dominio": "gotomorro.com",
+  "url": "https://www.gotomorro.com/",
+  "categorias": [
+    "saas",
+    "productividad"
+  ],
+  "etiquetas": [
+    "saas",
+    "productivity",
+    "legal-tech"
+  ],
+  "descripcion": "Tomorro is a contract management software that helps reduce the time spent on contract processes while providing more control and visibility over legal and financial risks.",
+  "color": "#283828",
+  "fuente": "ogimage.org",
+  "agregado": "2024-02-25"
+}

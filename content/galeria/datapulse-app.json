@@ -1,0 +1,18 @@
+{
+  "slug": "datapulse-app",
+  "nombre": "DataPulse",
+  "dominio": "datapulse.app",
+  "url": "https://datapulse.app/",
+  "categorias": [
+    "marketing",
+    "saas"
+  ],
+  "etiquetas": [
+    "analytics",
+    "saas"
+  ],
+  "descripcion": "DataPulse is a simple, fun & lightweight web analytics solution that helps you learn where, why, and how people engage with your product in real time. It provides a deeper understanding of visitor behavior across devices and platforms.",
+  "color": "#f8f8f8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

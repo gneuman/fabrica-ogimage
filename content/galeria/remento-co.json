@@ -1,0 +1,18 @@
+{
+  "slug": "remento-co",
+  "nombre": "Remento",
+  "dominio": "remento.co",
+  "url": "https://www.remento.co/",
+  "categorias": [
+    "medios"
+  ],
+  "etiquetas": [
+    "family",
+    "memories",
+    "storytelling"
+  ],
+  "descripcion": "Remento is a service that helps people capture and preserve family stories and memories in the form of books.",
+  "color": "#182828",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

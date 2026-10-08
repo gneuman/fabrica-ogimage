@@ -1,0 +1,18 @@
+{
+  "slug": "entemporada-es",
+  "nombre": "En Temporada",
+  "dominio": "entemporada.es",
+  "url": "https://www.entemporada.es/",
+  "categorias": [
+    "tiendas"
+  ],
+  "etiquetas": [
+    "food",
+    "sustainability",
+    "local"
+  ],
+  "descripcion": "En Temporada is a website that provides information on what foods are in season to support local communities and the planet.",
+  "color": "#f8f8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2024-01-03"
+}

@@ -1,0 +1,18 @@
+{
+  "slug": "theorg-com",
+  "nombre": "The Org",
+  "dominio": "theorg.com",
+  "url": "https://theorg.com/",
+  "categorias": [
+    "productividad"
+  ],
+  "etiquetas": [
+    "career",
+    "recruiting",
+    "job-search"
+  ],
+  "descripcion": "The Org is a platform to explore public org charts, discover open jobs, and apply with a single click.",
+  "color": "#080808",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}

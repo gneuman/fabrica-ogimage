@@ -1,0 +1,18 @@
+{
+  "slug": "maze-co",
+  "nombre": "Maze Podcast",
+  "dominio": "maze.co",
+  "url": "https://maze.co/podcast/",
+  "categorias": [
+    "medios"
+  ],
+  "etiquetas": [
+    "education",
+    "business",
+    "technology"
+  ],
+  "descripcion": "Maze Podcast is a podcast about product decision-making brought to you by the Maze team.",
+  "color": "#f8e8e8",
+  "fuente": "ogimage.org",
+  "agregado": "2023-12-12"
+}
