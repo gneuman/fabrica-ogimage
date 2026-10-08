@@ -100,6 +100,33 @@ function ventana(p, texto, etiqueta, color, extra = {}) {
   )
 }
 
+// Lo que comparten las plantillas de El CEO agéntico.
+const CEO = { fondo: '#060a14', texto: '#ffffff', acento: '#3ef2a4' }
+const ceoFondo = (p) => `radial-gradient(circle at 10% 20%, #1c2a3f 0%, ${p.fondo} 55%)`
+
+/** El logo en dos renglones, con el episodio (p.sitio) en una pastilla al lado. */
+const ceoLogo = (p, tam, conEpisodio = true) =>
+  h('div', { alignItems: 'center' },
+    h('div', { flexDirection: 'column', fontFamily: 'Lilita', fontSize: tam, lineHeight: 0.95, textTransform: 'uppercase' },
+      h('div', {}, 'El CEO'),
+      h('div', { color: p.acento }, 'agéntico'),
+    ),
+    conEpisodio && p.sitio && h('div', { marginLeft: 18, padding: '6px 14px', borderRadius: 999, border: `2px solid ${p.acento}`, color: p.acento, fontFamily: 'Mono', fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase' }, p.sitio),
+  )
+
+/** Una de las dos personas de la conversación: foto recortada (o iniciales) y su nombre. */
+function ceoPersona(p, src, nombre, w, alto) {
+  // Las fotos recortadas suelen ser más anchas que su columna: se enciman un poco.
+  const ancho = Math.round(w * 1.4)
+  const etiqueta = Math.max(14, Math.round(w / 15))
+  return h('div', { flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', width: w, height: alto, position: 'relative' },
+    src
+      ? img(src, { position: 'absolute', bottom: 0, left: Math.round((w - ancho) / 2), width: ancho, height: alto, objectFit: 'contain', objectPosition: 'bottom' })
+      : h('div', { alignItems: 'center', justifyContent: 'center', width: Math.round(w * 0.75), height: Math.round(w * 0.75), marginBottom: etiqueta * 4, borderRadius: 999, background: '#1a2233', border: `4px solid ${p.acento}`, fontSize: Math.round(w * 0.28), fontWeight: 700 }, iniciales(nombre)),
+    h('div', { position: 'absolute', bottom: Math.round(etiqueta * 0.9), padding: '6px 14px', borderRadius: 8, background: p.fondo, border: `2px solid ${p.acento}`, fontSize: etiqueta, fontWeight: 700, whiteSpace: 'nowrap' }, nombre),
+  )
+}
+
 export const PLANTILLAS = {
   marca: {
     nombre: 'Marca',
@@ -672,6 +699,92 @@ export const PLANTILLAS = {
     },
   },
 
+  ceoagentico: {
+    nombre: 'El CEO agéntico',
+    descripcion: 'Portada del podcast El CEO agéntico: logo, episodio, los dos de la conversación (anfitrión e invitado) con sus fotos y el titular sobre franja verde.',
+    cuando: 'El post es de un episodio de El CEO agéntico.',
+    campos: ['sitio', 'anfitrion', 'autor', 'titulo', 'sub', 'foto2', 'foto', 'fondo', 'texto', 'acento'],
+    marca: CEO,
+    ejemplo: { sitio: 'Episodio 1', anfitrion: 'Gabriel Neuman', autor: 'Tu invitado', titulo: 'Un CEO que delega en agentes, no en más gente', sub: 'Lo que cambia en tu empresa', foto2: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const anfitrion = p.anfitrion || 'Gabriel Neuman'
+      const logo = ceoLogo(p, 30)
+      // Dos personas lado a lado: a la derecha en OG, abajo en los formatos altos.
+      const anchoFotos = p.alto ? p.W : Math.round(p.W * 0.44)
+      const altoFotos = p.alto ? Math.round(p.H * (p.H / p.W > 1.5 ? 0.46 : 0.36)) : Math.round(p.H * 0.8)
+      const anchoTexto = p.alto ? p.W - 80 : p.W - anchoFotos - 50
+      const tam = p.alto ? escala(p.titulo, [[25, 60], [45, 50], [70, 42], [999, 34]]) : escala(p.titulo, [[25, 66], [45, 54], [70, 46], [999, 38]])
+      const persona = (src, nombre) => ceoPersona(p, src, nombre, Math.round(anchoFotos / 2), altoFotos)
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', color: p.texto, backgroundImage: ceoFondo(p) },
+        h('div', { flexDirection: 'column', flex: 1, padding: p.alto ? '36px 40px 10px' : '36px 0 36px 40px' },
+          logo,
+          h('div', { flexDirection: 'column', width: anchoTexto, flex: 1, justifyContent: 'center' },
+            h('div', { flexWrap: 'wrap', fontSize: p.alto ? 26 : 28, fontWeight: 700, marginLeft: 4, marginBottom: 12, textTransform: 'lowercase' },
+              h('span', {}, anfitrion), h('span', { color: p.acento, margin: '0 10px' }, '×'), h('span', {}, p.autor || 'invitado')),
+            h('div', { flexWrap: 'wrap', padding: '14px 22px 20px', background: p.acento, color: p.sobreAcento, fontSize: tam, fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.sobreAcento)),
+            p.sub && h('div', { flexWrap: 'wrap', marginTop: 16, marginLeft: 4, fontSize: Math.round(tam * 0.55), fontWeight: 700, lineHeight: 1.1 }, p.sub),
+          ),
+        ),
+        h('div', { width: anchoFotos, alignSelf: 'flex-end' }, persona(p.foto2, anfitrion), persona(p.foto, p.autor || 'Invitado')),
+      )
+    },
+  },
+
+  ceoportada: {
+    nombre: 'El CEO agéntico: portada',
+    descripcion: 'El ícono del podcast El CEO agéntico: logo grande, "un podcast de" y las dos personas de la conversación. Para Spotify, Apple Podcasts y el perfil.',
+    cuando: 'Se necesita la portada o el ícono del show, no la de un episodio.',
+    campos: ['anfitrion', 'autor', 'sub', 'foto2', 'foto', 'fondo', 'texto', 'acento'],
+    marca: CEO,
+    ejemplo: { anfitrion: 'Gabriel Neuman', autor: 'Tu invitado', sub: 'Conversaciones sobre dirigir con agentes de IA', foto2: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const anfitrion = p.anfitrion || 'Gabriel Neuman'
+      // Siempre cuadrada al centro del lienzo: así sirve de ícono en cualquier formato.
+      const lado = Math.min(p.W, p.H)
+      const altoFotos = Math.round(lado * 0.48)
+      return h('div', { width: p.W, height: p.H, alignItems: 'center', justifyContent: 'center', color: p.texto, backgroundImage: ceoFondo(p) },
+        h('div', { flexDirection: 'column', width: lado, height: lado, position: 'relative', alignItems: 'center', border: `${Math.round(lado / 60)}px solid ${p.acento}` },
+          h('div', { marginTop: Math.round(lado * 0.07) }, ceoLogo(p, Math.round(lado * 0.15), false)),
+          h('div', { marginTop: Math.round(lado * 0.025), fontFamily: 'Mono', fontSize: Math.round(lado * 0.03), letterSpacing: '0.14em', color: p.acento, textTransform: 'uppercase' }, 'un podcast de ' + anfitrion),
+          p.sub && h('div', { marginTop: Math.round(lado * 0.02), width: Math.round(lado * 0.8), justifyContent: 'center', textAlign: 'center', fontSize: Math.round(lado * 0.032), fontWeight: 500, color: p.suave }, p.sub),
+          h('div', { position: 'absolute', bottom: 0, left: Math.round(lado * 0.04) },
+            ceoPersona(p, p.foto2, anfitrion, Math.round(lado * 0.46), altoFotos),
+            ceoPersona(p, p.foto, p.autor || 'Invitado', Math.round(lado * 0.46), altoFotos)),
+        ),
+      )
+    },
+  },
+
+  ceopromo: {
+    nombre: 'El CEO agéntico: promo',
+    descripcion: 'Para anunciar el podcast o un episodio que viene: "Muy pronto", qué vamos a hacer en puntos, fecha de estreno y las dos personas.',
+    cuando: 'Se anuncia el lanzamiento del podcast o el próximo episodio, antes de que salga.',
+    campos: ['sitio', 'titulo', 'puntos', 'fecha', 'anfitrion', 'autor', 'foto2', 'foto', 'fondo', 'texto', 'acento'],
+    marca: CEO,
+    ejemplo: { sitio: 'Muy pronto', titulo: 'Un podcast para dirigir tu empresa *con agentes de IA*', puntos: 'Casos reales de CEOs | Qué delegar a un agente y qué no | Herramientas que sí funcionan', fecha: 'Estreno 29 OCT', anfitrion: 'Gabriel Neuman', autor: 'Tu invitado', foto2: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const anfitrion = p.anfitrion || 'Gabriel Neuman'
+      const puntos = (p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 4)
+      const anchoFotos = p.alto ? p.W : Math.round(p.W * 0.42)
+      const altoFotos = p.alto ? Math.round(p.H * (p.H / p.W > 1.5 ? 0.4 : 0.32)) : Math.round(p.H * 0.78)
+      const tam = escala(p.titulo, [[30, p.alto ? 50 : 52], [60, p.alto ? 40 : 42], [999, p.alto ? 34 : 36]])
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', color: p.texto, backgroundImage: ceoFondo(p) },
+        h('div', { flexDirection: 'column', flex: 1, padding: p.alto ? '36px 40px 10px' : '36px 0 36px 40px' },
+          ceoLogo(p, 30),
+          h('div', { flexDirection: 'column', flex: 1, justifyContent: 'center', width: p.alto ? p.W - 80 : p.W - anchoFotos - 50 },
+            h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+            ...puntos.map((t) => h('div', { alignItems: 'center', marginTop: 12, fontSize: p.alto ? 22 : 24, fontWeight: 500 },
+              h('div', { width: 14, height: 14, borderRadius: 4, background: p.acento, marginRight: 14, flexShrink: 0 }), t)),
+            p.fecha && h('div', { marginTop: 22, alignSelf: 'flex-start', padding: '10px 20px', borderRadius: 999, background: p.acento, color: p.sobreAcento, fontSize: 24, fontWeight: 700 }, p.fecha),
+          ),
+        ),
+        h('div', { width: anchoFotos, alignSelf: 'flex-end' },
+          ceoPersona(p, p.foto2, anfitrion, Math.round(anchoFotos / 2), altoFotos),
+          ceoPersona(p, p.foto, p.autor || 'Invitado', Math.round(anchoFotos / 2), altoFotos)),
+      )
+    },
+  },
+
   podcast: {
     nombre: 'Podcast',
     descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
@@ -710,6 +823,8 @@ export const CAMPOS = {
   boton: { etiqueta: 'Texto del botón', tipo: 'texto' },
   foto: { etiqueta: 'Foto (URL)', tipo: 'url' },
   imagen: { etiqueta: 'Captura (URL)', tipo: 'url' },
+  foto2: { etiqueta: 'Foto del anfitrión (URL)', tipo: 'url' },
+  anfitrion: { etiqueta: 'Anfitrión', tipo: 'texto' },
   emoji: { etiqueta: 'Emoji', tipo: 'texto' },
   icono: { etiqueta: 'Ícono de Lucide', tipo: 'texto', ayuda: 'El nombre en lucide.dev, p. ej. rocket, workflow, bot.' },
   icono2: { etiqueta: 'Segundo ícono de Lucide', tipo: 'texto', ayuda: 'El de la derecha, sobre fondo blanco. P. ej. github, bot.' },

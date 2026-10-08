@@ -35,7 +35,7 @@ export async function generarSvg(slug, entrada, recursos) {
 
   // Fotos y capturas: se bajan antes para que una URL rota dé la plantilla sin
   // imagen, no un error.
-  for (const k of ['foto', 'imagen']) {
+  for (const k of ['foto', 'foto2', 'imagen']) {
     if (!p[k]) continue
     const r = await recursos.bajar(p[k]).catch(() => null)
     p[k] = r && /^image\/(png|jpe?g|gif|webp|svg\+xml)/.test(r.tipo) ? aDataUri(r.tipo, r.bytes) : ''

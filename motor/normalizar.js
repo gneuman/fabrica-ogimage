@@ -5,7 +5,7 @@
 import { FORMATOS, PLANTILLAS } from './plantillas.js'
 
 const MARCA = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' }
-const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, icono2: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 160, derecha: 160, fecha: 40, lugar: 80, puntos: 300 }
+const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, anfitrion: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, icono2: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 160, derecha: 160, fecha: 40, lugar: 80, puntos: 300 }
 
 const hex = (v, def) => {
   const s = String(v ?? '').trim().replace(/^#/, '')
@@ -27,7 +27,7 @@ export function normalizar(slug, entrada = {}) {
     if (k in MARCA) continue
     const v = leer(k)
     // URL completa, o ruta del propio sitio ("/muestras/captura.png").
-    if (k === 'foto' || k === 'imagen') p[k] = /^(https?:\/\/|\/[^/])/.test(v) ? v : ''
+    if (k === 'foto' || k === 'foto2' || k === 'imagen') p[k] = /^(https?:\/\/|\/[^/])/.test(v) ? v : ''
     else p[k] = cortar(v, LARGO[k] ?? 120)
   }
   const marca = { ...MARCA, ...pl.marca }
