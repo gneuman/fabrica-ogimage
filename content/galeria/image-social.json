@@ -14,6 +14,6 @@
   ],
   "descripcion": "ImageSocial is a service that generates open-graph social images for websites using screenshots to increase click rates.",
   "color": "#f8f8f8",
-  "fuente": "ogimage.org",
+  "fuente": "importada",
   "agregado": "2024-05-02"
 }

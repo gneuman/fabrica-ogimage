@@ -14,7 +14,8 @@ WhatsApp, LinkedIn o X. Tres formas de usarla, con las mismas plantillas:
    ```
 3. **Como integración de Astro:** `import fabricaOg from 'fabrica-ogimage/astro'`.
 
-9 plantillas: marca, artículo, titular, emoji, ícono, perfil, botón, captura y teléfono.
+16 plantillas: marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, lista y podcast.
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
 ## Cómo está hecho
@@ -39,8 +40,8 @@ npm run galeria:agregar -- https://empresa.com saas marketing
 - Build: `npm run build` · salida: `dist` · Node 22. Variable de build `SITIO` con el dominio final.
 - Dibujar una imagen usa más CPU de la que da el plan gratis (10 ms): hace falta **Workers Paid**.
 - La captura de correo va al webhook de n8n del newsletter de gabrielneuman.com.
+- Opcional: secreto `UNSPLASH_KEY` (`wrangler secret put UNSPLASH_KEY`) para que la plantilla ciudad lleve foto de fondo.
 
 ## Créditos
 
-Inspirado en [ogimage.org](https://github.com/Illyism/ogimage) (MIT, Ilias Ism), de donde viene la
-mayor parte de la galería. Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC). Licencia: MIT.
+Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC). Licencia: MIT (ver LICENSE).

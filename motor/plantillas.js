@@ -27,12 +27,22 @@ const escala = (texto, pasos) => pasos.find(([max]) => texto.length <= max)?.[1]
  */
 function resaltar(texto, acento) {
   const palabras = []
+  let anterior = ''
   texto.split(/(\*[^*]+\*)/).filter(Boolean).forEach((trozo) => {
     const marcado = trozo.startsWith('*') && trozo.endsWith('*')
     const limpio = marcado ? trozo.slice(1, -1) : trozo
-    limpio.split(/\s+/).filter(Boolean).forEach((p) => palabras.push(h('span', { color: marcado ? acento : undefined, marginRight: '0.24em' }, p)))
+    // Un trozo pegado al anterior ("*resaltado*.") une su primera palabra a la última.
+    const pegado = anterior && !/\s$/.test(anterior)
+    limpio.split(/(\s+)/).forEach((p, i) => {
+      if (!p || /^\s+$/.test(p)) return
+      if (i === 0 && pegado && palabras.length) palabras.at(-1).push({ p, marcado })
+      else palabras.push([{ p, marcado }])
+    })
+    anterior = trozo
   })
-  return palabras
+  return palabras.map((partes) =>
+    h('span', { marginRight: '0.24em' }, partes.map(({ p, marcado }) => h('span', { color: marcado ? acento : undefined }, p))),
+  )
 }
 
 const firma = (p, color) =>
@@ -186,6 +196,133 @@ export const PLANTILLAS = {
         ),
       ),
   },
+  ciudad: {
+    nombre: 'Ciudad',
+    descripcion: 'La ciudad y la bandera de quien la ve, detectadas por su conexión. También se fijan por URL.',
+    campos: ['titulo', 'sub', 'ciudad', 'pais', 'imagen', 'autor', 'fondo', 'texto', 'acento'],
+    ejemplo: { titulo: 'Taller presencial en {ciudad}', sub: 'Cupo para 20 personas', ciudad: 'Ciudad de México', pais: 'MX', autor: 'Gabriel Neuman' },
+    dibujar: (p) => {
+      const lugar = (t) => t.replaceAll('{ciudad}', p.ciudad || p.nombrePais || 'tu ciudad').replaceAll('{pais}', p.nombrePais || 'tu país')
+      return h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 80, color: p.texto, textAlign: 'center', backgroundImage: p.imagen ? `linear-gradient(rgba(15,23,51,0.55), rgba(15,23,51,0.8)), url(${p.imagen})` : `linear-gradient(135deg, ${p.fondo}, ${p.acento})`, backgroundSize: '1200px 630px' },
+        p.bandera && h('div', { fontSize: 120, lineHeight: 1, marginBottom: 28 }, p.bandera),
+        h('div', { flexWrap: 'wrap', justifyContent: 'center', fontSize: escala(lugar(p.titulo), [[30, 76], [55, 62], [999, 48]]), fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(lugar(p.titulo), p.acento === p.fondo ? p.texto : '#ffd27a')),
+        p.sub && h('div', { marginTop: 24, fontSize: 32, fontWeight: 500, opacity: 0.9 }, lugar(p.sub)),
+        p.autor && h('div', { marginTop: 44, padding: '12px 32px', borderRadius: 999, background: 'rgba(255,255,255,0.15)', fontSize: 26, fontWeight: 700 }, p.autor),
+      )
+    },
+  },
+
+  cita: {
+    nombre: 'Cita',
+    descripcion: 'Una frase entre comillas con quién la dijo. Para entrevistas, testimonios y podcast.',
+    campos: ['titulo', 'autor', 'sub', 'foto', 'fondo', 'texto', 'acento'],
+    ejemplo: { titulo: 'Si me voy mañana, *sigue corriendo*.', autor: 'Gabriel Neuman', sub: 'Director de IA fraccional' },
+    dibujar: (p) =>
+      h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', justifyContent: 'center', padding: '0 110px', background: p.fondo, color: p.texto },
+        h('div', { fontSize: 200, lineHeight: 0.6, color: p.acento, fontWeight: 700, height: 90 }, '“'),
+        h('div', { flexWrap: 'wrap', fontSize: escala(p.titulo, [[40, 70], [80, 56], [140, 46], [999, 40]]), fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
+        (p.autor || p.foto) && h('div', { alignItems: 'center', marginTop: 48 },
+          p.foto && img(p.foto, { width: 72, height: 72, borderRadius: 999, marginRight: 20, objectFit: 'cover' }),
+          h('div', { flexDirection: 'column' },
+            p.autor && h('span', { fontSize: 30, fontWeight: 700 }, p.autor),
+            p.sub && h('span', { fontSize: 24, color: p.suave, marginTop: 4 }, p.sub),
+          ),
+        ),
+      ),
+  },
+
+  cifra: {
+    nombre: 'Cifra',
+    descripcion: 'Un número enorme y qué significa. Para resultados, reportes y casos.',
+    campos: ['cifra', 'titulo', 'sub', 'sitio', 'fondo', 'texto', 'acento'],
+    ejemplo: { cifra: '595', titulo: 'imágenes OG en cada build', sub: 'Una por página, sin diseñarlas a mano', sitio: 'gabrielneuman.com' },
+    dibujar: (p) =>
+      h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', justifyContent: 'center', padding: '0 90px', background: p.fondo, color: p.texto },
+        h('div', { fontSize: escala(p.cifra || '0', [[3, 260], [5, 210], [8, 160], [999, 120]]), fontWeight: 700, lineHeight: 0.95, letterSpacing: '-0.05em', color: p.acento }, p.cifra || '0'),
+        h('div', { flexWrap: 'wrap', marginTop: 18, fontSize: escala(p.titulo, [[30, 56], [60, 46], [999, 38]]), fontWeight: 700, lineHeight: 1.1 }, resaltar(p.titulo, p.acento)),
+        p.sub && h('div', { marginTop: 16, fontSize: 28, color: p.suave }, p.sub),
+        p.sitio && h('div', { position: 'absolute', right: 90, bottom: 60, fontSize: 24, color: p.suave }, p.sitio),
+      ),
+  },
+
+  versus: {
+    nombre: 'Versus',
+    descripcion: 'Dos opciones lado a lado. Para comparativas: esto contra aquello.',
+    campos: ['titulo', 'izquierda', 'derecha', 'fondo', 'texto', 'acento'],
+    ejemplo: { titulo: '¿Contratar o automatizar?', izquierda: 'Un asistente más', derecha: 'Un agente de IA' },
+    dibujar: (p) => {
+      const lado = (t, activo) => h('div', { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, borderRadius: 28, background: activo ? p.acento : 'rgba(255,255,255,0.08)', color: activo ? p.sobreAcento : p.texto, fontSize: escala(t, [[16, 52], [30, 42], [999, 34]]), fontWeight: 700, textAlign: 'center' }, t)
+      return h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', padding: 70, background: p.fondo, color: p.texto },
+        h('div', { justifyContent: 'center', fontSize: escala(p.titulo, [[30, 60], [60, 48], [999, 40]]), fontWeight: 700, letterSpacing: '-0.02em', textAlign: 'center' }, p.titulo),
+        h('div', { flex: 1, alignItems: 'stretch', marginTop: 50 },
+          lado(p.izquierda || 'A', false),
+          h('div', { alignItems: 'center', justifyContent: 'center', width: 110, fontSize: 40, fontWeight: 700, color: p.suave }, 'vs'),
+          lado(p.derecha || 'B', true),
+        ),
+      )
+    },
+  },
+
+  evento: {
+    nombre: 'Evento',
+    descripcion: 'Fecha grande, nombre del evento, lugar y botón. Para talleres, webinars y lanzamientos.',
+    campos: ['fecha', 'titulo', 'lugar', 'boton', 'fondo', 'texto', 'acento'],
+    ejemplo: { fecha: '29 OCT', titulo: 'Tu primer empleado de IA', lugar: 'En vivo por Zoom · 19:00 CDMX', boton: 'Aparta tu lugar' },
+    dibujar: (p) => {
+      const [dia, ...mes] = (p.fecha || '1 ENE').split(/\s+/)
+      return h('div', { width: ANCHO, height: ALTO, alignItems: 'center', padding: '0 90px', background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: 280, height: 320, borderRadius: 36, background: p.acento, color: p.sobreAcento, flexShrink: 0 },
+          h('div', { fontSize: 150, fontWeight: 700, lineHeight: 1 }, dia),
+          mes.length > 0 && h('div', { fontSize: 46, fontWeight: 700, letterSpacing: '0.08em', marginTop: 8 }, mes.join(' ').toUpperCase()),
+        ),
+        h('div', { flexDirection: 'column', marginLeft: 70, flex: 1 },
+          h('div', { flexWrap: 'wrap', fontSize: escala(p.titulo, [[24, 68], [44, 56], [999, 46]]), fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
+          p.lugar && h('div', { marginTop: 22, fontSize: 30, color: p.suave }, p.lugar),
+          p.boton && h('div', { marginTop: 40, alignSelf: 'flex-start', padding: '16px 40px', borderRadius: 999, border: `3px solid ${p.acento}`, color: p.texto, fontSize: 28, fontWeight: 700 }, p.boton),
+        ),
+      )
+    },
+  },
+
+  lista: {
+    nombre: 'Lista',
+    descripcion: 'Un título y de 2 a 4 puntos numerados. Para guías, checklists y resúmenes.',
+    campos: ['titulo', 'puntos', 'sitio', 'fondo', 'texto', 'acento'],
+    ejemplo: { titulo: 'Antes de automatizar, revisa:', puntos: 'Que la tarea se repita cada semana | Que alguien la haga igual siempre | Que sepas medir si salió bien', sitio: 'gabrielneuman.com' },
+    dibujar: (p) => {
+      const puntos = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 4)
+      return h('div', { width: ANCHO, height: ALTO, flexDirection: 'column', justifyContent: 'center', padding: '0 90px', background: p.fondo, color: p.texto },
+        h('div', { flexWrap: 'wrap', fontSize: escala(p.titulo, [[30, 58], [60, 48], [999, 40]]), fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 36 }, resaltar(p.titulo, p.acento)),
+        ...puntos.map((t, i) => h('div', { alignItems: 'center', marginTop: 18 },
+          h('div', { alignItems: 'center', justifyContent: 'center', width: 56, height: 56, borderRadius: 999, background: p.acento, color: p.sobreAcento, fontSize: 28, fontWeight: 700, flexShrink: 0 }, String(i + 1)),
+          h('div', { marginLeft: 24, fontSize: puntos.length > 3 ? 30 : 34, fontWeight: 500 }, t),
+        )),
+        p.sitio && h('div', { position: 'absolute', right: 90, bottom: 50, fontSize: 24, color: p.suave }, p.sitio),
+      )
+    },
+  },
+
+  podcast: {
+    nombre: 'Podcast',
+    descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
+    campos: ['titulo', 'autor', 'sub', 'foto', 'sitio', 'fondo', 'texto', 'acento'],
+    ejemplo: { titulo: 'Cómo crecer un negocio de servicios sin contratar más', autor: 'Tu invitado', sub: 'Episodio 101', sitio: 'Growth Tactics' },
+    dibujar: (p) =>
+      h('div', { width: ANCHO, height: ALTO, alignItems: 'center', padding: '0 80px', background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', flex: 1, marginRight: 60 },
+          h('div', { alignItems: 'center', fontSize: 24, fontWeight: 700, color: p.acento, letterSpacing: '0.12em' },
+            p.micSvg && img(p.micSvg, { width: 34, height: 34, marginRight: 12 }),
+            (p.sub || 'Episodio').toUpperCase(),
+          ),
+          h('div', { flexWrap: 'wrap', marginTop: 22, fontSize: escala(p.titulo, [[30, 62], [60, 50], [999, 42]]), fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
+          p.autor && h('div', { marginTop: 26, fontSize: 32, fontWeight: 500, color: p.suave }, `con ${p.autor}`),
+          p.sitio && h('div', { marginTop: 40, fontSize: 24, fontWeight: 700 }, p.sitio),
+        ),
+        p.foto
+          ? img(p.foto, { width: 380, height: 380, borderRadius: 40, objectFit: 'cover', border: `8px solid ${p.acento}` })
+          : h('div', { alignItems: 'center', justifyContent: 'center', width: 380, height: 380, borderRadius: 40, background: p.acento, color: p.sobreAcento, fontSize: 150, fontWeight: 700 }, iniciales(p.autor)),
+      ),
+  },
 }
 
 function iniciales(nombre = '') {
@@ -207,4 +344,12 @@ export const CAMPOS = {
   fondo: { etiqueta: 'Fondo', tipo: 'color' },
   texto: { etiqueta: 'Texto', tipo: 'color' },
   acento: { etiqueta: 'Acento', tipo: 'color' },
+  ciudad: { etiqueta: 'Ciudad', tipo: 'texto', ayuda: 'Vacío: la de quien ve la imagen. En el título usa {ciudad} y {pais}.' },
+  pais: { etiqueta: 'País (código de 2 letras)', tipo: 'texto', ayuda: 'MX, CO, AR, ES… Vacío: el de quien ve la imagen.' },
+  cifra: { etiqueta: 'Cifra', tipo: 'texto' },
+  izquierda: { etiqueta: 'Opción de la izquierda', tipo: 'texto' },
+  derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
+  fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
+  lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
+  puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

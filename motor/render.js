@@ -7,7 +7,7 @@ import { Resvg, initWasm } from '@resvg/resvg-wasm'
 import { ANCHO, ALTO, PLANTILLAS } from './plantillas.js'
 
 const MARCA = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' }
-const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40 }
+const LARGO = { titulo: 140, sub: 160, extracto: 220, autor: 60, sitio: 60, boton: 40, emoji: 16, icono: 40, ciudad: 40, pais: 2, cifra: 12, izquierda: 50, derecha: 50, fecha: 14, lugar: 80, puntos: 300 }
 
 const hex = (v, def) => {
   const s = String(v ?? '').trim().replace(/^#/, '')
@@ -38,8 +38,16 @@ export function normalizar(slug, entrada = {}) {
   p.suave = luz(p.fondo) > 0.6 ? '#4b5563' : '#c5d5f8'
   p.sobreAcento = luz(p.acento) > 0.6 ? '#0f1733' : '#ffffff'
   if (!p.titulo && pl.campos.includes('titulo')) p.titulo = pl.ejemplo.titulo
+  if (p.pais !== undefined) {
+    p.pais = /^[a-z]{2}$/i.test(p.pais) ? p.pais.toUpperCase() : ''
+    // "MX" → 🇲🇽 (dos letras indicadoras regionales) y "México".
+    p.bandera = p.pais ? String.fromCodePoint(...[...p.pais].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)) : ''
+    p.nombrePais = p.pais ? (paises.of(p.pais) ?? p.pais) : ''
+  }
   return p
 }
+
+const paises = new Intl.DisplayNames(['es-MX'], { type: 'region' })
 
 /** Emoji → nombre de archivo de Twemoji ("🚀" → "1f680"). */
 export function codigoEmoji(segmento) {
@@ -71,6 +79,10 @@ export async function generarSvg(slug, entrada, recursos) {
     if (!p[k]) continue
     const r = await recursos.bajar(p[k]).catch(() => null)
     p[k] = r && /^image\/(png|jpe?g|gif|webp|svg\+xml)/.test(r.tipo) ? aDataUri(r.tipo, r.bytes) : ''
+  }
+  if (slug === 'podcast') {
+    const svg = await recursos.leer('iconos/mic.svg')
+    p.micSvg = svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', p.acento))) : ''
   }
   if (p.icono !== undefined) {
     const nombre = (p.icono || 'sparkles').toLowerCase().replace(/[^a-z0-9-]/g, '')

@@ -14,7 +14,9 @@ const slug = Astro.params.slug as Plantilla
 const pl = PLANTILLAS[slug]
 const ejemplo: Record<string, string> = pl.ejemplo
 const COLORES = { fondo: '#0f1733', texto: '#f7f6f2', acento: '#e2553d' } as Record<string, string>
-const campos = pl.campos.map((id: string) => ({ id, ...CAMPOS[id], valor: ejemplo[id] ?? (CAMPOS[id].tipo === 'color' ? COLORES[id] : '') }))
+// En ciudad, ciudad y país van vacíos: así la vista previa muestra los de quien la abre.
+const porUbicacion = (id: string) => slug === 'ciudad' && (id === 'ciudad' || id === 'pais')
+const campos = pl.campos.map((id: string) => ({ id, ...CAMPOS[id], valor: porUbicacion(id) ? '' : ejemplo[id] ?? (CAMPOS[id].tipo === 'color' ? COLORES[id] : '') }))
 const base = new URL(Astro.site!).origin
 const url = base + urlOg(slug, Object.fromEntries(campos.filter((c) => c.tipo !== 'color' || ejemplo[c.id]).map((c) => [c.id, c.valor])))
 const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
@@ -37,7 +39,7 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
       <button type="button" data-copiar hidden class="mt-3 rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-ink-900 hover:border-ink-900">Copiar</button>
     </div>
 
-    <form data-editor action={`/og/${slug}`} method="get" target="_blank" class="flex flex-col gap-4">
+    <form data-editor data-al-abrir={slug === 'ciudad' ? '1' : undefined} action={`/og/${slug}`} method="get" target="_blank" class="flex flex-col gap-4">
       {campos.map((c) => (
         <label class="flex flex-col gap-1 text-sm">
           <span class="font-medium text-ink-900">{c.etiqueta}</span>
@@ -76,6 +78,7 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
     espera = window.setTimeout(() => { vista.src = u }, 400)
   }
   form.addEventListener('input', actualizar)
+  if (form.dataset.alAbrir) actualizar()
   copiar.hidden = false
   copiar.addEventListener('click', async () => {
     await navigator.clipboard.writeText(codigo.textContent ?? '')

@@ -22,7 +22,6 @@ SOFTWARE.
 
 ---
 
-La galería (content/galeria/ con fuente "ogimage.org" y sus imágenes) viene de
-github.com/Illyism/ogimage, MIT License, Copyright (c) 2023-2026 Ilias Ism.
-Cada imagen de la galería pertenece a su empresa.
-Emoji: Twemoji (CC-BY 4.0). Íconos: Lucide (ISC).
+Parte de los datos de content/galeria/ se tomaron de un proyecto con licencia
+MIT, Copyright (c) 2023-2026 Ilias Ism. Cada imagen de la galería pertenece a
+su empresa. Emoji: Twemoji (CC-BY 4.0). Íconos: Lucide (ISC).

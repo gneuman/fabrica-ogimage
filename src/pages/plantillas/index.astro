@@ -3,7 +3,7 @@ import Base from '@/layouts/Base.astro'
 import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
 import { SLUGS } from '@/lib/sitio'
 ---
-<Base title="Plantillas de imágenes OG en español | Fábrica OG" description="Nueve plantillas para la imagen que sale al compartir un link: artículo, titular, emoji, ícono, perfil, botón, captura, teléfono y marca. Todas por URL y gratis." path="/plantillas/">
+<Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link: artículo, titular, cita, cifra, evento, podcast, ciudad y más. Todas por URL y gratis.`} path="/plantillas/">
   <section class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
     <h1 class="font-serif text-4xl text-ink-900">Plantillas</h1>
     <p class="mt-4 max-w-2xl text-lg text-gray-700">Elige una, cambia el texto en el editor y copia la dirección. Todas salen a 1200×630 en PNG.</p>

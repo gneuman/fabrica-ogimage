@@ -15,7 +15,7 @@ const faq = [
   { p: '¿Cada cuánto se actualiza la imagen?', r: 'Cada dirección se dibuja una vez y se guarda un año en la caché de Cloudflare. Si cambias el título, cambia la dirección y sale una imagen nueva. Las redes también guardan la imagen por su lado: LinkedIn y Facebook tienen herramientas para volver a leerla.' },
 ]
 ---
-<Base title={`${NOMBRE}: imágenes para compartir links, en español | ${AUTOR.nombre}`} description="Genera la imagen que sale al compartir tu página en WhatsApp, LinkedIn o X con solo una URL. Nueve plantillas en español, gratis y de código abierto, y una galería de inspiración." path="/" schema={[{ '@context': 'https://schema.org', '@type': 'WebApplication', name: NOMBRE, applicationCategory: 'DesignApplication', operatingSystem: 'Web', inLanguage: 'es-MX', offers: { '@type': 'Offer', price: '0', priceCurrency: 'MXN' }, author: { '@type': 'Person', name: AUTOR.nombre, url: AUTOR.url } }]}>
+<Base title={`${NOMBRE}: imágenes para compartir links, en español | ${AUTOR.nombre}`} description="Genera la imagen que sale al compartir tu página en WhatsApp, LinkedIn o X con solo una URL. Plantillas en español, gratis y de código abierto, y una galería de inspiración." path="/" schema={[{ '@context': 'https://schema.org', '@type': 'WebApplication', name: NOMBRE, applicationCategory: 'DesignApplication', operatingSystem: 'Web', inLanguage: 'es-MX', offers: { '@type': 'Offer', price: '0', priceCurrency: 'MXN' }, author: { '@type': 'Person', name: AUTOR.nombre, url: AUTOR.url } }]}>
   <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-16 pb-12 sm:px-6 lg:grid-cols-2">
     <div>
       <p class="text-xs font-semibold tracking-[0.18em] text-accent-600 uppercase">Gratis y de código abierto</p>
@@ -36,7 +36,7 @@ const faq = [
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />`}</code></pre>
     <ol class="mt-8 grid gap-6 sm:grid-cols-3">
-      <li><p class="font-semibold text-ink-900">1. Elige una plantilla</p><p class="mt-1 text-sm text-gray-600">Hay nueve: para posts, landings, perfiles, ofertas y capturas de tu producto.</p></li>
+      <li><p class="font-semibold text-ink-900">1. Elige una plantilla</p><p class="mt-1 text-sm text-gray-600">Hay {SLUGS.length}: para posts, landings, eventos, podcast, citas, cifras y capturas de tu producto.</p></li>
       <li><p class="font-semibold text-ink-900">2. Ajusta el texto y los colores</p><p class="mt-1 text-sm text-gray-600">En el editor ves la imagen mientras escribes. Lo que pongas *entre asteriscos* sale en tu color de acento.</p></li>
       <li><p class="font-semibold text-ink-900">3. Copia la dirección</p><p class="mt-1 text-sm text-gray-600">Va en tu página o en el campo de imagen de tu CMS. Para muchas páginas, <a href="/usar/" class="underline underline-offset-4">genéralas en tu build</a>.</p></li>
     </ol>
@@ -44,7 +44,7 @@ const faq = [
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
     <h2 class="font-serif text-3xl text-ink-900">¿Qué plantillas hay?</h2>
-    <p class="mt-3 max-w-2xl text-gray-700">Nueve, todas a 1200×630 y con emoji e íconos incluidos.</p>
+    <p class="mt-3 max-w-2xl text-gray-700">{SLUGS.length}, todas a 1200×630 y con emoji e íconos incluidos. La de ciudad pone la ciudad y la bandera de quien la ve.</p>
     <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {SLUGS.map((s) => <TarjetaPlantilla slug={s} />)}
     </div>
