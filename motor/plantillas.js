@@ -646,20 +646,28 @@ export const PLANTILLAS = {
     marca: { fondo: '#08090f', texto: '#ffffff', acento: '#ffe600' },
     ejemplo: { sitio: 'Tu podcast | Episodio 1', autor: 'nombre del invitado', titulo: 'Vender servicios tiene reglas nuevas', sub: 'Esto es lo que cambió', foto: '/muestras/persona.png' },
     dibujar: (p) => {
-      const ancho = p.alto ? p.W - 80 : Math.round(p.W * 0.64)
+      // Texto y persona no se enciman: lado a lado en OG, apilados en los altos.
       const [s1, s2] = (p.sitio || '').split(/\s*\|\s*/)
-      const altoFoto = p.alto ? Math.round(p.H * 0.5) : p.H
-      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', color: p.texto, backgroundImage: `radial-gradient(circle at 10% 20%, #2a2f45 0%, ${p.fondo} 55%)` },
-        p.foto && img(p.foto, { position: 'absolute', right: p.alto ? 0 : -20, bottom: 0, height: altoFoto, objectFit: 'contain' }),
-        h('div', { position: 'absolute', left: 40, top: 36, flexDirection: 'column', fontFamily: 'Lilita', fontSize: 30, lineHeight: 1, textTransform: 'uppercase' },
-          s1 && h('div', {}, s1.replace(/\*/g, '')),
-          s2 && h('div', { color: p.acento }, s2.replace(/\*/g, '')),
+      const anchoFoto = p.alto ? p.W : Math.round(p.W * 0.4)
+      const altoFoto = p.alto ? Math.round(p.H * 0.4) : p.H
+      const anchoTexto = p.alto ? p.W - 80 : p.W - anchoFoto - 60
+      const tam = p.alto ? escala(p.titulo, [[25, 64], [45, 52], [70, 44], [999, 36]]) : escala(p.titulo, [[25, 74], [45, 60], [70, 50], [999, 42]])
+      const texto = h('div', { flexDirection: 'column', width: anchoTexto, flex: 1, justifyContent: 'center' },
+        p.autor && h('div', { fontSize: p.alto ? 34 : 38, fontWeight: 700, marginLeft: 4, marginBottom: 10, textTransform: 'lowercase' }, p.autor),
+        h('div', { flexWrap: 'wrap', padding: '14px 22px 20px', background: p.acento, color: p.sobreAcento, fontSize: tam, fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.sobreAcento)),
+        p.sub && h('div', { flexWrap: 'wrap', marginTop: 16, marginLeft: 4, fontSize: Math.round(tam * 0.55), fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.02em' }, p.sub),
+      )
+      const foto = p.foto && h('div', { width: anchoFoto, height: altoFoto, justifyContent: 'center', alignItems: 'flex-end' },
+        img(p.foto, { width: anchoFoto, height: altoFoto, objectFit: 'contain', objectPosition: 'bottom' }))
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', color: p.texto, backgroundImage: `radial-gradient(circle at 10% 20%, #2a2f45 0%, ${p.fondo} 55%)` },
+        h('div', { flexDirection: 'column', flex: 1, padding: p.alto ? '36px 40px 10px' : '36px 0 36px 40px' },
+          (s1 || s2) && h('div', { flexDirection: 'column', fontFamily: 'Lilita', fontSize: 28, lineHeight: 1, textTransform: 'uppercase' },
+            s1 && h('div', {}, s1.replace(/\*/g, '')),
+            s2 && h('div', { color: p.acento }, s2.replace(/\*/g, '')),
+          ),
+          texto,
         ),
-        h('div', { position: 'absolute', left: 40, top: p.alto ? 120 : 0, bottom: p.alto ? undefined : 0, flexDirection: 'column', justifyContent: 'center', width: ancho },
-          p.autor && h('div', { fontSize: 40, fontWeight: 700, marginLeft: 6, marginBottom: 12, textTransform: 'lowercase' }, p.autor),
-          h('div', { flexWrap: 'wrap', padding: '18px 28px 26px', background: p.acento, color: p.sobreAcento, fontSize: escala(p.titulo, [[30, 84], [50, 68], [999, 52]]), fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em' }, resaltar(p.titulo, p.sobreAcento)),
-          p.sub && h('div', { marginTop: 18, marginLeft: 6, fontSize: escala(p.sub, [[30, 44], [999, 34]]), fontWeight: 700, letterSpacing: '-0.03em', textShadow: '0 4px 12px rgba(0,0,0,0.6)' }, p.sub),
-        ),
+        foto,
       )
     },
   },
