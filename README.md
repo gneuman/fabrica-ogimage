@@ -66,6 +66,8 @@ plantilla están en `/usar/` y en `motor/plantillas.js` (`CAMPOS`). Respuesta:
 | Galería: un JSON por sitio + su imagen | `content/galeria/`, `public/galeria/img/` |
 | Sitio (Astro, estático) | `src/` |
 
+Cada carpeta tiene su `README.md` con cómo se corre y qué se puede cambiar.
+
 ```bash
 npm run build                      # emoji, íconos, muestras y sitio
 npm run preview                    # sitio + Worker en http://localhost:8787
