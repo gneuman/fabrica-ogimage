@@ -35,7 +35,7 @@ export async function generarSvg(slug, entrada, recursos) {
 
   // Fotos y capturas: se bajan antes para que una URL rota dé la plantilla sin
   // imagen, no un error.
-  for (const k of ['foto', 'foto2', 'imagen']) {
+  for (const k of ['foto', 'foto2', 'imagen', 'logo']) {
     if (!p[k]) continue
     const r = await recursos.bajar(p[k]).catch(() => null)
     p[k] = r && /^image\/(png|jpe?g|gif|webp|svg\+xml)/.test(r.tipo) ? aDataUri(r.tipo, r.bytes) : ''
@@ -43,6 +43,15 @@ export async function generarSvg(slug, entrada, recursos) {
   if (slug === 'podcast') {
     const svg = await recursos.leer('iconos/mic.svg')
     p.micSvg = svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', p.acento))) : ''
+  }
+  // Pilares de alianza: "truck: Monitoreo de flotas | leaf: …", cada ícono en el color del texto.
+  if (p.pilares !== undefined) {
+    const pinta = (svg) => (svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', p.texto))) : '')
+    p.pilares = await Promise.all(p.pilares.split(/\s*\|\s*/).filter(Boolean).map(async (t) => {
+      const [, icono, texto] = t.match(/^([a-z0-9-]+)\s*:\s*(.+)$/i) ?? [null, 'sparkles', t]
+      return { texto, svg: pinta((await recursos.leer(`iconos/${icono.toLowerCase()}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))) }
+    }))
+    p.flechaSvg = pinta(await recursos.leer('iconos/arrow-right.svg'))
   }
   if (p.icono !== undefined) {
     const nombre = (p.icono || 'sparkles').toLowerCase().replace(/[^a-z0-9-]/g, '')

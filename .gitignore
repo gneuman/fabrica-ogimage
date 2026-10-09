@@ -6,3 +6,4 @@ dist/
 public/_recursos/
 public/_muestras/
 .DS_Store
+.probar/

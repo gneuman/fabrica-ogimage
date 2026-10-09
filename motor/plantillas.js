@@ -127,6 +127,44 @@ function ceoPersona(p, src, nombre, w, alto, voltear = false) {
   )
 }
 
+// Silueta aproximada de América en coordenadas del disco (0 a 1), de norte a sur.
+const AMERICA = [[0.22, 0.12], [0.42, 0.06], [0.62, 0.1], [0.7, 0.2], [0.6, 0.3], [0.56, 0.4], [0.46, 0.46], [0.42, 0.52],
+  [0.5, 0.55], [0.66, 0.6], [0.74, 0.68], [0.66, 0.78], [0.58, 0.88], [0.52, 0.94], [0.5, 0.84], [0.44, 0.7], [0.4, 0.58],
+  [0.34, 0.5], [0.28, 0.38], [0.18, 0.28]]
+const dentro = (x, y, pol) => pol.reduce((d, [xi, yi], i) => {
+  const [xj, yj] = pol.at(i - 1)
+  return (yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi ? !d : d
+}, false)
+
+/** El planeta: red de puntos de luz sobre América, como SVG (sin imagen que subir). */
+function planeta(acento, lado) {
+  // Pseudoazar fijo: la misma imagen en cada build.
+  let semilla = 7
+  const azar = () => ((semilla = (semilla * 16807) % 2147483647) / 2147483647)
+  const nodos = []
+  for (let y = 0.08; y < 0.96; y += 0.045) {
+    for (let x = 0.15; x < 0.78; x += 0.045) {
+      const px = x + (azar() - 0.5) * 0.03, py = y + (azar() - 0.5) * 0.03
+      // Corrida a la izquierda: el disco se recorta por la derecha en el lienzo.
+      if (dentro(px, py, AMERICA) && azar() > 0.25) nodos.push([(0.06 + px * 0.78) * lado, py * lado])
+    }
+  }
+  const lineas = []
+  nodos.forEach(([x1, y1], i) => nodos.slice(i + 1).forEach(([x2, y2]) => {
+    if (Math.hypot(x2 - x1, y2 - y1) < lado * 0.07) lineas.push(`M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`)
+  }))
+  const r = lado / 2
+  const arcos = [0.22, 0.38].map((k) => `<ellipse cx="${r}" cy="${r}" rx="${r * 0.98}" ry="${r * k}" transform="rotate(-24 ${r} ${r})" fill="none" stroke="${acento}" stroke-opacity="0.35" stroke-dasharray="2 5"/>`).join('')
+  const puntos = nodos.map(([x, y], i) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i % 5 ? lado * 0.004 : lado * 0.008}"/>`).join('')
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${lado}" height="${lado}" viewBox="0 0 ${lado} ${lado}">`
+    + `<defs><radialGradient id="g" cx="0.42" cy="0.45" r="0.6"><stop offset="0" stop-color="${acento}" stop-opacity="0.16"/><stop offset="1" stop-color="${acento}" stop-opacity="0"/></radialGradient>`
+    + `<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${(lado * 0.006).toFixed(1)}"/></filter></defs>`
+    + `<circle cx="${r}" cy="${r}" r="${r}" fill="url(#g)"/>${arcos}`
+    + `<path d="${lineas.join('')}" stroke="${acento}" stroke-opacity="0.55" stroke-width="${(lado * 0.0018).toFixed(2)}" fill="none"/>`
+    + `<g fill="${acento}" filter="url(#b)">${puntos}</g><g fill="#ffe2cc">${puntos}</g></svg>`
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
+}
+
 export const PLANTILLAS = {
   marca: {
     nombre: 'Marca',
@@ -784,6 +822,65 @@ export const PLANTILLAS = {
     },
   },
 
+  alianza: {
+    nombre: 'Alianza',
+    descripcion: 'Dos marcas lado a lado, titular en dos pesos, tres pilares con ícono, remate y botón; un globo de luz a la derecha.',
+    cuando: 'Se anuncia una alianza o colaboración entre dos marcas, con lo que ofrecen juntas.',
+    campos: ['logo', 'sitio', 'autor', 'titulo', 'sub', 'pilares', 'extracto', 'boton', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#050505', texto: '#ffffff', acento: '#ff6a2b' },
+    ayuda: { sitio: 'La marca aliada, en texto (si no hay logo).', autor: 'La segunda marca, a la derecha de la raya.', titulo: 'Lo *marcado* sale en negrita; lo demás, fino.', extracto: 'Remate: *frase en negrita.* y lo que sigue, debajo.', foto: 'Imagen del globo. Sin ella se dibuja el planeta de puntos en el acento.' },
+    ejemplo: { sitio: 'Margara', autor: 'Gabriel Neuman', titulo: '*Una alianza* que llega a toda *América.*', sub: 'Tecnología, datos y sostenibilidad para un futuro más eficiente y responsable.', pilares: 'truck: Monitoreo de flotas | leaf: Gestión ambiental | chart-column: Datos para decisiones reales', extracto: '*Dos soluciones. Una misma visión.* Empresas más eficientes y un impacto positivo en la región.', boton: 'Conocé más' },
+    dibujar: (p) => {
+      // Medidas relativas al lado corto: el mismo diseño en los cinco tamaños.
+      const u = Math.min(p.W, p.H) / 680
+      const ancho = p.W > p.H * 1.3
+      // En historia el globo llena el hueco de arriba y el texto baja.
+      const muyAlto = p.H > p.W * 1.5
+      const pad = Math.round((ancho ? 56 : 40) * u)
+      const globo = Math.round(ancho ? p.H * 0.98 : p.W * (muyAlto ? 1.05 : 0.82))
+      const columna = ancho ? Math.round(p.W * 0.6) : p.W - pad * 2
+      const pilares = p.pilares.slice(0, 3)
+      const tam = escala(p.titulo, [[34, 62], [60, 52], [999, 42]]) * u * (ancho ? 0.9 : 1)
+      // Lo marcado va en negrita; lo demás, fino.
+      const remate = p.extracto.match(/^\*([^*]+)\*\s*(.*)$/)
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', background: p.fondo, color: p.texto },
+        // El globo: la imagen de ?foto= o, sin ella, el planeta de puntos en el acento.
+        h('div', { position: 'absolute', width: globo, height: globo, right: -Math.round(globo * (ancho ? 0.18 : muyAlto ? 0.3 : 0.42)), top: ancho ? Math.round((p.H - globo) / 2) : Math.round(p.H * (muyAlto ? 0.1 : 0.16)), borderRadius: 9999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.acento}`, boxShadow: `0 0 ${Math.round(40 * u)}px ${p.acento}`, background: p.fondo, overflow: 'hidden' },
+          img(p.foto || planeta(p.acento, globo), { width: globo, height: globo, objectFit: 'cover' })),
+        h('div', { flexDirection: 'column', justifyContent: 'space-between', width: p.W, height: p.H, padding: pad, backgroundImage: `linear-gradient(90deg, ${p.fondo} 0%, ${p.fondo}cc 45%, ${p.fondo}00 75%)` },
+          h('div', { alignItems: 'center' },
+            p.logo ? img(p.logo, { height: Math.round(44 * u), maxWidth: Math.round(220 * u), objectFit: 'contain' })
+              : p.sitio && h('div', { fontSize: Math.round(30 * u), fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase' }, p.sitio),
+            (p.logo || p.sitio) && p.autor && h('div', { width: 2, height: Math.round(44 * u), margin: `0 ${Math.round(22 * u)}px`, background: `${p.texto}66` }),
+            p.autor && h('div', { flexDirection: 'column', fontSize: Math.round(18 * u), letterSpacing: '0.3em', lineHeight: 1.15, textTransform: 'uppercase' },
+              ...(p.autor.split(/\s+/).length > 1 ? [h('div', { fontWeight: 500 }, p.autor.split(/\s+/)[0]), h('div', { fontWeight: 700 }, p.autor.split(/\s+/).slice(1).join(' '))] : [h('div', { fontWeight: 700 }, p.autor)])),
+          ),
+          h('div', { flexDirection: 'column', width: columna, flex: muyAlto ? 1 : undefined, justifyContent: 'flex-end', marginBottom: muyAlto ? Math.round(60 * u) : 0 },
+            h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 500, lineHeight: 1.02, letterSpacing: '-0.02em', textTransform: 'uppercase' }, resaltar(p.titulo, p.texto, { fontWeight: 700 })),
+            p.sub && h('div', { marginTop: Math.round(18 * u), fontSize: Math.round(22 * u), fontWeight: 500, lineHeight: 1.3, color: p.suave, maxWidth: Math.round(480 * u) }, p.sub),
+            pilares.length > 0 && h('div', { marginTop: Math.round(26 * u), alignItems: 'flex-start' },
+              ...pilares.map(({ texto, svg }, i) => h('div', { alignItems: 'flex-start' },
+                i > 0 && h('div', { width: 1, height: Math.round(50 * u), marginTop: Math.round(14 * u), background: `${p.texto}55` }),
+                h('div', { flexDirection: 'column', alignItems: 'center', width: Math.round(140 * u) },
+                  h('div', { alignItems: 'center', justifyContent: 'center', width: Math.round(76 * u), height: Math.round(76 * u), borderRadius: 999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.texto}` },
+                    svg && img(svg, { width: Math.round(36 * u), height: Math.round(36 * u) })),
+                  h('div', { marginTop: Math.round(10 * u), fontSize: Math.round(15 * u), fontWeight: 500, lineHeight: 1.25, textAlign: 'center' }, texto),
+                ))),
+            ),
+          ),
+          h('div', { flexDirection: 'column', width: columna },
+            p.extracto && h('div', { flexDirection: 'column', fontSize: Math.round(20 * u), lineHeight: 1.3 },
+              remate ? h('div', { fontWeight: 700, fontSize: Math.round(24 * u) }, remate[1]) : null,
+              h('div', { fontWeight: 500, color: p.suave }, remate ? remate[2] : p.extracto.replace(/\*/g, ''))),
+            p.boton && h('div', { alignSelf: 'flex-start', alignItems: 'center', marginTop: Math.round(22 * u), padding: `${Math.round(14 * u)}px ${Math.round(34 * u)}px`, borderRadius: 999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.texto}`, fontSize: Math.round(22 * u), fontWeight: 700 },
+              p.boton,
+              p.flechaSvg && img(p.flechaSvg, { width: Math.round(26 * u), height: Math.round(26 * u), marginLeft: Math.round(16 * u) })),
+          ),
+        ),
+      )
+    },
+  },
+
   podcast: {
     nombre: 'Podcast',
     descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
@@ -837,5 +934,7 @@ export const CAMPOS = {
   derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
   fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
+  logo: { etiqueta: 'Logo (URL)', tipo: 'url', ayuda: 'Sin logo sale el sitio en texto.' },
+  pilares: { etiqueta: 'Pilares', tipo: 'texto', ayuda: 'Hasta 3, separados con |: ícono de Lucide: texto. P. ej. truck: Monitoreo de flotas.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }
