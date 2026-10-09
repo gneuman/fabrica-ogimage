@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/recursos.mjs && astro build",
+    "build": "node scripts/recursos.mjs && node scripts/catalogo.mjs && astro build",
+    "probar": "node scripts/recursos.mjs && node scripts/probar.mjs",
     "preview": "npm run build && wrangler dev",
     "check": "astro check",
     "galeria:agregar": "node scripts/galeria-agregar.mjs",

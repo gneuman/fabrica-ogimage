@@ -828,6 +828,7 @@ export const PLANTILLAS = {
     cuando: 'Se anuncia una alianza o colaboración entre dos marcas, con lo que ofrecen juntas.',
     campos: ['logo', 'sitio', 'autor', 'titulo', 'sub', 'pilares', 'extracto', 'boton', 'foto', 'fondo', 'texto', 'acento'],
     marca: { fondo: '#050505', texto: '#ffffff', acento: '#ff6a2b' },
+    ayuda: { sitio: 'La marca aliada, en texto (si no hay logo).', autor: 'La segunda marca, a la derecha de la raya.', titulo: 'Lo *marcado* sale en negrita; lo demás, fino.', extracto: 'Remate: *frase en negrita.* y lo que sigue, debajo.', foto: 'Imagen del globo. Sin ella se dibuja el planeta de puntos en el acento.' },
     ejemplo: { sitio: 'Margara', autor: 'Gabriel Neuman', titulo: '*Una alianza* que llega a toda *América.*', sub: 'Tecnología, datos y sostenibilidad para un futuro más eficiente y responsable.', pilares: 'truck: Monitoreo de flotas | leaf: Gestión ambiental | chart-column: Datos para decisiones reales', extracto: '*Dos soluciones. Una misma visión.* Empresas más eficientes y un impacto positivo en la región.', boton: 'Conocé más' },
     dibujar: (p) => {
       // Medidas relativas al lado corto: el mismo diseño en los cinco tamaños.

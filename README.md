@@ -29,8 +29,9 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    Yo uso un VPS de [Hostinger](https://gnb.mx/HostingerHub) (link de afiliado: si contratas por ahí gano
    una comisión, sin costo extra para ti).
 
-22 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
-(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista, podcast, entrevista, ceoagentico, ceoportada y ceopromo.
+27 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo y alianza.
+Qué hace cada una, sus campos y una URL de ejemplo: [`PLANTILLAS.md`](PLANTILLAS.md). Cómo hacer una nueva: [`motor/README.md`](motor/README.md).
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
 ## La API de imágenes
@@ -68,6 +69,7 @@ plantilla están en `/usar/` y en `motor/plantillas.js` (`CAMPOS`). Respuesta:
 ```bash
 npm run build                      # emoji, íconos, muestras y sitio
 npm run preview                    # sitio + Worker en http://localhost:8787
+npm run probar -- alianza          # una plantilla en los cinco tamaños, en .probar/
 npm run galeria:agregar -- https://empresa.com saas marketing
 ```
 
