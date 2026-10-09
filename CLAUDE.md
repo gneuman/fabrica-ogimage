@@ -16,4 +16,5 @@ proyectos. Marca: Gabriel Neuman. Familia `gnb`: voz, cifras y decisiones en
 2. Satori fijo en 0.32: desde 0.33 trae harfbuzz, que no corre en Workers.
 3. Cero JS en el navegador salvo el editor de plantillas (que dibuja con el mismo motor).
 4. Toda URL interna termina en `/`.
-5. Commits en español: `<verbo>: <qué>`. Antes de push: `npm run build` y `npm run check` salen 0.
+5. Toda plantilla nueva o cambiada se diseña y se revisa en los cinco tamaños de `FORMATOS` (og, cuadrado, vertical, horizontal, historia), no solo en el de la referencia.
+6. Commits en español: `<verbo>: <qué>`. Antes de push: `npm run build` y `npm run check` salen 0.

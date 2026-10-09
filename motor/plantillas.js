@@ -784,6 +784,64 @@ export const PLANTILLAS = {
     },
   },
 
+  alianza: {
+    nombre: 'Alianza',
+    descripcion: 'Dos marcas lado a lado, titular en dos pesos, tres pilares con ícono, remate y botón; un globo de luz a la derecha.',
+    cuando: 'Se anuncia una alianza o colaboración entre dos marcas, con lo que ofrecen juntas.',
+    campos: ['logo', 'sitio', 'autor', 'titulo', 'sub', 'pilares', 'extracto', 'boton', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#050505', texto: '#ffffff', acento: '#ff6a2b' },
+    ejemplo: { sitio: 'Margara', autor: 'Gabriel Neuman', titulo: '*Una alianza* que llega a toda *América.*', sub: 'Tecnología, datos y sostenibilidad para un futuro más eficiente y responsable.', pilares: 'truck: Monitoreo de flotas | leaf: Gestión ambiental | chart-column: Datos para decisiones reales', extracto: '*Dos soluciones. Una misma visión.* Empresas más eficientes y un impacto positivo en la región.', boton: 'Conocé más' },
+    dibujar: (p) => {
+      // Medidas relativas al lado corto: el mismo diseño en los cinco tamaños.
+      const u = Math.min(p.W, p.H) / 680
+      const ancho = p.W > p.H * 1.3
+      // En historia el globo llena el hueco de arriba y el texto baja.
+      const muyAlto = p.H > p.W * 1.5
+      const pad = Math.round((ancho ? 56 : 40) * u)
+      const globo = Math.round(ancho ? p.H * 0.98 : p.W * (muyAlto ? 1.05 : 0.82))
+      const columna = ancho ? Math.round(p.W * 0.6) : p.W - pad * 2
+      const pilares = p.pilares.slice(0, 3)
+      const tam = escala(p.titulo, [[34, 62], [60, 52], [999, 42]]) * u * (ancho ? 0.9 : 1)
+      // Lo marcado va en negrita; lo demás, fino.
+      const remate = p.extracto.match(/^\*([^*]+)\*\s*(.*)$/)
+      return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', background: p.fondo, color: p.texto },
+        // El globo: la imagen de ?foto= o, sin ella, un círculo con halo del acento.
+        h('div', { position: 'absolute', width: globo, height: globo, right: -Math.round(globo * (ancho ? 0.18 : muyAlto ? 0.3 : 0.42)), top: ancho ? Math.round((p.H - globo) / 2) : Math.round(p.H * (muyAlto ? 0.1 : 0.16)), borderRadius: 9999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.acento}`, boxShadow: `0 0 ${Math.round(40 * u)}px ${p.acento}`, backgroundImage: p.foto ? undefined : `radial-gradient(circle at 35% 40%, ${p.acento}44 0%, ${p.fondo} 70%)`, overflow: 'hidden' },
+          p.foto && img(p.foto, { width: globo, height: globo, objectFit: 'cover' })),
+        h('div', { flexDirection: 'column', justifyContent: 'space-between', width: p.W, height: p.H, padding: pad, backgroundImage: `linear-gradient(90deg, ${p.fondo} 0%, ${p.fondo}cc 45%, ${p.fondo}00 75%)` },
+          h('div', { alignItems: 'center' },
+            p.logo ? img(p.logo, { height: Math.round(44 * u), maxWidth: Math.round(220 * u), objectFit: 'contain' })
+              : p.sitio && h('div', { fontSize: Math.round(30 * u), fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase' }, p.sitio),
+            (p.logo || p.sitio) && p.autor && h('div', { width: 2, height: Math.round(44 * u), margin: `0 ${Math.round(22 * u)}px`, background: `${p.texto}66` }),
+            p.autor && h('div', { flexDirection: 'column', fontSize: Math.round(18 * u), letterSpacing: '0.3em', lineHeight: 1.15, textTransform: 'uppercase' },
+              ...(p.autor.split(/\s+/).length > 1 ? [h('div', { fontWeight: 500 }, p.autor.split(/\s+/)[0]), h('div', { fontWeight: 700 }, p.autor.split(/\s+/).slice(1).join(' '))] : [h('div', { fontWeight: 700 }, p.autor)])),
+          ),
+          h('div', { flexDirection: 'column', width: columna, flex: muyAlto ? 1 : undefined, justifyContent: 'flex-end', marginBottom: muyAlto ? Math.round(60 * u) : 0 },
+            h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 500, lineHeight: 1.02, letterSpacing: '-0.02em', textTransform: 'uppercase' }, resaltar(p.titulo, p.texto, { fontWeight: 700 })),
+            p.sub && h('div', { marginTop: Math.round(18 * u), fontSize: Math.round(22 * u), fontWeight: 500, lineHeight: 1.3, color: p.suave, maxWidth: Math.round(480 * u) }, p.sub),
+            pilares.length > 0 && h('div', { marginTop: Math.round(26 * u), alignItems: 'flex-start' },
+              ...pilares.map(({ texto, svg }, i) => h('div', { alignItems: 'flex-start' },
+                i > 0 && h('div', { width: 1, height: Math.round(50 * u), marginTop: Math.round(14 * u), background: `${p.texto}55` }),
+                h('div', { flexDirection: 'column', alignItems: 'center', width: Math.round(140 * u) },
+                  h('div', { alignItems: 'center', justifyContent: 'center', width: Math.round(76 * u), height: Math.round(76 * u), borderRadius: 999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.texto}` },
+                    svg && img(svg, { width: Math.round(36 * u), height: Math.round(36 * u) })),
+                  h('div', { marginTop: Math.round(10 * u), fontSize: Math.round(15 * u), fontWeight: 500, lineHeight: 1.25, textAlign: 'center' }, texto),
+                ))),
+            ),
+          ),
+          h('div', { flexDirection: 'column', width: columna },
+            p.extracto && h('div', { flexDirection: 'column', fontSize: Math.round(20 * u), lineHeight: 1.3 },
+              remate ? h('div', { fontWeight: 700, fontSize: Math.round(24 * u) }, remate[1]) : null,
+              h('div', { fontWeight: 500, color: p.suave }, remate ? remate[2] : p.extracto.replace(/\*/g, ''))),
+            p.boton && h('div', { alignSelf: 'flex-start', alignItems: 'center', marginTop: Math.round(22 * u), padding: `${Math.round(14 * u)}px ${Math.round(34 * u)}px`, borderRadius: 999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.texto}`, fontSize: Math.round(22 * u), fontWeight: 700 },
+              p.boton,
+              p.flechaSvg && img(p.flechaSvg, { width: Math.round(26 * u), height: Math.round(26 * u), marginLeft: Math.round(16 * u) })),
+          ),
+        ),
+      )
+    },
+  },
+
   podcast: {
     nombre: 'Podcast',
     descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
@@ -837,5 +895,7 @@ export const CAMPOS = {
   derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
   fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
+  logo: { etiqueta: 'Logo (URL)', tipo: 'url', ayuda: 'Sin logo sale el sitio en texto.' },
+  pilares: { etiqueta: 'Pilares', tipo: 'texto', ayuda: 'Hasta 3, separados con |: ícono de Lucide: texto. P. ej. truck: Monitoreo de flotas.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }
