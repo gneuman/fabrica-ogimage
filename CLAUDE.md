@@ -17,4 +17,5 @@ proyectos. Marca: Gabriel Neuman. Familia `gnb`: voz, cifras y decisiones en
 3. Cero JS en el navegador salvo el editor de plantillas (que dibuja con el mismo motor).
 4. Toda URL interna termina en `/`.
 5. Toda plantilla nueva o cambiada se diseña y se revisa en los cinco tamaños de `FORMATOS` (og, cuadrado, vertical, horizontal, historia), no solo en el de la referencia: `npm run probar -- <plantilla>`.
-6. Commits en español: `<verbo>: <qué>`. Antes de push: `npm run build` y `npm run check` salen 0.
+6. Toda foto de persona que pase el usuario se usa sin fondo, siempre y sin preguntar: `python3 -I -c "from rembg import remove, new_session; from PIL import Image; remove(Image.open('entrada.png'), session=new_session('isnet-general-use')).save('salida.png')"` (`pip install "rembg[cpu]"`). Las plantillas con foto recortada (ceo*, podcast) la esperan transparente.
+7. Commits en español: `<verbo>: <qué>`. Antes de push: `npm run build` y `npm run check` salen 0.
