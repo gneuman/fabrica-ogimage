@@ -71,7 +71,7 @@ Cada carpeta tiene su `README.md` con cómo se corre y qué se puede cambiar.
 ```bash
 npm run build                      # emoji, íconos, muestras y sitio
 npm run preview                    # sitio + Worker en http://localhost:8787
-npm run probar -- alianza          # una plantilla en los cinco tamaños, en .probar/
+npm run probar -- alianza          # una plantilla en los cinco tamaños, en local/hechas/
 npm run galeria:agregar -- https://empresa.com saas marketing
 ```
 
