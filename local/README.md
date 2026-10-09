@@ -1,6 +1,6 @@
 # local/
 
-Tus imágenes. Todo aquí, salvo este archivo, queda fuera de git: el repo es
+Tus imágenes. Las carpetas están en git (vacías, con `.gitkeep`) para que existan al clonar; su contenido queda fuera de git: el repo es
 público y guarda la herramienta, no las fotos.
 
 - `inbox/`: lo que llega para hacer imágenes: fotos de personas, logos, referencias. Es de paso:
