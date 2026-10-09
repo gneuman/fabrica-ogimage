@@ -127,6 +127,44 @@ function ceoPersona(p, src, nombre, w, alto, voltear = false) {
   )
 }
 
+// Silueta aproximada de América en coordenadas del disco (0 a 1), de norte a sur.
+const AMERICA = [[0.22, 0.12], [0.42, 0.06], [0.62, 0.1], [0.7, 0.2], [0.6, 0.3], [0.56, 0.4], [0.46, 0.46], [0.42, 0.52],
+  [0.5, 0.55], [0.66, 0.6], [0.74, 0.68], [0.66, 0.78], [0.58, 0.88], [0.52, 0.94], [0.5, 0.84], [0.44, 0.7], [0.4, 0.58],
+  [0.34, 0.5], [0.28, 0.38], [0.18, 0.28]]
+const dentro = (x, y, pol) => pol.reduce((d, [xi, yi], i) => {
+  const [xj, yj] = pol.at(i - 1)
+  return (yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi ? !d : d
+}, false)
+
+/** El planeta: red de puntos de luz sobre América, como SVG (sin imagen que subir). */
+function planeta(acento, lado) {
+  // Pseudoazar fijo: la misma imagen en cada build.
+  let semilla = 7
+  const azar = () => ((semilla = (semilla * 16807) % 2147483647) / 2147483647)
+  const nodos = []
+  for (let y = 0.08; y < 0.96; y += 0.045) {
+    for (let x = 0.15; x < 0.78; x += 0.045) {
+      const px = x + (azar() - 0.5) * 0.03, py = y + (azar() - 0.5) * 0.03
+      // Corrida a la izquierda: el disco se recorta por la derecha en el lienzo.
+      if (dentro(px, py, AMERICA) && azar() > 0.25) nodos.push([(0.06 + px * 0.78) * lado, py * lado])
+    }
+  }
+  const lineas = []
+  nodos.forEach(([x1, y1], i) => nodos.slice(i + 1).forEach(([x2, y2]) => {
+    if (Math.hypot(x2 - x1, y2 - y1) < lado * 0.07) lineas.push(`M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`)
+  }))
+  const r = lado / 2
+  const arcos = [0.22, 0.38].map((k) => `<ellipse cx="${r}" cy="${r}" rx="${r * 0.98}" ry="${r * k}" transform="rotate(-24 ${r} ${r})" fill="none" stroke="${acento}" stroke-opacity="0.35" stroke-dasharray="2 5"/>`).join('')
+  const puntos = nodos.map(([x, y], i) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i % 5 ? lado * 0.004 : lado * 0.008}"/>`).join('')
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${lado}" height="${lado}" viewBox="0 0 ${lado} ${lado}">`
+    + `<defs><radialGradient id="g" cx="0.42" cy="0.45" r="0.6"><stop offset="0" stop-color="${acento}" stop-opacity="0.16"/><stop offset="1" stop-color="${acento}" stop-opacity="0"/></radialGradient>`
+    + `<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${(lado * 0.006).toFixed(1)}"/></filter></defs>`
+    + `<circle cx="${r}" cy="${r}" r="${r}" fill="url(#g)"/>${arcos}`
+    + `<path d="${lineas.join('')}" stroke="${acento}" stroke-opacity="0.55" stroke-width="${(lado * 0.0018).toFixed(2)}" fill="none"/>`
+    + `<g fill="${acento}" filter="url(#b)">${puntos}</g><g fill="#ffe2cc">${puntos}</g></svg>`
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
+}
+
 export const PLANTILLAS = {
   marca: {
     nombre: 'Marca',
@@ -805,9 +843,9 @@ export const PLANTILLAS = {
       // Lo marcado va en negrita; lo demás, fino.
       const remate = p.extracto.match(/^\*([^*]+)\*\s*(.*)$/)
       return h('div', { width: p.W, height: p.H, position: 'relative', overflow: 'hidden', background: p.fondo, color: p.texto },
-        // El globo: la imagen de ?foto= o, sin ella, un círculo con halo del acento.
-        h('div', { position: 'absolute', width: globo, height: globo, right: -Math.round(globo * (ancho ? 0.18 : muyAlto ? 0.3 : 0.42)), top: ancho ? Math.round((p.H - globo) / 2) : Math.round(p.H * (muyAlto ? 0.1 : 0.16)), borderRadius: 9999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.acento}`, boxShadow: `0 0 ${Math.round(40 * u)}px ${p.acento}`, backgroundImage: p.foto ? undefined : `radial-gradient(circle at 35% 40%, ${p.acento}44 0%, ${p.fondo} 70%)`, overflow: 'hidden' },
-          p.foto && img(p.foto, { width: globo, height: globo, objectFit: 'cover' })),
+        // El globo: la imagen de ?foto= o, sin ella, el planeta de puntos en el acento.
+        h('div', { position: 'absolute', width: globo, height: globo, right: -Math.round(globo * (ancho ? 0.18 : muyAlto ? 0.3 : 0.42)), top: ancho ? Math.round((p.H - globo) / 2) : Math.round(p.H * (muyAlto ? 0.1 : 0.16)), borderRadius: 9999, border: `${Math.max(2, Math.round(3 * u))}px solid ${p.acento}`, boxShadow: `0 0 ${Math.round(40 * u)}px ${p.acento}`, background: p.fondo, overflow: 'hidden' },
+          img(p.foto || planeta(p.acento, globo), { width: globo, height: globo, objectFit: 'cover' })),
         h('div', { flexDirection: 'column', justifyContent: 'space-between', width: p.W, height: p.H, padding: pad, backgroundImage: `linear-gradient(90deg, ${p.fondo} 0%, ${p.fondo}cc 45%, ${p.fondo}00 75%)` },
           h('div', { alignItems: 'center' },
             p.logo ? img(p.logo, { height: Math.round(44 * u), maxWidth: Math.round(220 * u), objectFit: 'contain' })
