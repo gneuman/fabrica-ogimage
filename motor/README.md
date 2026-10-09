@@ -30,7 +30,7 @@ Para **usar** una plantilla: `PLANTILLAS.md` en la raíz (se genera en cada buil
    en proporción al lado corto (`const u = Math.min(p.W, p.H) / 680`, como `alianza`)
    en vez de píxeles fijos. Revisa a ojo:
    ```bash
-   npm run probar -- <plantilla> [campo=valor …]   # deja .probar/<plantilla>-<formato>.png
+   npm run probar -- <plantilla> [campo=valor …]   # deja local/hechas/<fecha>-<plantilla>-<nombre>/
    ```
 4. `npm run build` y `npm run check` en 0 (el build también regenera `PLANTILLAS.md`), y actualiza
    la lista del `README.md`.

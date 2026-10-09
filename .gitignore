@@ -6,4 +6,6 @@ dist/
 public/_recursos/
 public/_muestras/
 .DS_Store
-.probar/
+public/_local/
+local/*
+!local/README.md
