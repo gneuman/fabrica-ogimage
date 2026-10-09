@@ -3,7 +3,8 @@
 Tus imágenes. Todo aquí, salvo este archivo, queda fuera de git: el repo es
 público y guarda la herramienta, no las fotos.
 
-- `inbox/`: lo que llega para hacer imágenes: fotos de personas, logos, referencias.
+- `inbox/`: lo que llega para hacer imágenes: fotos de personas, logos, referencias. Es de paso:
+  `probar` mueve lo que usa a la carpeta de la imagen y borra el original con fondo. Lo que no se use, se borra.
   Las fotos de personas se pasan sin fondo: `npm run sinfondo -- local/inbox/ana.png`.
 - `hechas/AAAA-MM-DD-<plantilla>-<nombre>/`: lo que se genera, un PNG por tamaño.
   Lo escribe `npm run probar -- <plantilla> campo=valor…`.
