@@ -7,5 +7,7 @@ public/_recursos/
 public/_muestras/
 .DS_Store
 public/_local/
-local/*
-!local/README.md
+local/inbox/*
+local/hechas/*
+!local/inbox/.gitkeep
+!local/hechas/.gitkeep
