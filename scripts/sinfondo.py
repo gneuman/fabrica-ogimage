@@ -1,5 +1,5 @@
 # Quita el fondo de una foto de persona (rembg, modelo isnet-general-use).
-#   npm run sinfondo -- local/inbox/jorge.png    → local/inbox/jorge-sinfondo.png
+#   npm run sinfondo -- local/inbox/ana.png    → local/inbox/ana-sinfondo.png
 # La primera vez: pip install "rembg[cpu]" (baja un modelo de ~180 MB).
 import sys
 from pathlib import Path

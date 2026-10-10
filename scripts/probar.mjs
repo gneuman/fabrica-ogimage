@@ -1,13 +1,13 @@
 // Dibuja una plantilla en los cinco tamaños, en local:
 //   npm run probar -- alianza                                  (con su ejemplo)
-//   npm run probar -- ceoagentico autor="Jorge Ávila" foto=local/inbox/jorge-sinfondo.png
+//   npm run probar -- ceoagentico autor="Ana López" foto=local/inbox/ana-sinfondo.png
 //   npm run probar -- alianza sitio=Ajax --salida ../mi-sitio/public/og
 // Todo se queda en tu máquina (local/ no entra a git; el repo es público):
 // - local/inbox/: lo que llega (fotos, referencias). Es de paso.
 // - local/hechas/AAAA-MM-DD-<plantilla>-<nombre>/: lo que sale, en orden.
 //   <nombre> sale de --nombre, o de autor, sitio o título.
 // Al terminar, lo del inbox que se usó se mueve a la carpeta de la imagen y
-// el original con fondo (jorge.png de jorge-sinfondo.png) se borra: no se
+// el original con fondo (ana.png de ana-sinfondo.png) se borra: no se
 // guarda lo que no se usa.
 import fs from 'node:fs'
 import os from 'node:os'
