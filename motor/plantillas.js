@@ -881,6 +881,57 @@ export const PLANTILLAS = {
     },
   },
 
+  recibo: {
+    nombre: 'Recibo',
+    descripcion: 'Una cifra que brilla a la izquierda y un ticket con lo que ya no pagas, tachado, a la derecha.',
+    cuando: 'El post cuenta un ahorro: herramientas o gastos que se reemplazan y lo que cuesta ahora.',
+    campos: ['cifra', 'sub', 'puntos', 'total', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#050807', texto: '#ffffff', acento: '#3ef28f' },
+    ayuda: { cifra: 'Lo que cuesta ahora, p. ej. $0.', sub: 'Debajo de la cifra, p. ej. al mes.', puntos: 'Lo que se tacha en el ticket, hasta 4: Nombre: precio | Nombre: precio.' },
+    ejemplo: { cifra: '$0', sub: 'al mes', puntos: 'Ahrefs: $129 | Semrush: $139', total: '$0.00' },
+    dibujar: (p) => {
+      const u = Math.min(p.W, p.H) / 680
+      const ancho = p.W > p.H * 1.3
+      const r = (n) => Math.round(n * u)
+      const filas = (p.puntos || '').split(/\s*[|;]\s*/).filter(Boolean).slice(0, 4).map((t) => {
+        const [, nombre, precio] = t.match(/^(.*?)(?::\s*(.+))?$/)
+        return { nombre, precio: precio || '' }
+      })
+      const tw = ancho ? Math.round(p.W * 0.44) : Math.round(p.W * 0.82)
+      const papel = '#f7f5ef'
+      const tinta = '#3f4147'
+      const raya = h('div', { height: 0, margin: `${r(12)}px 0`, borderTop: `${Math.max(2, r(2))}px dashed ${tinta}` })
+      // El borde de abajo, cortado en dientes: un SVG del ancho del ticket.
+      const dientes = Math.round(tw / r(28))
+      const paso = tw / dientes, alto = r(16)
+      const zig = Array.from({ length: dientes }, (_, i) => `L${(i * paso + paso / 2).toFixed(1)} ${alto}L${((i + 1) * paso).toFixed(1)} 0`).join('')
+      const borde = `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${tw}" height="${alto}"><path d="M0 0${zig}Z" fill="${papel}"/></svg>`)}`
+      const cifra = p.cifra || '$0'
+      const tamCifra = escala(cifra, [[2, 300], [3, 250], [5, 190], [8, 140], [999, 110]]) * u * (ancho ? 1 : 0.7)
+      return h('div', { width: p.W, height: p.H, flexDirection: ancho ? 'row' : 'column', alignItems: 'center', justifyContent: 'space-around', padding: r(40), color: p.texto, background: `radial-gradient(circle at ${ancho ? '22% 50%' : '50% 25%'}, ${p.acento}30 0%, ${p.fondo} 42%)`, backgroundColor: p.fondo },
+        h('div', { flexDirection: 'column', alignItems: 'center' },
+          h('div', { fontSize: tamCifra, fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', color: p.acento, textShadow: `0 0 ${r(30)}px ${p.acento}, 0 0 ${r(70)}px ${p.acento}99` }, cifra),
+          p.sub && h('div', { marginTop: r(6), fontSize: r(30), fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: p.acento, opacity: 0.85 }, p.sub),
+        ),
+        h('div', { flexDirection: 'column', width: tw, transform: 'rotate(2.5deg)' },
+          h('div', { flexDirection: 'column', padding: `${r(22)}px ${r(28)}px ${r(18)}px`, background: papel, color: tinta, fontFamily: 'Mono' },
+            h('div', { justifyContent: 'center', fontSize: r(17), letterSpacing: '0.3em' }, 'RECIBO'),
+            raya,
+            ...filas.map(({ nombre, precio }) => h('div', { position: 'relative', justifyContent: 'space-between', alignItems: 'center', padding: `${r(8)}px 0`, fontSize: r(25) },
+              h('span', {}, nombre), h('span', {}, precio),
+              h('div', { position: 'absolute', left: -r(4), right: -r(4), top: '52%', height: Math.max(2, r(3)), background: '#e0484b', transform: 'rotate(0.8deg)' }),
+            )),
+            raya,
+            h('div', { justifyContent: 'space-between', alignItems: 'center', paddingTop: r(6), fontSize: r(27) },
+              h('span', { fontWeight: 700, color: '#111' }, 'TOTAL'),
+              h('span', { color: '#14a058' }, p.total || cifra)),
+          ),
+          img(borde, { width: tw, height: alto }),
+        ),
+      )
+    },
+  },
+
   podcast: {
     nombre: 'Podcast',
     descripcion: 'Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.',
@@ -936,5 +987,6 @@ export const CAMPOS = {
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
   logo: { etiqueta: 'Logo (URL)', tipo: 'url', ayuda: 'Sin logo sale el sitio en texto.' },
   pilares: { etiqueta: 'Pilares', tipo: 'texto', ayuda: 'Hasta 3, separados con |: ícono de Lucide: texto. P. ej. truck: Monitoreo de flotas.' },
+  total: { etiqueta: 'Total', tipo: 'texto', ayuda: 'Vacío: la cifra.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

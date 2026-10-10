@@ -30,7 +30,7 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    una comisión, sin costo extra para ti).
 
 27 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
-(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo y alianza.
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tuit, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo, alianza y recibo.
 Qué hace cada una, sus campos y una URL de ejemplo: [`PLANTILLAS.md`](PLANTILLAS.md). Cómo hacer una nueva: [`motor/README.md`](motor/README.md).
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 

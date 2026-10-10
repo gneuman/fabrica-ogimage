@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-27 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+28 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -543,6 +543,26 @@ Dos marcas lado a lado, titular en dos pesos, tres pilares con ícono, remate y 
 
 ```
 /og/alianza/?sitio=Margara&autor=Gabriel%20Neuman&titulo=*Una%20alianza*%20que%20llega%20a%20toda%20*Am%C3%A9rica.*&sub=Tecnolog%C3%ADa%2C%20datos%20y%20sostenibilidad%20para%20un%20futuro%20m%C3%A1s%20eficiente%20y%20responsable.&pilares=truck%3A%20Monitoreo%20de%20flotas%20%7C%20leaf%3A%20Gesti%C3%B3n%20ambiental%20%7C%20chart-column%3A%20Datos%20para%20decisiones%20reales&extracto=*Dos%20soluciones.%20Una%20misma%20visi%C3%B3n.*%20Empresas%20m%C3%A1s%20eficientes%20y%20un%20impacto%20positivo%20en%20la%20regi%C3%B3n.&boton=Conoc%C3%A9%20m%C3%A1s
+```
+
+## `recibo`: Recibo
+
+Una cifra que brilla a la izquierda y un ticket con lo que ya no pagas, tachado, a la derecha.
+
+**Cuándo:** El post cuenta un ahorro: herramientas o gastos que se reemplazan y lo que cuesta ahora.
+
+| campo | qué es |
+|---|---|
+| `cifra` | Cifra. Lo que cuesta ahora, p. ej. $0. |
+| `sub` | Subtítulo. Debajo de la cifra, p. ej. al mes. |
+| `puntos` | Puntos. Lo que se tacha en el ticket, hasta 4: Nombre: precio \| Nombre: precio. |
+| `total` | Total. Vacío: la cifra. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/recibo/?cifra=%240&sub=al%20mes&puntos=Ahrefs%3A%20%24129%20%7C%20Semrush%3A%20%24139&total=%240.00
 ```
 
 ## `podcast`: Podcast
