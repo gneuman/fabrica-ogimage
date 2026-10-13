@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-29 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+30 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -605,4 +605,24 @@ Titular grande en mayúsculas condensadas con un renglón en acento, línea mono
 
 ```
 /og/contactos/?titulo=La%20gu%C3%ADa%20de%20inversi%C3%B3n%20*con%20Claude*%20octubre%202026&sub=2%2C475%20b%C3%BAsquedas%20%C2%B7%207%20skills%20%C2%B7%20cada%20prompt&puntos=Socio%20%7C%20Family%20office%20%7C%20%C3%81ngel&foto=%2Fmuestras%2Fpersona.png
+```
+
+## `equipo`: Equipo con agentes
+
+Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.
+
+**Cuándo:** El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.
+
+| campo | qué es |
+|---|---|
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Una ficha por integrante, "Nombre: qué hace", separadas por \|. Máximo tres; la primera es la persona (con la foto). |
+| `foto` | Foto (URL). Foto sin fondo de la persona de la primera ficha. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/equipo/?titulo=Equipos%20chicos%2C%20*resultados%20grandes*&sub=1%20persona%20%C2%B7%202%20agentes%20%C2%B7%200%20juntas%20de%20seguimiento&puntos=T%C3%BA%3A%20decides%20qu%C3%A9%20se%20automatiza%20%7C%20Agente%3A%20cobra%20y%20da%20seguimiento%20%7C%20Agente%3A%20agenda%20y%20confirma&foto=%2Fmuestras%2Fpersona.png
 ```

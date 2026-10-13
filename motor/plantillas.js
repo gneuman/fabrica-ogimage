@@ -1003,6 +1003,52 @@ export const PLANTILLAS = {
       )
     },
   },
+  equipo: {
+    nombre: 'Equipo con agentes',
+    descripcion: 'Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.',
+    cuando: 'El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.',
+    campos: ['titulo', 'sub', 'puntos', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#f7f6f2', texto: '#0f1733', acento: '#e2553d' },
+    ayuda: { puntos: 'Una ficha por integrante, "Nombre: qué hace", separadas por |. Máximo tres; la primera es la persona (con la foto).', foto: 'Foto sin fondo de la persona de la primera ficha.' },
+    ejemplo: { titulo: 'Equipos chicos, *resultados grandes*', sub: '1 persona · 2 agentes · 0 juntas de seguimiento', puntos: 'Tú: decides qué se automatiza | Agente: cobra y da seguimiento | Agente: agenda y confirma', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const u = p.alto ? Math.min(p.W / 630, p.H / 1000) : p.H / 630
+      const fichas = (p.puntos || 'Tú: decides').split(/\s*\|\s*/).filter(Boolean).slice(0, 3).map((t) => {
+        const [nombre, ...resto] = t.split(':')
+        return { nombre: nombre.trim(), tarea: resto.join(':').trim() }
+      })
+      const anchoFichas = p.alto ? p.W - 80 : Math.round(p.W * 0.4)
+      const tam = Math.round(u * (p.alto ? escala(p.titulo, [[30, 76], [60, 64], [999, 52]]) : escala(p.titulo, [[30, 70], [60, 58], [999, 48]])))
+      const lado = Math.round(u * 66)
+      // Agente: carita de robot con dos ojos y antena.
+      const robot = h('div', { width: lado, height: lado, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: u * 14, background: p.texto, flexShrink: 0, position: 'relative' },
+        h('div', { position: 'absolute', top: -u * 9, width: u * 4, height: u * 10, background: p.texto }),
+        h('div', { position: 'absolute', top: -u * 14, width: u * 10, height: u * 10, borderRadius: 99, background: p.acento }),
+        h('div', { gap: u * 12 }, h('div', { width: u * 11, height: u * 11, borderRadius: 99, background: '#f6e3a1' }), h('div', { width: u * 11, height: u * 11, borderRadius: 99, background: '#f6e3a1' })),
+        h('div', { width: u * 22, height: u * 4, marginTop: u * 9, borderRadius: 99, background: '#f6e3a1' }))
+      const persona = p.foto
+        ? img(p.foto, { width: lado, height: lado, borderRadius: 999, objectFit: 'cover', objectPosition: 'top', background: '#fbf3c9', border: `${u * 3}px solid ${p.acento}`, flexShrink: 0 })
+        : h('div', { width: lado, height: lado, borderRadius: 999, background: p.acento, color: '#fff', alignItems: 'center', justifyContent: 'center', fontSize: u * 26, fontWeight: 700, flexShrink: 0 }, iniciales(fichas[0].nombre))
+      const palomita = h('div', { width: u * 30, height: u * 30, borderRadius: 99, border: `${u * 2.5}px solid ${p.acento}`, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+        h('div', { width: u * 7, height: u * 13, marginBottom: u * 3, borderRight: `${u * 3}px solid ${p.acento}`, borderBottom: `${u * 3}px solid ${p.acento}`, transform: 'rotate(45deg)' }))
+      const giros = [-1.5, 1, -0.6]
+      const ficha = (f, i) => h('div', { position: 'relative', alignItems: 'center', width: anchoFichas, marginTop: i ? u * 30 : u * 10, padding: `${u * 18}px ${u * 22}px`, background: i ? '#ffffff' : '#fbf3c9', border: `${u * 1.5}px solid #e4e1d8`, boxShadow: `0 ${u * 6}px ${u * 16}px rgba(15,23,51,0.12)`, transform: `rotate(${giros[i]}deg)`, color: p.texto },
+        // La cinta que la pega al papel.
+        h('div', { position: 'absolute', top: -u * 12, left: anchoFichas / 2 - u * 45, width: u * 90, height: u * 24, background: '#f6e3a1', opacity: 0.9, transform: 'rotate(-4deg)' }),
+        i ? robot : persona,
+        h('div', { flexDirection: 'column', flex: 1, marginLeft: u * 18, marginRight: u * 12 },
+          h('div', { fontFamily: 'Mono', fontSize: u * 14, letterSpacing: '0.12em', textTransform: 'uppercase', color: i ? p.suave : p.acento }, f.nombre),
+          f.tarea && h('div', { marginTop: u * 4, fontSize: u * 21, fontWeight: 700, lineHeight: 1.15 }, f.tarea)),
+        palomita)
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', padding: p.alto ? `${u * 40}px 40px` : `0 ${u * 50}px`, backgroundColor: p.fondo, backgroundImage: 'radial-gradient(circle, #d9d6cc 1.2px, transparent 1.4px)', backgroundSize: `${Math.round(u * 22)}px ${Math.round(u * 22)}px`, color: p.texto },
+        h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center', marginRight: p.alto ? 0 : u * 50, marginBottom: p.alto ? u * 40 : 0, width: p.alto ? p.W - 80 : undefined },
+          h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+          p.sub && h('div', { alignSelf: 'flex-start', marginTop: u * 26, padding: `${u * 6}px ${u * 12}px`, background: '#f6e3a1', fontFamily: 'Mono', fontSize: u * 16, letterSpacing: '0.04em', textTransform: 'uppercase' }, p.sub),
+        ),
+        h('div', { flexDirection: 'column' }, fichas.map(ficha)),
+      )
+    },
+  },
 }
 
 function iniciales(nombre = '') {
