@@ -881,6 +881,79 @@ export const PLANTILLAS = {
     },
   },
 
+  caja: {
+    nombre: 'Caja de producto',
+    descripcion: 'La caja de un producto en perspectiva (marca, nombre en dos colores, etiquetas, ventana y franja de beneficios) y al lado el titular serif con su párrafo y firma.',
+    cuando: 'Se lanza o se vende un producto digital, curso, plantilla o sistema y conviene mostrarlo como un objeto que se compra.',
+    campos: ['logo', 'sitio', 'sub', 'producto', 'lema', 'etiquetas', 'puntos', 'titulo', 'extracto', 'autor', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#3d2350', texto: '#f6efe4', acento: '#c9a75f' },
+    ayuda: { sitio: 'La marca, arriba de la caja.', sub: 'Para quién es, sobre el nombre.', puntos: 'Hasta 3 beneficios en la franja de abajo: Título: detalle | …', autor: 'Firma al pie, p. ej. Marca · Persona.' },
+    ejemplo: { sitio: 'Fábrica', sub: 'Para quien publica', producto: 'Contenido *Remix OS*', lema: 'Una idea entra. Una semana de posts sale.', etiquetas: 'Personalidad | Opinión | Enseña | Comunidad', puntos: 'Tamaño honesto: Nada se infla | 4 pilares: Cada post tiene su papel | Por tandas: Entregado ola por ola', titulo: 'Convierte una nota de voz en *una semana de contenido.*', extracto: 'Ya dijiste lo bueno. El motor lo mide, lo etiqueta con su pilar y te entrega los posts.', autor: 'Fábrica · Gabriel Neuman' },
+    dibujar: (p) => {
+      const u = Math.min(p.W, p.H) / 680
+      const ancho = !p.alto
+      const muyAlto = p.H > p.W * 1.5
+      const caja = '#1d142b'
+      const turquesa = '#5fd4e2'
+      // La caja: alto y ancho del frente, y el canto a la izquierda.
+      const bh = Math.round(ancho ? p.H * 0.8 : p.H * (muyAlto ? 0.44 : p.H < p.W * 1.1 ? 0.4 : 0.42))
+      const bw = Math.round(Math.min(bh * 0.92, ancho ? p.W * 0.46 : p.W * 0.78))
+      const k = bw / 520
+      const canto = Math.round(bw * 0.07)
+      const etiquetas = (p.etiquetas || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 4)
+      const colores = ['#e08a4f', p.acento, '#5fc49c', p.texto]
+      const puntos = (p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 3).map((t) => {
+        const [a, ...b] = t.split(':')
+        return { titulo: a.trim(), detalle: b.join(':').trim() }
+      })
+      const espaciado = (tam) => ({ fontSize: Math.round(tam * k), letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700 })
+      const ventanita = h('div', { flexDirection: 'column', width: Math.round(200 * k), padding: Math.round(14 * k), borderRadius: Math.round(12 * k), background: '#151021', border: `${Math.max(1, Math.round(2 * k))}px solid ${turquesa}66`, boxShadow: `0 0 ${Math.round(24 * k)}px ${turquesa}55` },
+        h('div', {}, ...[turquesa, '#b08fe0', p.acento].map((c) => h('div', { width: Math.round(7 * k), height: Math.round(7 * k), borderRadius: 99, background: c, marginRight: Math.round(5 * k) }))),
+        ...[[1, turquesa], [0.95, '#3d6f78'], [0.6, '#3d6f78']].map(([w, c]) => h('div', { width: Math.round(170 * k * w), height: Math.max(2, Math.round(3 * k)), borderRadius: 9, background: c, marginTop: Math.round(9 * k) })),
+        h('div', { marginTop: Math.round(14 * k), justifyContent: 'space-between' }, ...[0, 1, 2, 3, 4].map(() => h('div', { width: Math.round(26 * k), height: Math.round(28 * k), borderRadius: Math.round(5 * k), border: `${Math.max(1, Math.round(2 * k))}px solid #565074` }))),
+      )
+      const frente = h('div', { flexDirection: 'column', width: bw, height: bh, position: 'relative', overflow: 'hidden', borderRadius: `${Math.round(4 * k)}px`, backgroundImage: `linear-gradient(160deg, #241a35 0%, ${caja} 60%, #150f20 100%)`, boxShadow: `0 ${Math.round(40 * k)}px ${Math.round(70 * k)}px rgba(10,5,20,0.55)`, color: p.texto },
+        h('div', { flexDirection: 'column', flex: 1, padding: `${Math.round(40 * k)}px ${Math.round(40 * k)}px 0` },
+          h('div', { alignItems: 'center' },
+            p.logo ? img(p.logo, { height: Math.round(36 * k), maxWidth: Math.round(200 * k), objectFit: 'contain' })
+              : p.sitio && h('div', { alignItems: 'center' },
+                h('div', { width: Math.round(34 * k), height: Math.round(34 * k), background: '#5a3a78', marginRight: Math.round(14 * k), alignItems: 'center', justifyContent: 'center', color: p.texto, fontSize: Math.round(18 * k), fontWeight: 700 }, iniciales(p.sitio).slice(0, 1)),
+                h('div', { ...espaciado(26), letterSpacing: '0.06em' }, p.sitio)),
+          ),
+          h('div', { flex: 1 },
+            h('div', { flexDirection: 'column', width: Math.round(240 * k), marginTop: Math.round(34 * k) },
+              p.sub && h('div', { ...espaciado(15), fontWeight: 500, letterSpacing: '0.24em', color: p.texto }, p.sub),
+              h('div', { flexWrap: 'wrap', marginTop: Math.round(10 * k), fontFamily: 'Lora', fontWeight: 700, fontSize: Math.round(escala(p.producto, [[16, 58], [26, 50], [999, 42]]) * k), lineHeight: 1.05, letterSpacing: '-0.02em' }, resaltar(p.producto, p.acento)),
+              p.lema && h('div', { marginTop: Math.round(22 * k), fontSize: Math.round(20 * k), fontWeight: 500, lineHeight: 1.4, color: p.texto, opacity: 0.85 }, p.lema),
+              h('div', { width: Math.round(80 * k), height: Math.max(2, Math.round(3 * k)), background: p.acento, marginTop: Math.round(26 * k) }),
+            ),
+            h('div', { flexDirection: 'column', alignItems: 'center', marginLeft: Math.round(20 * k), marginTop: Math.round(40 * k) },
+              ventanita,
+              ...etiquetas.map((t, i) => h('div', { justifyContent: 'center', width: Math.round(200 * k), marginTop: Math.round(i ? 10 : 18) * k, padding: `${Math.round(6 * k)}px 0`, borderRadius: 999, border: `${Math.max(1, Math.round(2 * k))}px solid ${colores[i]}`, color: colores[i], ...espaciado(12), letterSpacing: '0.14em' }, t)),
+            ),
+          ),
+        ),
+        puntos.length > 0 && h('div', { background: '#f7f1e8', color: '#2a1d3a', padding: `${Math.round(18 * k)}px ${Math.round(24 * k)}px` },
+          ...puntos.map((pt, i) => h('div', { flex: 1, flexDirection: 'column', paddingLeft: i ? Math.round(14 * k) : 0, marginLeft: i ? Math.round(14 * k) : 0, borderLeft: i ? `1px solid #2a1d3a33` : undefined },
+            h('div', { ...espaciado(13), letterSpacing: '0.1em' }, pt.titulo),
+            pt.detalle && h('div', { marginTop: Math.round(4 * k), fontSize: Math.round(13 * k), fontWeight: 500, color: '#5a4d68' }, pt.detalle)))),
+      )
+      // El canto: más oscuro, inclinado hacia atrás, con el nombre de lado.
+      const lomo = h('div', { width: canto, height: bh, marginTop: Math.round(canto * 0.5), alignItems: 'center', justifyContent: 'center', backgroundImage: 'linear-gradient(90deg, #0e0916, #1a1226)', transform: 'skewY(-14deg)', transformOrigin: 'right top', overflow: 'hidden' },
+        h('div', { transform: 'rotate(-90deg)', whiteSpace: 'nowrap', fontFamily: 'Lora', fontWeight: 700, fontSize: Math.round(canto * 0.5), color: p.texto, opacity: 0.85 }, p.producto.replace(/\*/g, '')))
+      const objeto = h('div', { transform: `rotate(-1.5deg)` }, lomo, frente)
+      const tamTitulo = escala(p.titulo, [[40, 62], [70, 54], [999, 44]]) * u * (ancho ? 1 : muyAlto ? 1.05 : p.H < p.W * 1.1 ? 0.7 : 0.82)
+      const texto = h('div', { flexDirection: 'column', width: ancho ? Math.round(p.W * 0.4) : p.W - Math.round(100 * u), marginTop: ancho ? 0 : Math.round(30 * u) },
+        h('div', { flexWrap: 'wrap', fontFamily: 'Lora', fontWeight: 700, fontSize: Math.round(tamTitulo), lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
+        p.extracto && h('div', { marginTop: Math.round(22 * u), fontSize: Math.round(20 * u), fontWeight: 500, lineHeight: 1.55, color: p.texto, opacity: 0.85 }, p.extracto),
+        h('div', { width: Math.round(70 * u), height: Math.max(2, Math.round(3 * u)), background: p.acento, marginTop: Math.round(26 * u) }),
+        p.autor && h('div', { marginTop: Math.round(22 * u), fontSize: Math.round(15 * u), fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', opacity: 0.85 }, p.autor),
+      )
+      return h('div', { width: p.W, height: p.H, flexDirection: ancho ? 'row' : 'column', alignItems: 'center', justifyContent: ancho ? 'space-between' : 'center', padding: ancho ? `0 ${Math.round(60 * u)}px 0 ${Math.round(70 * u)}px` : 0, color: p.texto, backgroundImage: `radial-gradient(circle at 30% 45%, #4a2c60 0%, ${p.fondo} 65%)` },
+        objeto, texto)
+    },
+  },
+
   recibo: {
     nombre: 'Recibo',
     descripcion: 'Una cifra que brilla a la izquierda y un ticket con lo que ya no pagas, tachado, a la derecha.',
@@ -1142,5 +1215,8 @@ export const CAMPOS = {
   logo: { etiqueta: 'Logo (URL)', tipo: 'url', ayuda: 'Sin logo sale el sitio en texto.' },
   pilares: { etiqueta: 'Pilares', tipo: 'texto', ayuda: 'Hasta 3, separados con |: ícono de Lucide: texto. P. ej. truck: Monitoreo de flotas.' },
   total: { etiqueta: 'Total', tipo: 'texto', ayuda: 'Vacío: la cifra.' },
+  producto: { etiqueta: 'Producto', tipo: 'texto', ayuda: 'El nombre en la caja; *entre asteriscos* va en el acento.' },
+  lema: { etiqueta: 'Lema', tipo: 'texto', ayuda: 'Una o dos frases cortas debajo del nombre.' },
+  etiquetas: { etiqueta: 'Etiquetas', tipo: 'texto', ayuda: 'Hasta 4, separadas con |.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

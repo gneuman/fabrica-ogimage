@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-31 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+32 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -543,6 +543,32 @@ Dos marcas lado a lado, titular en dos pesos, tres pilares con ícono, remate y 
 
 ```
 /og/alianza/?sitio=Margara&autor=Gabriel%20Neuman&titulo=*Una%20alianza*%20que%20llega%20a%20toda%20*Am%C3%A9rica.*&sub=Tecnolog%C3%ADa%2C%20datos%20y%20sostenibilidad%20para%20un%20futuro%20m%C3%A1s%20eficiente%20y%20responsable.&pilares=truck%3A%20Monitoreo%20de%20flotas%20%7C%20leaf%3A%20Gesti%C3%B3n%20ambiental%20%7C%20chart-column%3A%20Datos%20para%20decisiones%20reales&extracto=*Dos%20soluciones.%20Una%20misma%20visi%C3%B3n.*%20Empresas%20m%C3%A1s%20eficientes%20y%20un%20impacto%20positivo%20en%20la%20regi%C3%B3n.&boton=Conoc%C3%A9%20m%C3%A1s
+```
+
+## `caja`: Caja de producto
+
+La caja de un producto en perspectiva (marca, nombre en dos colores, etiquetas, ventana y franja de beneficios) y al lado el titular serif con su párrafo y firma.
+
+**Cuándo:** Se lanza o se vende un producto digital, curso, plantilla o sistema y conviene mostrarlo como un objeto que se compra.
+
+| campo | qué es |
+|---|---|
+| `logo` | Logo (URL). Sin logo sale el sitio en texto. |
+| `sitio` | Sitio. La marca, arriba de la caja. |
+| `sub` | Subtítulo. Para quién es, sobre el nombre. |
+| `producto` | Producto. El nombre en la caja; *entre asteriscos* va en el acento. |
+| `lema` | Lema. Una o dos frases cortas debajo del nombre. |
+| `etiquetas` | Etiquetas. Hasta 4, separadas con \|. |
+| `puntos` | Puntos. Hasta 3 beneficios en la franja de abajo: Título: detalle \| … |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `extracto` | Extracto |
+| `autor` | Autor o nombre. Firma al pie, p. ej. Marca · Persona. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/caja/?sitio=F%C3%A1brica&sub=Para%20quien%20publica&producto=Contenido%20*Remix%20OS*&lema=Una%20idea%20entra.%20Una%20semana%20de%20posts%20sale.&etiquetas=Personalidad%20%7C%20Opini%C3%B3n%20%7C%20Ense%C3%B1a%20%7C%20Comunidad&puntos=Tama%C3%B1o%20honesto%3A%20Nada%20se%20infla%20%7C%204%20pilares%3A%20Cada%20post%20tiene%20su%20papel%20%7C%20Por%20tandas%3A%20Entregado%20ola%20por%20ola&titulo=Convierte%20una%20nota%20de%20voz%20en%20*una%20semana%20de%20contenido.*&extracto=Ya%20dijiste%20lo%20bueno.%20El%20motor%20lo%20mide%2C%20lo%20etiqueta%20con%20su%20pilar%20y%20te%20entrega%20los%20posts.&autor=F%C3%A1brica%20%C2%B7%20Gabriel%20Neuman
 ```
 
 ## `recibo`: Recibo
