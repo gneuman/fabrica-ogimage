@@ -609,7 +609,7 @@ Titular grande en mayúsculas condensadas con un renglón en acento, línea mono
 
 ## `equipo`: Equipo con agentes
 
-Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.
+Papel de puntitos, titular en Lora (tinta) con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.
 
 **Cuándo:** El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.
 
