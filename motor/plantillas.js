@@ -1049,6 +1049,65 @@ export const PLANTILLAS = {
       )
     },
   },
+  precio: {
+    nombre: 'Precio que sube',
+    descripcion: 'Tarjeta de oferta: aviso arriba, marca, titular, dos contadores y una tabla de planes con el precio de hoy, el de después tachado y cuánto sube, más el botón.',
+    cuando: 'El post vende una suscripción o lugar con precio de hoy que va a subir (preventa, lugares o días contados).',
+    campos: ['extracto', 'sitio', 'titulo', 'sub', 'puntos', 'cifra', 'fecha', 'boton', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#ece2d2', texto: '#141414', acento: '#d66a4e' },
+    ayuda: {
+      extracto: 'El aviso de arriba; lo que va *entre asteriscos* sale en negritas.',
+      sitio: 'La marca, junto a su inicial en círculo.',
+      puntos: 'Un plan por renglón, "Nombre: hoy > después", separados por |. Máximo tres. El % se calcula solo.',
+      cifra: 'Primer contador: número y etiqueta, p. ej. "64 lugares".',
+      fecha: 'Segundo contador, p. ej. "7 días".',
+    },
+    ejemplo: { extracto: '*El precio sube con los próximos 100 lugares*, entra hoy y te quedas con esta tarifa.', sitio: 'El CEO agéntico', titulo: 'Entra hoy. Paga menos, siempre.', sub: 'Con los próximos 100 lugares el precio sube. El de hoy se queda contigo.', puntos: 'Mensual: 39 USD/mes > 49 USD/mes | Anual: 195 USD/año > 249 USD/año', cifra: '64 lugares', fecha: '7 días', boton: 'Entra al precio de hoy' },
+    dibujar: (p) => {
+      const u = p.alto ? Math.min(p.W / 640, p.H / 960) : p.H / 630
+      const tinta = p.texto, suave = '#6b645a', linea = '#d8cfc1', papel = '#f8f1e7'
+      const planes = (p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 3).map((t) => {
+        const [nombre, resto = ''] = t.split(/:(.*)/s)
+        const [hoy, despues = ''] = resto.split('>').map((x) => x.trim())
+        const n = (x) => parseFloat(x.replace(/[^\d.]/g, ''))
+        const sube = n(hoy) && n(despues) ? `+${Math.round((n(despues) / n(hoy) - 1) * 100)}%` : ''
+        return { nombre: nombre.trim(), hoy, despues, sube }
+      })
+      const contador = (t) => {
+        const [num, ...et] = t.split(/\s+/)
+        return h('div', { flex: 1, flexDirection: 'column', alignItems: 'center', padding: `${u * 12}px ${u * 8}px`, borderRadius: u * 12, background: '#ffffff', boxShadow: `0 ${u * 4}px ${u * 12}px rgba(60,40,20,0.1)` },
+          h('div', { fontSize: u * 40, fontWeight: 700, lineHeight: 1 }, num),
+          h('div', { marginTop: u * 6, fontSize: u * 15, fontWeight: 700, color: suave, textTransform: 'uppercase' }, et.join(' ')))
+      }
+      const contadores = [p.cifra, p.fecha].filter(Boolean)
+      const izquierda = h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center' },
+        p.sitio && h('div', { alignItems: 'center', fontSize: u * 28, fontWeight: 700 },
+          h('div', { width: u * 46, height: u * 46, borderRadius: 99, background: '#eadfcd', alignItems: 'center', justifyContent: 'center', marginRight: u * 12, fontSize: u * 24, fontWeight: 500 }, p.sitio[0].toUpperCase()), p.sitio),
+        h('div', { flexWrap: 'wrap', marginTop: u * 20, fontSize: u * escala(p.titulo, [[35, 50], [60, 42], [999, 36]]), fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+        p.sub && h('div', { marginTop: u * 14, fontSize: u * 20, fontWeight: 500, lineHeight: 1.3 }, p.sub),
+        contadores.length > 0 && h('div', { marginTop: u * 24, gap: u * 16 }, contadores.map(contador)))
+      const fila = (pl) => h('div', { alignItems: 'center', padding: `${u * 16}px 0`, borderBottom: `${u * 1.5}px solid ${linea}` },
+        h('div', { flexDirection: 'column', flex: 1, fontSize: u * 21, fontWeight: 700, lineHeight: 1.2 }, h('div', {}, pl.nombre), pl.hoy && h('div', {}, `${pl.hoy} hoy`)),
+        pl.despues && h('div', { fontSize: u * 20, color: suave, textDecoration: 'line-through', marginRight: u * 12 }, pl.despues),
+        pl.sube && h('div', { padding: `${u * 4}px ${u * 10}px`, borderRadius: 99, background: '#f9d9cc', color: p.acento, fontSize: u * 17, fontWeight: 700 }, pl.sube))
+      const derecha = h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center' },
+        h('div', { justifyContent: 'space-between', paddingBottom: u * 14, borderBottom: `${u * 1.5}px solid ${linea}`, fontSize: u * 15, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase' },
+          h('div', { color: suave }, 'Plan'), h('div', { color: p.acento }, 'Después')),
+        planes.map(fila),
+        p.boton && h('div', { marginTop: u * 26, justifyContent: 'center', padding: `${u * 16}px`, borderRadius: u * 10, background: p.acento, color: p.sobreAcento, fontSize: u * 22, fontWeight: 700 }, `${p.boton}  ›`))
+      // El aviso: *negritas* y el resto en gris, palabra por palabra para que parta.
+      const aviso = p.extracto && h('div', { alignItems: 'flex-start', paddingBottom: u * 18, marginBottom: u * 22, borderBottom: `${u * 1.5}px solid ${linea}` },
+        h('div', { width: u * 18, height: u * 18, marginTop: u * 3, borderRadius: 99, background: p.acento, marginRight: u * 14, flexShrink: 0 }),
+        h('div', { flexWrap: 'wrap', flex: 1, fontSize: u * 18, color: suave, lineHeight: 1.3 }, resaltar(p.extracto, tinta, { fontWeight: 700 })))
+      return h('div', { width: p.W, height: p.H, alignItems: 'center', justifyContent: 'center', background: p.fondo, color: tinta },
+        h('div', { flexDirection: 'column', width: p.W - u * 70, padding: `${u * 26}px ${u * 34}px`, borderRadius: u * 22, background: papel, boxShadow: `0 ${u * 10}px ${u * 30}px rgba(60,40,20,0.12)` },
+          aviso,
+          h('div', { flexDirection: p.alto ? 'column' : 'row' },
+            izquierda,
+            h('div', { width: p.alto ? '100%' : u * 1.5, height: p.alto ? u * 1.5 : undefined, background: linea, margin: p.alto ? `${u * 26}px 0` : `0 ${u * 34}px` }),
+            derecha)))
+    },
+  },
 }
 
 function iniciales(nombre = '') {

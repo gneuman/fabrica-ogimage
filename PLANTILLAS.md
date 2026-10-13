@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-30 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+31 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -625,4 +625,28 @@ Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fic
 
 ```
 /og/equipo/?titulo=Equipos%20chicos%2C%20*resultados%20grandes*&sub=1%20persona%20%C2%B7%202%20agentes%20%C2%B7%200%20juntas%20de%20seguimiento&puntos=T%C3%BA%3A%20decides%20qu%C3%A9%20se%20automatiza%20%7C%20Agente%3A%20cobra%20y%20da%20seguimiento%20%7C%20Agente%3A%20agenda%20y%20confirma&foto=%2Fmuestras%2Fpersona.png
+```
+
+## `precio`: Precio que sube
+
+Tarjeta de oferta: aviso arriba, marca, titular, dos contadores y una tabla de planes con el precio de hoy, el de después tachado y cuánto sube, más el botón.
+
+**Cuándo:** El post vende una suscripción o lugar con precio de hoy que va a subir (preventa, lugares o días contados).
+
+| campo | qué es |
+|---|---|
+| `extracto` | Extracto. El aviso de arriba; lo que va *entre asteriscos* sale en negritas. |
+| `sitio` | Sitio. La marca, junto a su inicial en círculo. |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Un plan por renglón, "Nombre: hoy > después", separados por \|. Máximo tres. El % se calcula solo. |
+| `cifra` | Cifra. Primer contador: número y etiqueta, p. ej. "64 lugares". |
+| `fecha` | Fecha. Segundo contador, p. ej. "7 días". |
+| `boton` | Texto del botón |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/precio/?extracto=*El%20precio%20sube%20con%20los%20pr%C3%B3ximos%20100%20lugares*%2C%20entra%20hoy%20y%20te%20quedas%20con%20esta%20tarifa.&sitio=El%20CEO%20ag%C3%A9ntico&titulo=Entra%20hoy.%20Paga%20menos%2C%20siempre.&sub=Con%20los%20pr%C3%B3ximos%20100%20lugares%20el%20precio%20sube.%20El%20de%20hoy%20se%20queda%20contigo.&puntos=Mensual%3A%2039%20USD%2Fmes%20%3E%2049%20USD%2Fmes%20%7C%20Anual%3A%20195%20USD%2Fa%C3%B1o%20%3E%20249%20USD%2Fa%C3%B1o&cifra=64%20lugares&fecha=7%20d%C3%ADas&boton=Entra%20al%20precio%20de%20hoy
 ```
