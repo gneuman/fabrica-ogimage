@@ -885,10 +885,10 @@ export const PLANTILLAS = {
     nombre: 'Caja de producto',
     descripcion: 'La caja de un producto en perspectiva (marca, nombre en dos colores, etiquetas, ventana y franja de beneficios) y al lado el titular serif con su párrafo y firma.',
     cuando: 'Se lanza o se vende un producto digital, curso, plantilla o sistema y conviene mostrarlo como un objeto que se compra.',
-    campos: ['logo', 'sitio', 'sub', 'producto', 'lema', 'etiquetas', 'puntos', 'titulo', 'extracto', 'autor', 'fondo', 'texto', 'acento'],
+    campos: ['logo', 'sitio', 'sub', 'producto', 'lema', 'resumen', 'etiquetas', 'puntos', 'titulo', 'extracto', 'autor', 'fondo', 'texto', 'acento'],
     marca: { fondo: '#3d2350', texto: '#f6efe4', acento: '#c9a75f' },
     ayuda: { sitio: 'La marca, arriba de la caja.', sub: 'Para quién es, sobre el nombre.', puntos: 'Hasta 3 beneficios en la franja de abajo: Título: detalle | …', autor: 'Firma al pie, p. ej. Marca · Persona.' },
-    ejemplo: { sitio: 'Fábrica', sub: 'Para quien publica', producto: 'Contenido *Remix OS*', lema: 'Una idea entra. Una semana de posts sale.', etiquetas: 'Personalidad | Opinión | Enseña | Comunidad', puntos: 'Tamaño honesto: Nada se infla | 4 pilares: Cada post tiene su papel | Por tandas: Entregado ola por ola', titulo: 'Convierte una nota de voz en *una semana de contenido.*', extracto: 'Ya dijiste lo bueno. El motor lo mide, lo etiqueta con su pilar y te entrega los posts.', autor: 'Fábrica · Gabriel Neuman' },
+    ejemplo: { sitio: 'Fábrica', sub: 'Para quien publica', producto: 'Contenido *Remix OS*', lema: 'Una idea entra. Una semana de posts sale.', resumen: '*4 pilares* · 5 redes · citas, carruseles y guiones cortos, todo con *tu propia voz.*', etiquetas: 'Personalidad | Opinión | Enseña | Comunidad', puntos: 'Tamaño honesto: Nada se infla | 4 pilares: Cada post tiene su papel | Por tandas: Entregado ola por ola', titulo: 'Convierte una nota de voz en *una semana de contenido.*', extracto: 'Ya dijiste lo bueno. El motor lo mide, lo etiqueta con su pilar y te entrega los posts.', autor: 'Fábrica · Gabriel Neuman' },
     dibujar: (p) => {
       const u = Math.min(p.W, p.H) / 680
       const ancho = !p.alto
@@ -926,6 +926,7 @@ export const PLANTILLAS = {
               h('div', { flexWrap: 'wrap', marginTop: Math.round(10 * k), fontFamily: 'Lora', fontWeight: 700, fontSize: Math.round(escala(p.producto, [[16, 58], [26, 50], [999, 42]]) * k), lineHeight: 1.05, letterSpacing: '-0.02em' }, resaltar(p.producto, p.acento)),
               p.lema && h('div', { marginTop: Math.round(22 * k), fontSize: Math.round(20 * k), fontWeight: 500, lineHeight: 1.4, color: p.texto, opacity: 0.85 }, p.lema),
               h('div', { width: Math.round(80 * k), height: Math.max(2, Math.round(3 * k)), background: p.acento, marginTop: Math.round(26 * k) }),
+              p.resumen && h('div', { flexWrap: 'wrap', marginTop: Math.round(22 * k), fontSize: Math.round(13 * k), fontWeight: 500, letterSpacing: '0.12em', lineHeight: 1.7, textTransform: 'uppercase' }, resaltar(p.resumen, p.acento)),
             ),
             h('div', { flexDirection: 'column', alignItems: 'center', marginLeft: Math.round(20 * k), marginTop: Math.round(40 * k) },
               ventanita,
@@ -1217,6 +1218,7 @@ export const CAMPOS = {
   total: { etiqueta: 'Total', tipo: 'texto', ayuda: 'Vacío: la cifra.' },
   producto: { etiqueta: 'Producto', tipo: 'texto', ayuda: 'El nombre en la caja; *entre asteriscos* va en el acento.' },
   lema: { etiqueta: 'Lema', tipo: 'texto', ayuda: 'Una o dos frases cortas debajo del nombre.' },
+  resumen: { etiqueta: 'Resumen', tipo: 'texto', ayuda: 'Mayúsculas espaciadas bajo la raya; *entre asteriscos* va en el acento.' },
   etiquetas: { etiqueta: 'Etiquetas', tipo: 'texto', ayuda: 'Hasta 4, separadas con |.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
 }

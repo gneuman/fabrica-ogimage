@@ -558,6 +558,7 @@ La caja de un producto en perspectiva (marca, nombre en dos colores, etiquetas, 
 | `sub` | Subtítulo. Para quién es, sobre el nombre. |
 | `producto` | Producto. El nombre en la caja; *entre asteriscos* va en el acento. |
 | `lema` | Lema. Una o dos frases cortas debajo del nombre. |
+| `resumen` | Resumen. Mayúsculas espaciadas bajo la raya; *entre asteriscos* va en el acento. |
 | `etiquetas` | Etiquetas. Hasta 4, separadas con \|. |
 | `puntos` | Puntos. Hasta 3 beneficios en la franja de abajo: Título: detalle \| … |
 | `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
@@ -568,7 +569,7 @@ La caja de un producto en perspectiva (marca, nombre en dos colores, etiquetas, 
 | `acento` | Acento |
 
 ```
-/og/caja/?sitio=F%C3%A1brica&sub=Para%20quien%20publica&producto=Contenido%20*Remix%20OS*&lema=Una%20idea%20entra.%20Una%20semana%20de%20posts%20sale.&etiquetas=Personalidad%20%7C%20Opini%C3%B3n%20%7C%20Ense%C3%B1a%20%7C%20Comunidad&puntos=Tama%C3%B1o%20honesto%3A%20Nada%20se%20infla%20%7C%204%20pilares%3A%20Cada%20post%20tiene%20su%20papel%20%7C%20Por%20tandas%3A%20Entregado%20ola%20por%20ola&titulo=Convierte%20una%20nota%20de%20voz%20en%20*una%20semana%20de%20contenido.*&extracto=Ya%20dijiste%20lo%20bueno.%20El%20motor%20lo%20mide%2C%20lo%20etiqueta%20con%20su%20pilar%20y%20te%20entrega%20los%20posts.&autor=F%C3%A1brica%20%C2%B7%20Gabriel%20Neuman
+/og/caja/?sitio=F%C3%A1brica&sub=Para%20quien%20publica&producto=Contenido%20*Remix%20OS*&lema=Una%20idea%20entra.%20Una%20semana%20de%20posts%20sale.&resumen=*4%20pilares*%20%C2%B7%205%20redes%20%C2%B7%20citas%2C%20carruseles%20y%20guiones%20cortos%2C%20todo%20con%20*tu%20propia%20voz.*&etiquetas=Personalidad%20%7C%20Opini%C3%B3n%20%7C%20Ense%C3%B1a%20%7C%20Comunidad&puntos=Tama%C3%B1o%20honesto%3A%20Nada%20se%20infla%20%7C%204%20pilares%3A%20Cada%20post%20tiene%20su%20papel%20%7C%20Por%20tandas%3A%20Entregado%20ola%20por%20ola&titulo=Convierte%20una%20nota%20de%20voz%20en%20*una%20semana%20de%20contenido.*&extracto=Ya%20dijiste%20lo%20bueno.%20El%20motor%20lo%20mide%2C%20lo%20etiqueta%20con%20su%20pilar%20y%20te%20entrega%20los%20posts.&autor=F%C3%A1brica%20%C2%B7%20Gabriel%20Neuman
 ```
 
 ## `recibo`: Recibo
