@@ -954,6 +954,160 @@ export const PLANTILLAS = {
           : h('div', { alignItems: 'center', justifyContent: 'center', width: 380, height: 380, borderRadius: 40, background: p.acento, color: p.sobreAcento, fontSize: 150, fontWeight: 700 }, iniciales(p.autor)),
       ),
   },
+  contactos: {
+    nombre: 'Contactos',
+    descripcion: 'Titular grande en mayúsculas condensadas con un renglón en acento, línea mono de cifras y, a la derecha, tarjetas de contacto con foto, etiqueta, LinkedIn y correo.',
+    cuando: 'El post es una guía o base de contactos (inversionistas, clientes, proveedores) por tipo de persona.',
+    campos: ['titulo', 'sub', 'puntos', 'foto', 'foto2', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#f5ead8', texto: '#141414', acento: '#d9714a' },
+    ayuda: { puntos: 'Una tarjeta por etiqueta, separadas por |. Máximo tres.', foto: 'Foto de la primera tarjeta.', foto2: 'Foto de la segunda tarjeta.' },
+    ejemplo: { titulo: 'La guía de inversión *con Claude* octubre 2026', sub: '2,475 búsquedas · 7 skills · cada prompt', puntos: 'Socio | Family office | Ángel', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      // Apilado, el alto manda: titular y tres tarjetas tienen que caber.
+      const u = p.alto ? Math.min(p.W / 630, p.H / 1000) : p.H / 630
+      const etiquetas = (p.puntos || 'Contacto').split(/\s*\|\s*/).filter(Boolean).slice(0, 3)
+      const fotos = [p.foto, p.foto2]
+      const anchoTarjetas = p.alto ? p.W - 80 : Math.round(p.W * 0.38)
+
+      const tam = Math.round(u * (p.alto ? escala(p.titulo, [[30, 74], [50, 62], [999, 52]]) : escala(p.titulo, [[30, 92], [50, 78], [999, 64]])))
+      const avatar = (i) => {
+        const lado = Math.round(u * 70)
+        return fotos[i]
+          ? img(fotos[i], { width: lado, height: lado, borderRadius: 999, objectFit: 'cover', background: '#e7dccb', flexShrink: 0 })
+          // Sin foto: silueta de cabeza y hombros.
+          : h('div', { width: lado, height: lado, borderRadius: 999, background: '#e7dccb', overflow: 'hidden', flexDirection: 'column', alignItems: 'center', flexShrink: 0 },
+            h('div', { width: lado * 0.36, height: lado * 0.36, marginTop: lado * 0.2, borderRadius: 999, background: '#b9ab97' }),
+            h('div', { width: lado * 0.7, height: lado * 0.5, marginTop: lado * 0.05, borderRadius: 999, background: '#b9ab97' }))
+      }
+      const linkedin = h('div', { width: u * 34, height: u * 34, borderRadius: u * 4, background: '#0a66c2', color: '#ffffff', alignItems: 'center', justifyContent: 'center', fontSize: u * 22, fontWeight: 700, letterSpacing: '-0.04em' }, 'in')
+      // Sobre dibujado con bordes y una palomita en acento.
+      const correo = h('div', { width: u * 38, height: u * 34, marginLeft: u * 18, position: 'relative' },
+        h('div', { position: 'absolute', top: u * 4, left: 0, width: u * 32, height: u * 22, border: `${u * 2.5}px solid #141414`, borderRadius: u * 3, overflow: 'hidden' },
+          h('div', { position: 'absolute', top: -u * 12, left: u * 5, width: u * 17, height: u * 17, border: `${u * 2.5}px solid #141414`, transform: 'rotate(45deg)' })),
+        h('div', { position: 'absolute', right: 0, bottom: 0, width: u * 17, height: u * 17, borderRadius: 999, background: p.acento, alignItems: 'center', justifyContent: 'center' },
+          h('div', { width: u * 4, height: u * 8, marginBottom: u * 2, borderRight: `${u * 2}px solid #fff`, borderBottom: `${u * 2}px solid #fff`, transform: 'rotate(45deg)' })))
+      const tarjeta = (t, i) => h('div', { alignItems: 'center', width: anchoTarjetas, marginTop: i ? u * 24 : 0, padding: `${u * 14}px ${u * 22}px`, borderRadius: u * 14, background: '#ffffff', boxShadow: `0 ${u * 8}px ${u * 22}px rgba(60,40,20,0.14)`, color: '#141414' },
+        avatar(i),
+        h('div', { flexDirection: 'column', flex: 1, marginLeft: u * 16 },
+          h('div', { width: '80%', height: u * 12, borderRadius: 99, background: '#8a8378' }),
+          h('div', { width: '55%', height: u * 11, marginTop: u * 8, borderRadius: 99, background: '#d8d0c3' }),
+          h('div', { alignSelf: 'flex-start', marginTop: u * 8, padding: `${u * 2}px ${u * 10}px`, border: `${u * 1.5}px solid #141414`, borderRadius: 999, fontFamily: 'Mono', fontSize: u * 13, textTransform: 'uppercase', whiteSpace: 'nowrap' }, t)),
+        linkedin, correo)
+      // El renglón marcado con *asteriscos* sale en acento, como en la referencia.
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', padding: p.alto ? `${u * 40}px 40px` : `0 ${u * 50}px`, background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center', marginRight: p.alto ? 0 : u * 40, marginBottom: p.alto ? u * 40 : 0, width: p.alto ? p.W - 80 : undefined },
+          h('div', { flexWrap: 'wrap', fontFamily: 'Lilita', fontSize: tam, lineHeight: 1.02, textTransform: 'uppercase' }, resaltar(p.titulo, p.acento)),
+          p.sub && h('div', { marginTop: u * 28, fontFamily: 'Mono', fontSize: u * 17, letterSpacing: '0.04em', textTransform: 'uppercase' }, p.sub),
+        ),
+        h('div', { flexDirection: 'column' }, etiquetas.map(tarjeta)),
+      )
+    },
+  },
+  equipo: {
+    nombre: 'Equipo con agentes',
+    descripcion: 'Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.',
+    cuando: 'El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.',
+    campos: ['titulo', 'sub', 'puntos', 'foto', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#f7f6f2', texto: '#0f1733', acento: '#e2553d' },
+    ayuda: { puntos: 'Una ficha por integrante, "Nombre: qué hace", separadas por |. Máximo tres; la primera es la persona (con la foto).', foto: 'Foto sin fondo de la persona de la primera ficha.' },
+    ejemplo: { titulo: 'Equipos chicos, *resultados grandes*', sub: '1 persona · 2 agentes · 0 juntas de seguimiento', puntos: 'Tú: decides qué se automatiza | Agente: cobra y da seguimiento | Agente: agenda y confirma', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      const u = p.alto ? Math.min(p.W / 630, p.H / 1000) : p.H / 630
+      const fichas = (p.puntos || 'Tú: decides').split(/\s*\|\s*/).filter(Boolean).slice(0, 3).map((t) => {
+        const [nombre, ...resto] = t.split(':')
+        return { nombre: nombre.trim(), tarea: resto.join(':').trim() }
+      })
+      const anchoFichas = p.alto ? p.W - 80 : Math.round(p.W * 0.4)
+      const tam = Math.round(u * (p.alto ? escala(p.titulo, [[30, 76], [60, 64], [999, 52]]) : escala(p.titulo, [[30, 70], [60, 58], [999, 48]])))
+      const lado = Math.round(u * 66)
+      // Agente: carita de robot con dos ojos y antena.
+      const robot = h('div', { width: lado, height: lado, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: u * 14, background: p.texto, flexShrink: 0, position: 'relative' },
+        h('div', { position: 'absolute', top: -u * 9, width: u * 4, height: u * 10, background: p.texto }),
+        h('div', { position: 'absolute', top: -u * 14, width: u * 10, height: u * 10, borderRadius: 99, background: p.acento }),
+        h('div', { gap: u * 12 }, h('div', { width: u * 11, height: u * 11, borderRadius: 99, background: '#f6e3a1' }), h('div', { width: u * 11, height: u * 11, borderRadius: 99, background: '#f6e3a1' })),
+        h('div', { width: u * 22, height: u * 4, marginTop: u * 9, borderRadius: 99, background: '#f6e3a1' }))
+      const persona = p.foto
+        ? img(p.foto, { width: lado, height: lado, borderRadius: 999, objectFit: 'cover', objectPosition: 'top', background: '#fbf3c9', border: `${u * 3}px solid ${p.acento}`, flexShrink: 0 })
+        : h('div', { width: lado, height: lado, borderRadius: 999, background: p.acento, color: '#fff', alignItems: 'center', justifyContent: 'center', fontSize: u * 26, fontWeight: 700, flexShrink: 0 }, iniciales(fichas[0].nombre))
+      const palomita = h('div', { width: u * 30, height: u * 30, borderRadius: 99, border: `${u * 2.5}px solid ${p.acento}`, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+        h('div', { width: u * 7, height: u * 13, marginBottom: u * 3, borderRight: `${u * 3}px solid ${p.acento}`, borderBottom: `${u * 3}px solid ${p.acento}`, transform: 'rotate(45deg)' }))
+      const giros = [-1.5, 1, -0.6]
+      const ficha = (f, i) => h('div', { position: 'relative', alignItems: 'center', width: anchoFichas, marginTop: i ? u * 30 : u * 10, padding: `${u * 18}px ${u * 22}px`, background: i ? '#ffffff' : '#fbf3c9', border: `${u * 1.5}px solid #e4e1d8`, boxShadow: `0 ${u * 6}px ${u * 16}px rgba(15,23,51,0.12)`, transform: `rotate(${giros[i]}deg)`, color: p.texto },
+        // La cinta que la pega al papel.
+        h('div', { position: 'absolute', top: -u * 12, left: anchoFichas / 2 - u * 45, width: u * 90, height: u * 24, background: '#f6e3a1', opacity: 0.9, transform: 'rotate(-4deg)' }),
+        i ? robot : persona,
+        h('div', { flexDirection: 'column', flex: 1, marginLeft: u * 18, marginRight: u * 12 },
+          h('div', { fontFamily: 'Mono', fontSize: u * 14, letterSpacing: '0.12em', textTransform: 'uppercase', color: i ? p.suave : p.acento }, f.nombre),
+          f.tarea && h('div', { marginTop: u * 4, fontSize: u * 21, fontWeight: 700, lineHeight: 1.15 }, f.tarea)),
+        palomita)
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', padding: p.alto ? `${u * 40}px 40px` : `0 ${u * 50}px`, backgroundColor: p.fondo, backgroundImage: 'radial-gradient(circle, #d9d6cc 1.2px, transparent 1.4px)', backgroundSize: `${Math.round(u * 22)}px ${Math.round(u * 22)}px`, color: p.texto },
+        h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center', marginRight: p.alto ? 0 : u * 50, marginBottom: p.alto ? u * 40 : 0, width: p.alto ? p.W - 80 : undefined },
+          h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+          p.sub && h('div', { alignSelf: 'flex-start', marginTop: u * 26, padding: `${u * 6}px ${u * 12}px`, background: '#f6e3a1', fontFamily: 'Mono', fontSize: u * 16, letterSpacing: '0.04em', textTransform: 'uppercase' }, p.sub),
+        ),
+        h('div', { flexDirection: 'column' }, fichas.map(ficha)),
+      )
+    },
+  },
+  precio: {
+    nombre: 'Precio que sube',
+    descripcion: 'Tarjeta de oferta: aviso arriba, marca, titular, dos contadores y una tabla de planes con el precio de hoy, el de después tachado y cuánto sube, más el botón.',
+    cuando: 'El post vende una suscripción o lugar con precio de hoy que va a subir (preventa, lugares o días contados).',
+    campos: ['extracto', 'sitio', 'titulo', 'sub', 'puntos', 'cifra', 'fecha', 'boton', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#ece2d2', texto: '#141414', acento: '#d66a4e' },
+    ayuda: {
+      extracto: 'El aviso de arriba; lo que va *entre asteriscos* sale en negritas.',
+      sitio: 'La marca, junto a su inicial en círculo.',
+      puntos: 'Un plan por renglón, "Nombre: hoy > después", separados por |. Máximo tres. El % se calcula solo.',
+      cifra: 'Primer contador: número y etiqueta, p. ej. "64 lugares".',
+      fecha: 'Segundo contador, p. ej. "7 días".',
+    },
+    ejemplo: { extracto: '*El precio sube con los próximos 100 lugares*, entra hoy y te quedas con esta tarifa.', sitio: 'El CEO agéntico', titulo: 'Entra hoy. Paga menos, siempre.', sub: 'Con los próximos 100 lugares el precio sube. El de hoy se queda contigo.', puntos: 'Mensual: 39 USD/mes > 49 USD/mes | Anual: 195 USD/año > 249 USD/año', cifra: '64 lugares', fecha: '7 días', boton: 'Entra al precio de hoy' },
+    dibujar: (p) => {
+      const u = p.alto ? Math.min(p.W / 640, p.H / 960) : p.H / 630
+      const tinta = p.texto, suave = '#6b645a', linea = '#d8cfc1', papel = '#f8f1e7'
+      const planes = (p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 3).map((t) => {
+        const [nombre, resto = ''] = t.split(/:(.*)/s)
+        const [hoy, despues = ''] = resto.split('>').map((x) => x.trim())
+        const n = (x) => parseFloat(x.replace(/[^\d.]/g, ''))
+        const sube = n(hoy) && n(despues) ? `+${Math.round((n(despues) / n(hoy) - 1) * 100)}%` : ''
+        return { nombre: nombre.trim(), hoy, despues, sube }
+      })
+      const contador = (t) => {
+        const [num, ...et] = t.split(/\s+/)
+        return h('div', { flex: 1, flexDirection: 'column', alignItems: 'center', padding: `${u * 12}px ${u * 8}px`, borderRadius: u * 12, background: '#ffffff', boxShadow: `0 ${u * 4}px ${u * 12}px rgba(60,40,20,0.1)` },
+          h('div', { fontSize: u * 40, fontWeight: 700, lineHeight: 1 }, num),
+          h('div', { marginTop: u * 6, fontSize: u * 15, fontWeight: 700, color: suave, textTransform: 'uppercase' }, et.join(' ')))
+      }
+      const contadores = [p.cifra, p.fecha].filter(Boolean)
+      const izquierda = h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center' },
+        p.sitio && h('div', { alignItems: 'center', fontSize: u * 28, fontWeight: 700 },
+          h('div', { width: u * 46, height: u * 46, borderRadius: 99, background: '#eadfcd', alignItems: 'center', justifyContent: 'center', marginRight: u * 12, fontSize: u * 24, fontWeight: 500 }, p.sitio[0].toUpperCase()), p.sitio),
+        h('div', { flexWrap: 'wrap', marginTop: u * 20, fontSize: u * escala(p.titulo, [[35, 50], [60, 42], [999, 36]]), fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+        p.sub && h('div', { marginTop: u * 14, fontSize: u * 20, fontWeight: 500, lineHeight: 1.3 }, p.sub),
+        contadores.length > 0 && h('div', { marginTop: u * 24, gap: u * 16 }, contadores.map(contador)))
+      const fila = (pl) => h('div', { alignItems: 'center', padding: `${u * 16}px 0`, borderBottom: `${u * 1.5}px solid ${linea}` },
+        h('div', { flexDirection: 'column', flex: 1, fontSize: u * 21, fontWeight: 700, lineHeight: 1.2 }, h('div', {}, pl.nombre), pl.hoy && h('div', {}, `${pl.hoy} hoy`)),
+        pl.despues && h('div', { fontSize: u * 20, color: suave, textDecoration: 'line-through', marginRight: u * 12 }, pl.despues),
+        pl.sube && h('div', { padding: `${u * 4}px ${u * 10}px`, borderRadius: 99, background: '#f9d9cc', color: p.acento, fontSize: u * 17, fontWeight: 700 }, pl.sube))
+      const derecha = h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center' },
+        h('div', { justifyContent: 'space-between', paddingBottom: u * 14, borderBottom: `${u * 1.5}px solid ${linea}`, fontSize: u * 15, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase' },
+          h('div', { color: suave }, 'Plan'), h('div', { color: p.acento }, 'Después')),
+        planes.map(fila),
+        p.boton && h('div', { marginTop: u * 26, justifyContent: 'center', padding: `${u * 16}px`, borderRadius: u * 10, background: p.acento, color: p.sobreAcento, fontSize: u * 22, fontWeight: 700 }, `${p.boton}  ›`))
+      // El aviso: *negritas* y el resto en gris, palabra por palabra para que parta.
+      const aviso = p.extracto && h('div', { alignItems: 'flex-start', paddingBottom: u * 18, marginBottom: u * 22, borderBottom: `${u * 1.5}px solid ${linea}` },
+        h('div', { width: u * 18, height: u * 18, marginTop: u * 3, borderRadius: 99, background: p.acento, marginRight: u * 14, flexShrink: 0 }),
+        h('div', { flexWrap: 'wrap', flex: 1, fontSize: u * 18, color: suave, lineHeight: 1.3 }, resaltar(p.extracto, tinta, { fontWeight: 700 })))
+      return h('div', { width: p.W, height: p.H, alignItems: 'center', justifyContent: 'center', background: p.fondo, color: tinta },
+        h('div', { flexDirection: 'column', width: p.W - u * 70, padding: `${u * 26}px ${u * 34}px`, borderRadius: u * 22, background: papel, boxShadow: `0 ${u * 10}px ${u * 30}px rgba(60,40,20,0.12)` },
+          aviso,
+          h('div', { flexDirection: p.alto ? 'column' : 'row' },
+            izquierda,
+            h('div', { width: p.alto ? '100%' : u * 1.5, height: p.alto ? u * 1.5 : undefined, background: linea, margin: p.alto ? `${u * 26}px 0` : `0 ${u * 34}px` }),
+            derecha)))
+    },
+  },
 }
 
 function iniciales(nombre = '') {

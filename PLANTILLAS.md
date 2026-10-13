@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-28 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+31 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -584,4 +584,69 @@ Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.
 
 ```
 /og/podcast/?titulo=C%C3%B3mo%20crecer%20un%20negocio%20de%20servicios%20sin%20contratar%20m%C3%A1s&autor=Tu%20invitado&sub=Episodio%20101&sitio=Growth%20Tactics
+```
+
+## `contactos`: Contactos
+
+Titular grande en mayúsculas condensadas con un renglón en acento, línea mono de cifras y, a la derecha, tarjetas de contacto con foto, etiqueta, LinkedIn y correo.
+
+**Cuándo:** El post es una guía o base de contactos (inversionistas, clientes, proveedores) por tipo de persona.
+
+| campo | qué es |
+|---|---|
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Una tarjeta por etiqueta, separadas por \|. Máximo tres. |
+| `foto` | Foto (URL). Foto de la primera tarjeta. |
+| `foto2` | Foto del anfitrión (URL). Foto de la segunda tarjeta. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/contactos/?titulo=La%20gu%C3%ADa%20de%20inversi%C3%B3n%20*con%20Claude*%20octubre%202026&sub=2%2C475%20b%C3%BAsquedas%20%C2%B7%207%20skills%20%C2%B7%20cada%20prompt&puntos=Socio%20%7C%20Family%20office%20%7C%20%C3%81ngel&foto=%2Fmuestras%2Fpersona.png
+```
+
+## `equipo`: Equipo con agentes
+
+Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.
+
+**Cuándo:** El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.
+
+| campo | qué es |
+|---|---|
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Una ficha por integrante, "Nombre: qué hace", separadas por \|. Máximo tres; la primera es la persona (con la foto). |
+| `foto` | Foto (URL). Foto sin fondo de la persona de la primera ficha. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/equipo/?titulo=Equipos%20chicos%2C%20*resultados%20grandes*&sub=1%20persona%20%C2%B7%202%20agentes%20%C2%B7%200%20juntas%20de%20seguimiento&puntos=T%C3%BA%3A%20decides%20qu%C3%A9%20se%20automatiza%20%7C%20Agente%3A%20cobra%20y%20da%20seguimiento%20%7C%20Agente%3A%20agenda%20y%20confirma&foto=%2Fmuestras%2Fpersona.png
+```
+
+## `precio`: Precio que sube
+
+Tarjeta de oferta: aviso arriba, marca, titular, dos contadores y una tabla de planes con el precio de hoy, el de después tachado y cuánto sube, más el botón.
+
+**Cuándo:** El post vende una suscripción o lugar con precio de hoy que va a subir (preventa, lugares o días contados).
+
+| campo | qué es |
+|---|---|
+| `extracto` | Extracto. El aviso de arriba; lo que va *entre asteriscos* sale en negritas. |
+| `sitio` | Sitio. La marca, junto a su inicial en círculo. |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Un plan por renglón, "Nombre: hoy > después", separados por \|. Máximo tres. El % se calcula solo. |
+| `cifra` | Cifra. Primer contador: número y etiqueta, p. ej. "64 lugares". |
+| `fecha` | Fecha. Segundo contador, p. ej. "7 días". |
+| `boton` | Texto del botón |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/precio/?extracto=*El%20precio%20sube%20con%20los%20pr%C3%B3ximos%20100%20lugares*%2C%20entra%20hoy%20y%20te%20quedas%20con%20esta%20tarifa.&sitio=El%20CEO%20ag%C3%A9ntico&titulo=Entra%20hoy.%20Paga%20menos%2C%20siempre.&sub=Con%20los%20pr%C3%B3ximos%20100%20lugares%20el%20precio%20sube.%20El%20de%20hoy%20se%20queda%20contigo.&puntos=Mensual%3A%2039%20USD%2Fmes%20%3E%2049%20USD%2Fmes%20%7C%20Anual%3A%20195%20USD%2Fa%C3%B1o%20%3E%20249%20USD%2Fa%C3%B1o&cifra=64%20lugares&fecha=7%20d%C3%ADas&boton=Entra%20al%20precio%20de%20hoy
 ```
