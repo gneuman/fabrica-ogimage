@@ -954,6 +954,55 @@ export const PLANTILLAS = {
           : h('div', { alignItems: 'center', justifyContent: 'center', width: 380, height: 380, borderRadius: 40, background: p.acento, color: p.sobreAcento, fontSize: 150, fontWeight: 700 }, iniciales(p.autor)),
       ),
   },
+  contactos: {
+    nombre: 'Contactos',
+    descripcion: 'Titular grande en mayúsculas condensadas con un renglón en acento, línea mono de cifras y, a la derecha, tarjetas de contacto con foto, etiqueta, LinkedIn y correo.',
+    cuando: 'El post es una guía o base de contactos (inversionistas, clientes, proveedores) por tipo de persona.',
+    campos: ['titulo', 'sub', 'puntos', 'foto', 'foto2', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#f5ead8', texto: '#141414', acento: '#d9714a' },
+    ayuda: { puntos: 'Una tarjeta por etiqueta, separadas por |. Máximo tres.', foto: 'Foto de la primera tarjeta.', foto2: 'Foto de la segunda tarjeta.' },
+    ejemplo: { titulo: 'La guía de inversión *con Claude* octubre 2026', sub: '2,475 búsquedas · 7 skills · cada prompt', puntos: 'Socio | Family office | Ángel', foto: '/muestras/persona.png' },
+    dibujar: (p) => {
+      // Apilado, el alto manda: titular y tres tarjetas tienen que caber.
+      const u = p.alto ? Math.min(p.W / 630, p.H / 1000) : p.H / 630
+      const etiquetas = (p.puntos || 'Contacto').split(/\s*\|\s*/).filter(Boolean).slice(0, 3)
+      const fotos = [p.foto, p.foto2]
+      const anchoTarjetas = p.alto ? p.W - 80 : Math.round(p.W * 0.38)
+
+      const tam = Math.round(u * (p.alto ? escala(p.titulo, [[30, 74], [50, 62], [999, 52]]) : escala(p.titulo, [[30, 92], [50, 78], [999, 64]])))
+      const avatar = (i) => {
+        const lado = Math.round(u * 70)
+        return fotos[i]
+          ? img(fotos[i], { width: lado, height: lado, borderRadius: 999, objectFit: 'cover', background: '#e7dccb', flexShrink: 0 })
+          // Sin foto: silueta de cabeza y hombros.
+          : h('div', { width: lado, height: lado, borderRadius: 999, background: '#e7dccb', overflow: 'hidden', flexDirection: 'column', alignItems: 'center', flexShrink: 0 },
+            h('div', { width: lado * 0.36, height: lado * 0.36, marginTop: lado * 0.2, borderRadius: 999, background: '#b9ab97' }),
+            h('div', { width: lado * 0.7, height: lado * 0.5, marginTop: lado * 0.05, borderRadius: 999, background: '#b9ab97' }))
+      }
+      const linkedin = h('div', { width: u * 34, height: u * 34, borderRadius: u * 4, background: '#0a66c2', color: '#ffffff', alignItems: 'center', justifyContent: 'center', fontSize: u * 22, fontWeight: 700, letterSpacing: '-0.04em' }, 'in')
+      // Sobre dibujado con bordes y una palomita en acento.
+      const correo = h('div', { width: u * 38, height: u * 34, marginLeft: u * 18, position: 'relative' },
+        h('div', { position: 'absolute', top: u * 4, left: 0, width: u * 32, height: u * 22, border: `${u * 2.5}px solid #141414`, borderRadius: u * 3, overflow: 'hidden' },
+          h('div', { position: 'absolute', top: -u * 12, left: u * 5, width: u * 17, height: u * 17, border: `${u * 2.5}px solid #141414`, transform: 'rotate(45deg)' })),
+        h('div', { position: 'absolute', right: 0, bottom: 0, width: u * 17, height: u * 17, borderRadius: 999, background: p.acento, alignItems: 'center', justifyContent: 'center' },
+          h('div', { width: u * 4, height: u * 8, marginBottom: u * 2, borderRight: `${u * 2}px solid #fff`, borderBottom: `${u * 2}px solid #fff`, transform: 'rotate(45deg)' })))
+      const tarjeta = (t, i) => h('div', { alignItems: 'center', width: anchoTarjetas, marginTop: i ? u * 24 : 0, padding: `${u * 14}px ${u * 22}px`, borderRadius: u * 14, background: '#ffffff', boxShadow: `0 ${u * 8}px ${u * 22}px rgba(60,40,20,0.14)`, color: '#141414' },
+        avatar(i),
+        h('div', { flexDirection: 'column', flex: 1, marginLeft: u * 16 },
+          h('div', { width: '80%', height: u * 12, borderRadius: 99, background: '#8a8378' }),
+          h('div', { width: '55%', height: u * 11, marginTop: u * 8, borderRadius: 99, background: '#d8d0c3' }),
+          h('div', { alignSelf: 'flex-start', marginTop: u * 8, padding: `${u * 2}px ${u * 10}px`, border: `${u * 1.5}px solid #141414`, borderRadius: 999, fontFamily: 'Mono', fontSize: u * 13, textTransform: 'uppercase', whiteSpace: 'nowrap' }, t)),
+        linkedin, correo)
+      // El renglón marcado con *asteriscos* sale en acento, como en la referencia.
+      return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', padding: p.alto ? `${u * 40}px 40px` : `0 ${u * 50}px`, background: p.fondo, color: p.texto },
+        h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center', marginRight: p.alto ? 0 : u * 40, marginBottom: p.alto ? u * 40 : 0, width: p.alto ? p.W - 80 : undefined },
+          h('div', { flexWrap: 'wrap', fontFamily: 'Lilita', fontSize: tam, lineHeight: 1.02, textTransform: 'uppercase' }, resaltar(p.titulo, p.acento)),
+          p.sub && h('div', { marginTop: u * 28, fontFamily: 'Mono', fontSize: u * 17, letterSpacing: '0.04em', textTransform: 'uppercase' }, p.sub),
+        ),
+        h('div', { flexDirection: 'column' }, etiquetas.map(tarjeta)),
+      )
+    },
+  },
 }
 
 function iniciales(nombre = '') {

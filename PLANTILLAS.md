@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-28 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+29 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -584,4 +584,25 @@ Foto del invitado, nombre, episodio y tema. Para episodios de podcast o YouTube.
 
 ```
 /og/podcast/?titulo=C%C3%B3mo%20crecer%20un%20negocio%20de%20servicios%20sin%20contratar%20m%C3%A1s&autor=Tu%20invitado&sub=Episodio%20101&sitio=Growth%20Tactics
+```
+
+## `contactos`: Contactos
+
+Titular grande en mayúsculas condensadas con un renglón en acento, línea mono de cifras y, a la derecha, tarjetas de contacto con foto, etiqueta, LinkedIn y correo.
+
+**Cuándo:** El post es una guía o base de contactos (inversionistas, clientes, proveedores) por tipo de persona.
+
+| campo | qué es |
+|---|---|
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `sub` | Subtítulo |
+| `puntos` | Puntos. Una tarjeta por etiqueta, separadas por \|. Máximo tres. |
+| `foto` | Foto (URL). Foto de la primera tarjeta. |
+| `foto2` | Foto del anfitrión (URL). Foto de la segunda tarjeta. |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/contactos/?titulo=La%20gu%C3%ADa%20de%20inversi%C3%B3n%20*con%20Claude*%20octubre%202026&sub=2%2C475%20b%C3%BAsquedas%20%C2%B7%207%20skills%20%C2%B7%20cada%20prompt&puntos=Socio%20%7C%20Family%20office%20%7C%20%C3%81ngel&foto=%2Fmuestras%2Fpersona.png
 ```
