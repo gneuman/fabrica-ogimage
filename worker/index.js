@@ -14,6 +14,7 @@ import yogaWasm from 'satori/yoga.wasm'
 import inter700 from '../motor/fuentes/inter-700.woff'
 import inter500 from '../motor/fuentes/inter-500.woff'
 import lilita400 from '../motor/fuentes/lilita-400.woff'
+import lora700 from '../motor/fuentes/lora-700.woff'
 import mono500 from '../motor/fuentes/mono-500.woff'
 import { generarPng, iniciar } from '../motor/render.js'
 import { PLANTILLAS } from '../motor/plantillas.js'
@@ -22,6 +23,7 @@ const fuentes = [
   { name: 'Inter', data: inter700, weight: 700 },
   { name: 'Inter', data: inter500, weight: 500 },
   { name: 'Lilita', data: lilita400, weight: 400 },
+  { name: 'Lora', data: lora700, weight: 700 },
   { name: 'Mono', data: mono500, weight: 500 },
 ]
 const MAX_IMAGEN = 5 * 1024 * 1024

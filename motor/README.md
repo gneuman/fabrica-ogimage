@@ -39,7 +39,7 @@ Para **usar** una plantilla: `PLANTILLAS.md` en la raíz (se genera en cada buil
 
 - Todo `div` con más de un hijo necesita `display: flex`: `h()` ya lo pone.
 - No parte líneas entre `span` distintos: para texto con *resaltado* usa `resaltar()`.
-- Solo hay Inter 500/700, Lilita 400 y Mono 500 (`motor/fuentes/`). Sin 300 ni itálicas.
+- Solo hay Inter 500/700, Lilita 400, Lora 700 y Mono 500 (`motor/fuentes/`). Sin 300 ni itálicas.
 - Nada de `filter` ni `inset` en `boxShadow` (deja bandas). Los efectos finos (brillo, blur) van
   en un SVG propio pasado como `img` (ver `planeta()`), que resvg sí dibuja.
 - Íconos: nombres de [lucide.dev](https://lucide.dev); emoji: Twemoji, automáticos en el texto.

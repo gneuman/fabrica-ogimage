@@ -1005,7 +1005,7 @@ export const PLANTILLAS = {
   },
   equipo: {
     nombre: 'Equipo con agentes',
-    descripcion: 'Papel de puntitos, titular en tinta con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.',
+    descripcion: 'Papel de puntitos, titular en Lora (tinta) con *resaltado* en rojo y, a la derecha, fichas pegadas con cinta: la persona con su foto y sus agentes, cada uno con lo que hace y su palomita.',
     cuando: 'El post cuenta cómo un equipo chico trabaja con agentes de IA: quién dirige y qué hace cada agente.',
     campos: ['titulo', 'sub', 'puntos', 'foto', 'fondo', 'texto', 'acento'],
     marca: { fondo: '#f7f6f2', texto: '#0f1733', acento: '#e2553d' },
@@ -1042,7 +1042,7 @@ export const PLANTILLAS = {
         palomita)
       return h('div', { width: p.W, height: p.H, flexDirection: p.alto ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', padding: p.alto ? `${u * 40}px 40px` : `0 ${u * 50}px`, backgroundColor: p.fondo, backgroundImage: 'radial-gradient(circle, #d9d6cc 1.2px, transparent 1.4px)', backgroundSize: `${Math.round(u * 22)}px ${Math.round(u * 22)}px`, color: p.texto },
         h('div', { flexDirection: 'column', flex: p.alto ? undefined : 1, justifyContent: 'center', marginRight: p.alto ? 0 : u * 50, marginBottom: p.alto ? u * 40 : 0, width: p.alto ? p.W - 80 : undefined },
-          h('div', { flexWrap: 'wrap', fontSize: tam, fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.03em' }, resaltar(p.titulo, p.acento)),
+          h('div', { flexWrap: 'wrap', fontSize: tam, fontFamily: 'Lora', fontWeight: 700, lineHeight: 1.08, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento)),
           p.sub && h('div', { alignSelf: 'flex-start', marginTop: u * 26, padding: `${u * 6}px ${u * 12}px`, background: '#f6e3a1', fontFamily: 'Mono', fontSize: u * 16, letterSpacing: '0.04em', textTransform: 'uppercase' }, p.sub),
         ),
         h('div', { flexDirection: 'column' }, fichas.map(ficha)),
