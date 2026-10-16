@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-32 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+33 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -288,6 +288,37 @@ Fecha grande, nombre del evento, lugar y botón. Para talleres, webinars y lanza
 
 ```
 /og/evento/?fecha=29%20OCT&titulo=Tu%20primer%20empleado%20de%20IA&lugar=En%20vivo%20por%20Zoom%20%C2%B7%2019%3A00%20CDMX&boton=Aparta%20tu%20lugar
+```
+
+## `webinar`: Webinar
+
+Fondo oscuro con cuadrícula, titular grande con una palabra en acento, dos personas en círculo con su nombre y franja con fecha y hora. Para webinars, masterclass y podcasts en vivo.
+
+**Cuándo:** El post invita a una sesión en vivo con dos personas: webinar, masterclass, fireside chat o episodio de podcast.
+
+| campo | qué es |
+|---|---|
+| `etiqueta` | Etiqueta. En la pastilla de arriba. P. ej. Live webinar, Masterclass, Podcast. |
+| `sitio` | Sitio |
+| `logo` | Logo (URL). Sin logo sale el sitio en texto. |
+| `sub` | Subtítulo |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `extracto` | Extracto. En el cuadrado no cabe: sale en vertical e historia. |
+| `boton` | Texto del botón |
+| `autor` | Autor o nombre |
+| `cargo` | Cargo de la primera persona |
+| `foto` | Foto (URL) |
+| `autor2` | Segunda persona. Nombre de la segunda persona. |
+| `cargo2` | Cargo de la segunda persona. Rol de la segunda persona. |
+| `foto2` | Foto del anfitrión (URL). Foto de la segunda persona (el círculo de abajo). |
+| `fecha` | Fecha. Día y mes, p. ej. 29 OCT. |
+| `lugar` | Lugar u horario |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/webinar/?etiqueta=Live%20webinar&sitio=Parakeeto%20%C3%97%20Function%20Software&sub=Una%20charla%20con%20Parakeeto%20%C3%97%20Function%20Software&titulo=Las%20tres%20fuerzas%20*inmutables*%20de%20la%20rentabilidad&extracto=C%C3%B3mo%20crecer%20la%20utilidad%20sin%20subir%20precios%2C%20sin%20recortar%20overhead%20ni%20exigir%20m%C3%A1s%20a%20tu%20equipo.&boton=Aparta%20tu%20lugar&autor=Marcel%20Petitpas&cargo=CEO%20y%20cofundador%2C%20Parakeeto&autor2=Sean%20Harris&cargo2=Director%20de%20experiencia%20del%20cliente%2C%20Function%20Software&fecha=Mi%C3%A9rcoles%2021%20de%20octubre&lugar=9%3A00%20AM%20PT%20%C2%B7%2012%3A00%20PM%20ET&foto=%2Fmuestras%2Fpersona.png&foto2=%2Fmuestras%2Fpersona.png
 ```
 
 ## `duelo`: Duelo

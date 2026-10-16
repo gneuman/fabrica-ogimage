@@ -409,6 +409,129 @@ export const PLANTILLAS = {
     },
   },
 
+  webinar: {
+    nombre: 'Webinar',
+    descripcion: 'Fondo oscuro con cuadrícula, titular grande con una palabra en acento, dos personas en círculo con su nombre y franja con fecha y hora. Para webinars, masterclass y podcasts en vivo.',
+    cuando: 'El post invita a una sesión en vivo con dos personas: webinar, masterclass, fireside chat o episodio de podcast.',
+    campos: ['etiqueta', 'sitio', 'logo', 'sub', 'titulo', 'extracto', 'boton', 'autor', 'cargo', 'foto', 'autor2', 'cargo2', 'foto2', 'fecha', 'lugar', 'fondo', 'texto', 'acento'],
+    marca: { fondo: '#1b1a17', texto: '#f5f3ee', acento: '#a79bff' },
+    ayuda: { foto2: 'Foto de la segunda persona (el círculo de abajo).', autor2: 'Nombre de la segunda persona.', cargo2: 'Rol de la segunda persona.', extracto: 'En el cuadrado no cabe: sale en vertical e historia.' },
+    ejemplo: {
+      etiqueta: 'Live webinar',
+      sitio: 'Parakeeto × Function Software',
+      sub: 'Una charla con Parakeeto × Function Software',
+      titulo: 'Las tres fuerzas *inmutables* de la rentabilidad',
+      extracto: 'Cómo crecer la utilidad sin subir precios, sin recortar overhead ni exigir más a tu equipo.',
+      boton: 'Aparta tu lugar',
+      autor: 'Marcel Petitpas',
+      cargo: 'CEO y cofundador, Parakeeto',
+      autor2: 'Sean Harris',
+      cargo2: 'Director de experiencia del cliente, Function Software',
+      fecha: 'Miércoles 21 de octubre',
+      lugar: '9:00 AM PT · 12:00 PM ET',
+      foto: '/muestras/persona.png',
+      foto2: '/muestras/persona.png',
+    },
+    dibujar: (p) => {
+      const acento2 = '#f5a83a'
+      const margen = p.alto ? 56 : 64
+      const pie = p.alto ? (p.H > 800 ? 110 : 96) : 84
+
+      // Cuadrícula de puntos y líneas tenues, sobre el lienzo entero.
+      const paso = 40
+      const lineas = []
+      for (let x = 0; x <= p.W; x += paso) lineas.push(`<line x1="${x}" y1="0" x2="${x}" y2="${p.H}" stroke="#ffffff" stroke-opacity="0.05"/>`)
+      for (let y = 0; y <= p.H; y += paso) lineas.push(`<line x1="0" y1="${y}" x2="${p.W}" y2="${y}" stroke="#ffffff" stroke-opacity="0.05"/>`)
+      for (let x = 0; x <= p.W; x += paso) for (let y = 0; y <= p.H; y += paso) lineas.push(`<circle cx="${x}" cy="${y}" r="2" fill="${p.acento}" fill-opacity="0.35"/>`)
+      const cuadricula = `data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="${p.W}" height="${p.H}" viewBox="0 0 ${p.W} ${p.H}">${lineas.join('')}</svg>`)}`
+
+      // Pastilla con la etiqueta (LIVE WEBINAR, MASTERCLASS, PODCAST) y, a la derecha, la marca.
+      const pastilla = p.etiqueta && h('div', { alignItems: 'center', flexShrink: 0, marginRight: 16, padding: '10px 22px', borderRadius: 999, background: '#2a2927', border: '1px solid #3d3c39', fontSize: p.alto ? 18 : 20, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' },
+        h('div', { width: 14, height: 14, borderRadius: 999, border: `3px solid ${p.acento}`, marginRight: 12 }),
+        p.etiqueta)
+      const marca = (p.logo || p.sitio) && h('div', { alignItems: 'center' },
+        p.logo && img(p.logo, { width: p.alto ? 130 : 150, height: p.alto ? 36 : 40, objectFit: 'contain' }),
+        p.logo && p.sitio && h('div', { width: 1, height: 30, background: '#ffffff44', margin: '0 22px' }),
+        p.sitio && h('div', { fontSize: p.alto ? 20 : 24, fontWeight: 700, whiteSpace: 'nowrap', color: p.suave }, p.sitio))
+
+      // Persona: círculo con aro de acento, y tarjeta con nombre y rol que se encima con el círculo.
+      const circulo = (foto, nombre, d) => h('div', { padding: 6, borderRadius: 999, border: `2px solid ${p.acento}` },
+        foto
+          ? img(foto, { width: d, height: d, borderRadius: 999, objectFit: 'cover' })
+          : h('div', { alignItems: 'center', justifyContent: 'center', width: d, height: d, borderRadius: 999, background: '#2a2f3a', fontSize: Math.round(d * 0.3), fontWeight: 700 }, iniciales(nombre)))
+
+      // Horizontal: tarjeta con nombre y rol que se encima con el círculo. `corrimiento` la mueve
+      // a la izquierda para que no tape al otro círculo. Formatos altos: nombre y rol debajo del círculo.
+      const persona = (foto, nombre, cargo, d, ancho, corrimiento = 0) => p.alto
+        ? h('div', { flexDirection: 'column', alignItems: 'center', width: ancho },
+          circulo(foto, nombre, d),
+          nombre && h('div', { marginTop: 14, fontSize: 21, fontWeight: 700, whiteSpace: 'nowrap' }, nombre),
+          cargo && h('div', { width: ancho, marginTop: 2, textAlign: 'center', fontSize: 16, lineHeight: 1.3, color: p.suave }, cargo))
+        : h('div', { flexDirection: 'column', alignItems: 'center', width: d + 16 },
+          circulo(foto, nombre, d),
+          nombre && h('div', { flexDirection: 'column', width: ancho, marginTop: -Math.round(d * 0.12), marginLeft: corrimiento, padding: '14px 20px', borderRadius: 14, background: '#23221f', border: '1px solid #3b3a36' },
+            h('div', { fontSize: 23, fontWeight: 700, whiteSpace: 'nowrap' }, nombre),
+            cargo && h('div', { marginTop: 4, fontSize: 18, lineHeight: 1.3, color: p.suave }, cargo)),
+        )
+
+      const titulo = (ancho) => h('div', { flexWrap: 'wrap', width: ancho, marginTop: 12, fontSize: escala(p.titulo, p.H > 800 ? [[30, 66], [60, 52], [999, 46]] : p.alto ? [[30, 56], [60, 44], [999, 40]] : [[24, 70], [50, 62], [999, 54]]), fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em' }, resaltar(p.titulo, p.acento))
+      const boton = p.boton && h('div', { marginTop: p.alto ? 26 : 34, alignSelf: 'flex-start', padding: p.alto ? '14px 34px' : '18px 44px', borderRadius: 8, background: acento2, color: '#1b1a17', fontSize: p.alto ? 24 : 26, fontWeight: 700 }, p.boton)
+      // En el cuadrado no cabe: la descripción sale en vertical e historia.
+      const extracto = (ancho) => p.extracto && (!p.alto || p.H > 800) && h('div', { flexWrap: 'wrap', width: ancho, marginTop: p.alto ? 14 : 22, fontSize: p.alto ? 21 : 26, lineHeight: 1.35, color: p.suave }, p.extracto)
+      const sub = p.sub && h('div', { fontSize: 24, fontWeight: 600, color: acento2 }, p.sub)
+
+      // Fecha y hora en la franja de abajo: etiqueta naranja y valor en blanco. En formatos altos,
+      // una columna por dato, apiladas en la misma franja.
+      const dato = (etiqueta, valor) => valor && h('div', p.alto ? { flexDirection: 'column' } : { alignItems: 'center' },
+        h('div', { fontSize: p.alto ? 16 : 18, fontWeight: 700, letterSpacing: '0.14em', color: acento2 }, etiqueta),
+        h('div', p.alto ? { marginTop: 6, fontSize: p.W < 650 ? 20 : 22, fontWeight: 700, whiteSpace: 'nowrap' } : { marginLeft: 16, fontSize: 24, fontWeight: 700, whiteSpace: 'nowrap' }, valor))
+      const franja = h('div', { position: 'absolute', left: 0, right: 0, bottom: 0, height: pie, alignItems: 'center', paddingLeft: margen, paddingRight: margen, borderTop: '1px solid #ffffff22', justifyContent: p.alto ? 'space-between' : 'flex-start' },
+        dato('FECHA', p.fecha),
+        !p.alto && p.fecha && p.lugar && h('div', { width: 1, height: 28, background: '#ffffff44', margin: '0 34px' }),
+        dato('HORA', p.lugar))
+
+      const cabecera = h('div', { position: 'absolute', left: margen, right: margen, top: p.alto ? 44 : 50, justifyContent: 'space-between', alignItems: 'center' }, pastilla, marca)
+      const fondo = img(cuadricula, { position: 'absolute', left: 0, top: 0, width: p.W, height: p.H })
+      const fondoColor = `radial-gradient(circle at ${p.alto ? '50% 30%' : '78% 40%'}, #2b2740 0%, ${p.fondo} 62%)`
+
+      if (!p.alto) {
+        // Horizontal: texto a la izquierda, personas a la derecha con la franja abajo.
+        const area = p.H - pie
+        const d1 = Math.round(area * 0.5)
+        const d2 = Math.round(d1 * 0.74)
+        const x1 = p.W - d1 - 150
+        const y1 = 110
+        const x2 = x1 + Math.round(d1 * 0.62)
+        const y2 = y1 + Math.round(d1 * 0.5)
+        const ancho = Math.round(p.W * 0.52)
+        return h('div', { width: p.W, height: p.H, position: 'relative', background: fondoColor, color: p.texto },
+          fondo,
+          cabecera,
+          h('div', { position: 'absolute', left: margen, top: 112, width: ancho, flexDirection: 'column' }, sub, titulo(ancho), extracto(ancho), boton),
+          h('div', { position: 'absolute', left: x1, top: y1 }, persona(p.foto, p.autor, p.cargo, d1, 270, -110)),
+          h('div', { position: 'absolute', left: x2, top: y2 }, persona(p.foto2, p.autor2, p.cargo2, d2, 280, -30)),
+          franja,
+        )
+      }
+
+      // Formatos altos: personas arriba (una columna cada una), texto abajo y la franja al pie.
+      const d = Math.round(p.W * (p.H > 1000 ? 0.3 : p.H > 800 ? 0.2 : 0.18))
+      const mitad = Math.round((p.W - margen * 2) / 2)
+      return h('div', { width: p.W, height: p.H, position: 'relative', background: fondoColor, color: p.texto },
+        fondo,
+        cabecera,
+        h('div', { position: 'absolute', left: 0, right: 0, top: 100, bottom: pie, flexDirection: 'column', justifyContent: 'center', paddingLeft: margen, paddingRight: margen },
+          h('div', { justifyContent: 'space-between' },
+            persona(p.foto, p.autor, p.cargo, d, mitad),
+            persona(p.foto2, p.autor2, p.cargo2, d, mitad),
+          ),
+          h('div', { flexDirection: 'column', marginTop: 24 }, sub, titulo(p.W - margen * 2), extracto(p.W - margen * 2), boton),
+        ),
+        franja,
+      )
+    },
+  },
+
   duelo: {
     nombre: 'Duelo',
     descripcion: 'Fondo negro, titular gordo y dos terminales cara a cara con un VS. Para webinars y comparativas de herramientas.',
@@ -1213,6 +1336,10 @@ export const CAMPOS = {
   derecha: { etiqueta: 'Opción de la derecha (resaltada)', tipo: 'texto' },
   fecha: { etiqueta: 'Fecha', tipo: 'texto', ayuda: 'Día y mes, p. ej. 29 OCT.' },
   lugar: { etiqueta: 'Lugar u horario', tipo: 'texto' },
+  etiqueta: { etiqueta: 'Etiqueta', tipo: 'texto', ayuda: 'En la pastilla de arriba. P. ej. Live webinar, Masterclass, Podcast.' },
+  cargo: { etiqueta: 'Cargo de la primera persona', tipo: 'texto' },
+  autor2: { etiqueta: 'Segunda persona', tipo: 'texto' },
+  cargo2: { etiqueta: 'Cargo de la segunda persona', tipo: 'texto' },
   logo: { etiqueta: 'Logo (URL)', tipo: 'url', ayuda: 'Sin logo sale el sitio en texto.' },
   pilares: { etiqueta: 'Pilares', tipo: 'texto', ayuda: 'Hasta 3, separados con |: ícono de Lucide: texto. P. ej. truck: Monitoreo de flotas.' },
   total: { etiqueta: 'Total', tipo: 'texto', ayuda: 'Vacío: la cifra.' },
