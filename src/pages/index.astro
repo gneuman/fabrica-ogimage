@@ -4,7 +4,7 @@ import Captura from '@/components/Captura.astro'
 import Faq from '@/components/Faq.astro'
 import Caminos from '@/components/Caminos.astro'
 import TarjetaSitio from '@/components/TarjetaSitio.astro'
-import { GALERIA, SLUGS, NOMBRE, AUTOR, GRUPOS, REPO, CATEGORIAS_CON_OTROS } from '@/lib/sitio'
+import { GALERIA, SLUGS, NOMBRE, AUTOR, GRUPOS, REPO, POST, CATEGORIAS_CON_OTROS } from '@/lib/sitio'
 
 const catsGaleria = Object.entries(CATEGORIAS_CON_OTROS)
   .map(([c, { nombre }]) => ({ c, nombre, n: GALERIA.filter((x) => x.categorias.includes(c)).length }))
@@ -78,14 +78,31 @@ const faq = [
   </section>
 
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-    <div class="rounded-3xl border border-gray-200 bg-white px-6 py-12 text-ink-900 sm:px-12">
-      <p class="text-xs font-semibold tracking-[0.18em] text-accent-600 uppercase">Código abierto</p>
-      <h2 class="mt-3 font-serif text-3xl sm:text-4xl">Gratis para siempre. <em class="text-accent-600">Cópiala</em> si te sirve.</h2>
-      <p class="mt-4 max-w-2xl text-gray-700">El editor, las plantillas y la galería son abiertos, con licencia MIT. Puedes montar tu propia copia y generar las imágenes desde tu dominio.</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={REPO} class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Ver en GitHub</a>
-        <a href="/usar/" class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-ink-900 hover:border-ink-900">Montar mi copia</a>
+    <div class="grid items-center gap-10 rounded-3xl border border-gray-200 bg-white px-6 py-12 text-ink-900 sm:px-12 lg:grid-cols-[1fr_380px]">
+      <div>
+        <p class="text-xs font-semibold tracking-[0.18em] text-accent-600 uppercase">Código abierto</p>
+        <h2 class="mt-3 font-serif text-3xl sm:text-4xl">Gratis para siempre. <em class="text-accent-600">Cópiala</em> si te sirve.</h2>
+        <p class="mt-4 max-w-2xl text-gray-700">El editor, las plantillas y la galería son abiertos, con licencia MIT. Puedes montar tu propia copia y generar las imágenes desde tu dominio.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={REPO} class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Ver en GitHub</a>
+          <a href="/usar/" class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-ink-900 hover:border-ink-900">Montar mi copia</a>
+        </div>
       </div>
+      <figure class="rotate-1 rounded-2xl bg-ink-900 p-6 text-white shadow-xl">
+        <div class="flex items-center gap-4">
+          <img src="/muestras/persona.png" alt={AUTOR.nombre} width="445" height="320" loading="lazy" class="h-16 w-16 rounded-full bg-gray-200 object-cover object-top" />
+          <figcaption>
+            <p class="text-xs tracking-wide text-gray-400 uppercase">La hizo</p>
+            <p class="font-semibold">{AUTOR.nombre}</p>
+            <p class="text-sm text-gray-400">Director de IA fraccional</p>
+          </figcaption>
+        </div>
+        <p class="mt-5 leading-relaxed text-gray-200">Yo decidí qué hacer y cómo debía verse; el código lo escribieron mis agentes de IA. Así trabajo con equipos chicos.</p>
+        <div class="mt-5 flex flex-wrap gap-3 text-sm">
+          <a href={POST} class="rounded-full bg-white px-4 py-2 font-semibold text-ink-900 hover:bg-gray-100">Cómo la hice</a>
+          <a href={AUTOR.url} class="rounded-full border border-white/30 px-4 py-2 font-semibold hover:border-white">gabrielneuman.com</a>
+        </div>
+      </figure>
     </div>
   </section>
 
