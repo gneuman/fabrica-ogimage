@@ -3,6 +3,11 @@
 Imágenes Open Graph en español: la imagen que sale cuando compartes un link en
 WhatsApp, LinkedIn o X. Tres formas de usarla, con las mismas plantillas:
 
+> **La hice yo, [Gabriel Neuman](https://www.gabrielneuman.com/).** Soy director de IA fraccional:
+> dirijo, no construyo. Yo decidí qué debía hacer y cómo verse; el código lo escribieron mis agentes
+> de IA. Es abierta para que la uses, la copies y la cambies. Cómo la hice:
+> [el post](https://www.gabrielneuman.com/fabrica-ogimage-imagenes-og-en-espanol/).
+
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/gneuman/fabrica-ogimage)
 
 1. **En el editor del sitio.** Armas la imagen y descargas el PNG. Se dibuja en el navegador.
@@ -29,7 +34,7 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    Yo uso un VPS de [Hostinger](https://gnb.mx/HostingerHub) (link de afiliado: si contratas por ahí gano
    una comisión, sin costo extra para ti).
 
-27 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
+32 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
 (detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tweet, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo, alianza, caja, recibo, contactos, equipo y precio.
 Qué hace cada una, sus campos y una URL de ejemplo: [`PLANTILLAS.md`](PLANTILLAS.md). Cómo hacer una nueva: [`motor/README.md`](motor/README.md).
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
@@ -86,6 +91,24 @@ npm run galeria:agregar -- https://empresa.com saas marketing
   Así corre el sitio público.
 - La captura de correo va al webhook de n8n del newsletter de gabrielneuman.com.
 - Opcional: secreto `UNSPLASH_KEY` (`wrangler secret put UNSPLASH_KEY`) para que la plantilla ciudad lleve foto de fondo.
+
+## Que te traiga oportunidades
+
+Una buena imagen OG hace que la gente abra tu link. Tres formas de sacarle más:
+
+1. **Sal en la galería.** Cada empresa tiene su página en el sitio, con un link a su dominio.
+   Abre un PR con `npm run galeria:agregar -- https://tuempresa.com <categoría>` (las
+   categorías están en `scripts/categorias.mjs`) y la reviso.
+2. **Publica tu copia con tu marca.** Cambia `--marca` y los colores (`fondo`, `texto`,
+   `acento`) y cada página que compartas lleva tu nombre. Si la montas, cuéntame dónde:
+   me gusta ver cómo la usa cada quien.
+3. **Haz una plantilla y compártela.** Una plantilla nueva es una entrada en
+   `motor/plantillas.js` ([cómo](motor/README.md)). Si sirve a más gente, mándala por PR:
+   sale en el sitio con tu nombre en el commit.
+
+¿Quieres que tu equipo trabaje así, con agentes de IA que hacen el trabajo mientras tú
+diriges? Escríbeme desde [gabrielneuman.com](https://www.gabrielneuman.com/). Y si quieres
+enterarte de lo nuevo, suscríbete a [El CEO agéntico](https://www.gabrielneuman.com/), mi newsletter.
 
 ## Créditos
 
