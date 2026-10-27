@@ -11,7 +11,7 @@
     "build": "node scripts/recursos.mjs && node scripts/catalogo.mjs && astro build",
     "probar": "node scripts/recursos.mjs && node scripts/probar.mjs",
     "sinfondo": "python3 -I scripts/sinfondo.py",
-    "preview": "npm run build && wrangler dev",
+    "preview": "wrangler dev",
     "check": "astro check",
     "galeria:agregar": "node scripts/galeria-agregar.mjs",
     "servidor": "node servidor/node.js"
