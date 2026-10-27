@@ -1,53 +1,23 @@
 ---
-// Catálogo al estilo ogimage.org/templates: cada plantilla es una fila con su
-// ruta en un panel de código y la muestra ladeada encima. Sin JS.
+// Las plantillas agrupadas por uso: una tarjeta por categoría con cuatro muestras.
 import Base from '@/layouts/Base.astro'
-import { PLANTILLAS, SLUGS, urlOg } from '@/lib/sitio'
-
-const filas = SLUGS.map((slug, i) => {
-  const pl = PLANTILLAS[slug]
-  const ejemplo: Record<string, string> = pl.ejemplo
-  return {
-    slug,
-    nombre: pl.nombre,
-    descripcion: pl.descripcion,
-    cuando: pl.cuando as string | undefined,
-    url: urlOg(slug, ejemplo),
-    campos: pl.campos.filter((c: string) => ejemplo[c]).map((c: string) => [c, ejemplo[c]] as const),
-    giro: i % 2 ? '-rotate-3' : 'rotate-3',
-    sangria: ['lg:ml-0', 'lg:ml-12', 'lg:ml-24', 'lg:ml-12'][i % 4],
-  }
-})
-const recorta = (s: string, n = 60) => (s.length > n ? s.slice(0, n - 1) + '…' : s)
+import { GRUPOS, PLANTILLAS, SLUGS } from '@/lib/sitio'
 ---
-<Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link: artículo, titular, cita, cifra, evento, podcast, ciudad y más. Todas por URL y gratis.`} path="/plantillas/">
+<Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link, en ${GRUPOS.length} categorías: ideas, artículos, eventos, podcast, personas y producto.`} path="/plantillas/">
   <section class="mx-auto max-w-6xl px-4 pt-16 pb-10 sm:px-6">
-    <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">Plantillas</p>
-    <h1 class="mt-3 font-serif text-4xl text-ink-900 sm:text-5xl"><em class="text-accent-600">Imágenes OG</em> por URL</h1>
-    <p class="mt-4 max-w-2xl text-lg text-gray-700">{SLUGS.length} plantillas. Copia la ruta, cambia el texto y listo: una imagen por página, en cinco tamaños.</p>
-    <nav class="mt-6 flex flex-wrap gap-2 text-sm">
-      {filas.map((f) => <a href={`#${f.slug}`} class="rounded-full border border-gray-300 px-3 py-1 text-gray-700 hover:border-ink-900 hover:text-ink-900">{f.nombre}</a>)}
-    </nav>
+    <h1 class="font-serif text-4xl text-ink-900 sm:text-5xl">Plantillas</h1>
+    <p class="mt-4 max-w-2xl text-lg text-gray-700">{SLUGS.length} plantillas en {GRUPOS.length} categorías. Elige la de tu caso, cambia el texto y descárgala en cinco tamaños.</p>
   </section>
-
-  <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-    <div class="rounded-3xl bg-ink-900 px-4 py-10 sm:px-8 lg:px-12">
-      <ol class="flex flex-col gap-14">
-        {filas.map((f) => (
-          <li id={f.slug} class={`relative scroll-mt-24 ${f.sangria} lg:mr-40`}>
-            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
-              <h2 class="font-mono text-sm font-semibold text-white">{f.nombre}</h2>
-              <p class="mt-1 font-mono text-xs text-gray-400">{f.descripcion}</p>
-              <pre class="mt-4 overflow-x-auto rounded-xl bg-black/40 p-4 text-xs leading-relaxed text-gray-200 lg:pr-56"><code><span class="text-gray-500">{`// ${recorta(f.url, 70)}`}</span>{'\n'}<span class="text-accent-500">GET</span>{` /og/${f.slug}/\n`}{f.campos.map(([k, v]) => `  ${k}=${JSON.stringify(recorta(v))}\n`).join('')}{'  formato="og" | "cuadrado" | "vertical" | "horizontal" | "historia"'}</code></pre>
-              {f.cuando && <p class="mt-3 text-xs text-gray-400"><span class="font-semibold text-gray-300">Cuándo:</span> {f.cuando}</p>}
-              <a href={`/plantillas/${f.slug}/`} class="mt-3 inline-block text-xs text-gray-300 underline underline-offset-4 hover:text-white">Abrir en el editor</a>
-            </div>
-            <a href={`/plantillas/${f.slug}/`} class={`mt-4 block lg:absolute lg:-right-36 lg:top-2 lg:mt-0 lg:w-80 ${f.giro} transition hover:rotate-0`}>
-              <img src={`/_muestras/${f.slug}.png`} alt={`Muestra de la plantilla ${f.nombre}`} width="1200" height="630" loading="lazy" decoding="async" class="aspect-[1200/630] w-full rounded-lg object-cover shadow-2xl ring-1 ring-white/20" />
-            </a>
-          </li>
-        ))}
-      </ol>
-    </div>
+  <section class="mx-auto grid max-w-6xl gap-6 px-4 pb-20 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+    {GRUPOS.map((g) => (
+      <a href={`/plantillas/categoria/${g.slug}/`} class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-4 transition hover:border-ink-900 hover:shadow-lg">
+        <div class="grid grid-cols-2 gap-2">
+          {g.plantillas.slice(0, 4).map((s) => <img src={`/_muestras/${s}.png`} alt="" width="1200" height="630" loading="lazy" decoding="async" class="aspect-[1200/630] w-full rounded-md object-cover" />)}
+        </div>
+        <p class="mt-4 flex items-baseline justify-between gap-2"><span class="font-serif text-xl text-ink-900">{g.nombre}</span><span class="text-sm text-gray-500">{g.plantillas.length}</span></p>
+        <p class="mt-1 text-sm text-gray-600">{g.descripcion}</p>
+        <p class="mt-3 text-xs text-gray-500">{g.plantillas.map((s) => PLANTILLAS[s].nombre).join(' · ')}</p>
+      </a>
+    ))}
   </section>
 </Base>
