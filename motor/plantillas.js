@@ -607,9 +607,9 @@ export const PLANTILLAS = {
     },
   },
 
-  tuit: {
-    nombre: 'Tuit',
-    descripcion: 'Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tuit.',
+  tweet: {
+    nombre: 'Tweet',
+    descripcion: 'Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tweet de X.',
     cuando: 'El post tiene una frase corta y contundente que funciona sola (una opinión, una regla, un "deja de…").',
     campos: ['titulo', 'autor', 'foto', 'imagen', 'fondo', 'texto', 'acento'],
     marca: { fondo: '#1c1c1e', texto: '#ffffff', acento: '#f7c948' },
