@@ -1,14 +1,23 @@
 ---
+// Las plantillas agrupadas por uso: una tarjeta por categoría con cuatro muestras.
 import Base from '@/layouts/Base.astro'
-import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
-import { SLUGS } from '@/lib/sitio'
+import { GRUPOS, PLANTILLAS, SLUGS } from '@/lib/sitio'
 ---
-<Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link: artículo, titular, cita, cifra, evento, podcast, ciudad y más. Todas por URL y gratis.`} path="/plantillas/">
-  <section class="mx-auto max-w-6xl px-4 pt-16 pb-8 sm:px-6">
-    <h1 class="font-serif text-4xl text-ink-900">Plantillas</h1>
-    <p class="mt-4 max-w-2xl text-lg text-gray-700">Elige una, cambia el texto en el editor y copia la dirección. Todas salen a 1200×630 en PNG.</p>
+<Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link, en ${GRUPOS.length} categorías: ideas, artículos, eventos, podcast, personas y producto.`} path="/plantillas/">
+  <section class="mx-auto max-w-6xl px-4 pt-16 pb-10 sm:px-6">
+    <h1 class="font-serif text-4xl text-ink-900 sm:text-5xl">Plantillas</h1>
+    <p class="mt-4 max-w-2xl text-lg text-gray-700">{SLUGS.length} plantillas en {GRUPOS.length} categorías. Elige la de tu caso, cambia el texto y descárgala en cinco tamaños.</p>
   </section>
-  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
-    {SLUGS.map((s) => <TarjetaPlantilla slug={s} />)}
+  <section class="mx-auto grid max-w-6xl gap-6 px-4 pb-20 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
+    {GRUPOS.map((g) => (
+      <a href={`/plantillas/categoria/${g.slug}/`} class="group flex flex-col rounded-2xl border border-gray-200 bg-white p-4 transition hover:border-ink-900 hover:shadow-lg">
+        <div class="grid grid-cols-2 gap-2">
+          {g.plantillas.slice(0, 4).map((s) => <img src={`/_muestras/${s}.png`} alt="" width="1200" height="630" loading="lazy" decoding="async" class="aspect-[1200/630] w-full rounded-md object-cover" />)}
+        </div>
+        <p class="mt-4 flex items-baseline justify-between gap-2"><span class="font-serif text-xl text-ink-900">{g.nombre}</span><span class="text-sm text-gray-500">{g.plantillas.length}</span></p>
+        <p class="mt-1 text-sm text-gray-600">{g.descripcion}</p>
+        <p class="mt-3 text-xs text-gray-500">{g.plantillas.map((s) => PLANTILLAS[s].nombre).join(' · ')}</p>
+      </a>
+    ))}
   </section>
 </Base>

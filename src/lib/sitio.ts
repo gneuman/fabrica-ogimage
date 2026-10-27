@@ -51,3 +51,17 @@ export const GALERIA: Sitio[] = Object.values(archivos).sort(
 )
 
 export const CATEGORIAS_CON_OTROS: Record<string, { nombre: string }> = { ...CATEGORIAS, otros: { nombre: 'Otros' } }
+
+// Las plantillas por uso, para /plantillas/<categoria>/. Cada una va en una
+// sola; si falta o sobra alguna, el build truena.
+export const GRUPOS: { slug: string; nombre: string; descripcion: string; plantillas: Plantilla[] }[] = [
+  { slug: 'ideas', nombre: 'Ideas y frases', descripcion: 'Para un post que cabe en una frase, una cifra o una postura.', plantillas: ['marca', 'titular', 'cita', 'tweet', 'cifra', 'emoji'] },
+  { slug: 'guias', nombre: 'Artículos y guías', descripcion: 'Para posts de blog, newsletters, docs y paso a paso.', plantillas: ['articulo', 'lista', 'ruta', 'icono'] },
+  { slug: 'eventos', nombre: 'Eventos y cursos', descripcion: 'Para talleres, webinars, cohorts y lanzamientos con fecha.', plantillas: ['evento', 'cohort', 'duelo', 'boton'] },
+  { slug: 'podcast', nombre: 'Podcast y video', descripcion: 'Para episodios, invitados y miniaturas de YouTube.', plantillas: ['podcast', 'entrevista', 'miniatura', 'escaparate', 'ceoagentico', 'ceoportada', 'ceopromo'] },
+  { slug: 'personas', nombre: 'Personas y equipos', descripcion: 'Para páginas de autor, equipo, ponentes y alianzas.', plantillas: ['perfil', 'equipo', 'contactos', 'alianza'] },
+  { slug: 'producto', nombre: 'Producto y ofertas', descripcion: 'Para mostrar un producto, una captura, un precio o una comparativa.', plantillas: ['captura', 'telefono', 'caja', 'recibo', 'versus', 'precio', 'ciudad'] },
+]
+const agrupadas = GRUPOS.flatMap((g) => g.plantillas)
+const sueltas = SLUGS.filter((s) => agrupadas.filter((a) => a === s).length !== 1)
+if (sueltas.length || agrupadas.length !== SLUGS.length) throw new Error(`Plantillas sin categoría única en GRUPOS: ${sueltas.join(', ') || 'sobran entradas'}`)

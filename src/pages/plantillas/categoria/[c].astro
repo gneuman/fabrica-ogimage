@@ -1,0 +1,39 @@
+---
+// Una página por categoría: las plantillas grandes, con cuándo usar cada una.
+import Base from '@/layouts/Base.astro'
+import { GRUPOS, PLANTILLAS } from '@/lib/sitio'
+
+export function getStaticPaths() {
+  return GRUPOS.map((g) => ({ params: { c: g.slug } }))
+}
+const g = GRUPOS.find((x) => x.slug === Astro.params.c)!
+---
+<Base title={`Plantillas OG de ${g.nombre.toLowerCase()} | Fábrica OG`} description={`${g.plantillas.length} plantillas de imagen OG ${g.descripcion.charAt(0).toLowerCase()}${g.descripcion.slice(1)}`} path={`/plantillas/categoria/${g.slug}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+    <a href="/plantillas/" class="text-sm text-gray-600 hover:text-ink-900">Plantillas</a>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900 sm:text-5xl">{g.nombre}</h1>
+    <p class="mt-3 max-w-2xl text-lg text-gray-700">{g.descripcion}</p>
+    <nav class="mt-8 flex gap-2 overflow-x-auto pb-2 text-sm">
+      {GRUPOS.map((x) => (
+        <a href={`/plantillas/categoria/${x.slug}/`} aria-current={x.slug === g.slug ? 'page' : undefined} class={`shrink-0 rounded-full border px-4 py-1.5 ${x.slug === g.slug ? 'border-ink-900 bg-ink-900 text-white' : 'border-gray-300 text-gray-700 hover:border-ink-900 hover:text-ink-900'}`}>{x.nombre}</a>
+      ))}
+    </nav>
+  </section>
+
+  <section class="mx-auto mt-8 grid max-w-6xl gap-x-8 gap-y-14 px-4 pb-20 sm:px-6 md:grid-cols-2">
+    {g.plantillas.map((s) => {
+      const pl = PLANTILLAS[s]
+      return (
+        <article>
+          <a href={`/plantillas/${s}/`} class="block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
+            <img src={`/_muestras/${s}.png`} alt={`Muestra de la plantilla ${pl.nombre}`} width="1200" height="630" loading="lazy" decoding="async" class="aspect-[1200/630] w-full object-cover" />
+          </a>
+          <h2 class="mt-4 font-serif text-2xl text-ink-900">{pl.nombre}</h2>
+          <p class="mt-1 text-gray-700">{pl.descripcion}</p>
+          {pl.cuando && <p class="mt-2 text-sm text-gray-500"><span class="font-semibold text-gray-700">Cuándo:</span> {pl.cuando}</p>}
+          <a href={`/plantillas/${s}/`} class="mt-4 inline-block rounded-full bg-accent-600 px-5 py-2 text-sm font-semibold text-white hover:bg-accent-700">Usar plantilla</a>
+        </article>
+      )
+    })}
+  </section>
+</Base>

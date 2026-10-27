@@ -375,9 +375,9 @@ Franja amarilla arriba, titular blanco gigante, dos íconos en mosaico brillante
 /og/escaparate/?sub=Lo%20mejor%20de%20la%20semana&titulo=Herramientas%20de%20IA&icono=sparkles&icono2=git-branch&foto=%2Fmuestras%2Fpersona.png
 ```
 
-## `tuit`: Tuit
+## `tweet`: Tweet
 
-Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tuit.
+Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palomita y la frase en grande, como un tweet de X.
 
 **Cuándo:** El post tiene una frase corta y contundente que funciona sola (una opinión, una regla, un "deja de…").
 
@@ -392,7 +392,7 @@ Foto de fondo y una tarjeta negra con borde amarillo: avatar, @usuario con palom
 | `acento` | Acento |
 
 ```
-/og/tuit/?titulo=Deja%20de%20vender%20consultor%C3%ADa&autor=%40gabrielneuman&foto=%2Fmuestras%2Fpersona.png
+/og/tweet/?titulo=Deja%20de%20vender%20consultor%C3%ADa&autor=%40gabrielneuman&foto=%2Fmuestras%2Fpersona.png
 ```
 
 ## `ruta`: Ruta
