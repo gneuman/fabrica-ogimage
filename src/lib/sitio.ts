@@ -65,3 +65,8 @@ export const GRUPOS: { slug: string; nombre: string; descripcion: string; planti
 const agrupadas = GRUPOS.flatMap((g) => g.plantillas)
 const sueltas = SLUGS.filter((s) => agrupadas.filter((a) => a === s).length !== 1)
 if (sueltas.length || agrupadas.length !== SLUGS.length) throw new Error(`Plantillas sin categoría única en GRUPOS: ${sueltas.join(', ') || 'sobran entradas'}`)
+
+// Los cinco tamaños, para las páginas de /formatos/ y /plantillas/<plantilla>/<formato>/.
+export { FORMATOS } from '../../motor/plantillas.js'
+export type Formato = 'og' | 'cuadrado' | 'vertical' | 'horizontal' | 'historia'
+export const muestra = (slug: string, formato: string) => (formato === 'og' ? `/_muestras/${slug}.png` : `/_muestras/${formato}/${slug}.png`)

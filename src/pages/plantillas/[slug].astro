@@ -6,7 +6,7 @@
 import Base from '@/layouts/Base.astro'
 import Captura from '@/components/Captura.astro'
 import TarjetaPlantilla from '@/components/TarjetaPlantilla.astro'
-import { PLANTILLAS, CAMPOS, SLUGS, urlOg, type Plantilla } from '@/lib/sitio'
+import { PLANTILLAS, CAMPOS, SLUGS, FORMATOS, urlOg, type Plantilla } from '@/lib/sitio'
 
 export function getStaticPaths() {
   return SLUGS.map((slug) => ({ params: { slug } }))
@@ -27,6 +27,9 @@ const otras = SLUGS.filter((s) => s !== slug).slice(0, 3)
     <a href="/plantillas/" class="text-sm text-gray-600 hover:text-ink-900">Plantillas</a>
     <h1 class="mt-2 font-serif text-4xl text-ink-900">{pl.nombre}</h1>
     <p class="mt-3 max-w-2xl text-lg text-gray-700">{pl.descripcion}</p>
+    <nav class="mt-4 flex flex-wrap gap-2 text-sm">
+      {Object.entries(FORMATOS).map(([k, x]) => <a href={`/plantillas/${slug}/${k}/`} class="rounded-full border border-gray-300 px-3 py-1 text-gray-700 hover:border-ink-900 hover:text-ink-900">{x.redes}</a>)}
+    </nav>
   </section>
 
   <section class="mx-auto mt-10 grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">

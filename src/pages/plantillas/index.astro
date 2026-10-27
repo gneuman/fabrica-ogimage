@@ -1,12 +1,15 @@
 ---
 // Las plantillas agrupadas por uso: una tarjeta por categoría con cuatro muestras.
 import Base from '@/layouts/Base.astro'
-import { GRUPOS, PLANTILLAS, SLUGS } from '@/lib/sitio'
+import { FORMATOS, GRUPOS, PLANTILLAS, SLUGS } from '@/lib/sitio'
 ---
 <Base title="Plantillas de imágenes OG en español | Fábrica OG" description={`${SLUGS.length} plantillas para la imagen que sale al compartir un link, en ${GRUPOS.length} categorías: ideas, artículos, eventos, podcast, personas y producto.`} path="/plantillas/">
   <section class="mx-auto max-w-6xl px-4 pt-16 pb-10 sm:px-6">
     <h1 class="font-serif text-4xl text-ink-900 sm:text-5xl">Plantillas</h1>
     <p class="mt-4 max-w-2xl text-lg text-gray-700">{SLUGS.length} plantillas en {GRUPOS.length} categorías. Elige la de tu caso, cambia el texto y descárgala en cinco tamaños.</p>
+    <nav class="mt-6 flex flex-wrap gap-2 text-sm">
+      {Object.entries(FORMATOS).map(([k, x]) => <a href={`/formatos/${k}/`} class="rounded-full border border-gray-300 px-3 py-1 text-gray-700 hover:border-ink-900 hover:text-ink-900">{x.redes} <span class="text-gray-400">{x.W}×{x.H}</span></a>)}
+    </nav>
   </section>
   <section class="mx-auto grid max-w-6xl gap-6 px-4 pb-20 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
     {GRUPOS.map((g) => (

@@ -6,7 +6,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { createRequire } from 'node:module'
-import { PLANTILLAS } from '../motor/plantillas.js'
+import { FORMATOS, PLANTILLAS } from '../motor/plantillas.js'
 import { pngNode } from '../motor/node.js'
 
 const requerir = createRequire(import.meta.url)
@@ -26,4 +26,12 @@ fs.mkdirSync('public/_muestras', { recursive: true })
 for (const [slug, pl] of Object.entries(PLANTILLAS)) {
   fs.writeFileSync(`public/_muestras/${slug}.png`, await pngNode(slug, pl.ejemplo, { base: 'public' }))
 }
-console.log(`muestras: ${Object.keys(PLANTILLAS).length} plantillas`)
+// 3. Y en cada formato, en public/_muestras/<formato>/<plantilla>.png, para las
+//    páginas de /formatos/ y /plantillas/<plantilla>/<formato>/.
+for (const formato of Object.keys(FORMATOS).filter((f) => f !== 'og')) {
+  fs.mkdirSync(`public/_muestras/${formato}`, { recursive: true })
+  for (const [slug, pl] of Object.entries(PLANTILLAS)) {
+    fs.writeFileSync(`public/_muestras/${formato}/${slug}.png`, await pngNode(slug, { ...pl.ejemplo, formato }, { base: 'public' }))
+  }
+}
+console.log(`muestras: ${Object.keys(PLANTILLAS).length} plantillas en ${Object.keys(FORMATOS).length} formatos`)
