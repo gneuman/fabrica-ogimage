@@ -9,6 +9,9 @@
   "name": "fabrica-ogimage",
   "compatibility_date": "2026-10-01",
   "main": "./worker/index.js",
+  // wrangler deploy (y versions upload) construye antes de subir: así el deploy
+  // no depende de que el dashboard tenga Build command. Tarda unos 6 minutos.
+  "build": { "command": "npm run build", "watch_dir": [] },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
