@@ -82,13 +82,15 @@ npm run galeria:agregar -- https://empresa.com saas marketing
 
 ## Publicar (Cloudflare Workers)
 
-- Build: `npm run build` · salida: `dist` · Node 22. Variable de build `SITIO` con el dominio final.
-- **Con la API** (por defecto, `API_OG=on`): necesita **Workers Paid** (5 USD/mes). Cada imagen
-  usa de 20 a 500 ms de CPU y el plan gratis da 10 ms por petición.
-- **Solo sitio, gratis:** `API_OG=off` en Settings → Variables del Worker (`keep_vars` evita que
-  el deploy la borre). El editor dibuja en el navegador, las OG del sitio salen en el build y
-  `/og/*` responde 404. `/api/ubicacion/` (país y ciudad para el editor) sigue funcionando.
-  Así corre el sitio público.
+- En Workers Builds: **Build command** `npm run build` (sin él no existe `dist` y el deploy
+  falla) y **Deploy command** `npx wrangler deploy`. Tarda unos 6 minutos: dibuja las muestras
+  en los cinco tamaños. Variable de build `SITIO` con el dominio final.
+- **Solo sitio, gratis** (por defecto, `API_OG=off` en `wrangler.jsonc`): el editor dibuja en el
+  navegador, las OG del sitio salen en el build y `/og/*` responde 404. `/api/ubicacion/` (país y
+  ciudad para el editor) sigue funcionando. Así corre el sitio público.
+- **Con la API:** cambia a `"API_OG": "on"` en `wrangler.jsonc` (el archivo gana sobre el
+  dashboard en cada deploy). Necesita **Workers Paid** (5 USD/mes): cada imagen usa de 20 a
+  500 ms de CPU y el plan gratis da 10 ms por petición.
 - La captura de correo va al webhook de n8n del newsletter de gabrielneuman.com.
 - Opcional: secreto `UNSPLASH_KEY` (`wrangler secret put UNSPLASH_KEY`) para que la plantilla ciudad lleve foto de fondo.
 
