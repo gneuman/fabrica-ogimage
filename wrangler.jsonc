@@ -2,9 +2,9 @@
 // /og/* (la API de imágenes) y /api/ubicacion/.
 //
 // La API /og/ necesita Workers Paid: dibujar una imagen usa más CPU que los
-// 10 ms por petición del plan gratis. Para correr gratis (solo sitio, editor
-// en el navegador y ubicación), pon API_OG=off en Settings → Variables.
-// keep_vars hace que el deploy no borre lo que pongas ahí.
+// 10 ms por petición del plan gratis. Por eso va apagada (API_OG=off): sitio,
+// editor en el navegador y ubicación, gratis. Para prenderla, cambia aquí a
+// "on": lo que diga este archivo gana sobre el dashboard en cada deploy.
 {
   "name": "fabrica-ogimage",
   "compatibility_date": "2026-10-01",
@@ -17,7 +17,7 @@
     "not_found_handling": "404-page"
   },
   // Las fuentes van dentro del Worker como bytes.
-  "vars": { "API_OG": "on" },
+  "vars": { "API_OG": "off" },
   "keep_vars": true,
   "rules": [{ "type": "Data", "globs": ["**/*.woff"] }],
   "previews": {}
