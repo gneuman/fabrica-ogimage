@@ -1,0 +1,33 @@
+---
+// Una página por tamaño: todas las plantillas en ese formato. Para quien busca
+// "imagen para Instagram" o "tamaño de historia" y no "imagen OG".
+import Base from '@/layouts/Base.astro'
+import { FORMATOS, PLANTILLAS, SLUGS, muestra } from '@/lib/sitio'
+
+export function getStaticPaths() {
+  return Object.keys(FORMATOS).map((f) => ({ params: { f } }))
+}
+const f = Astro.params.f as keyof typeof FORMATOS
+const fm = FORMATOS[f]
+const medida = `${fm.W}×${fm.H}`
+---
+<Base title={`Plantillas de imagen para ${fm.redes} (${medida}) | Fábrica OG`} description={`${SLUGS.length} plantillas gratis en ${medida} píxeles, el tamaño para ${fm.redes}. Cambia el texto y descarga el PNG.`} path={`/formatos/${f}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+    <a href="/plantillas/" class="text-sm text-gray-600 hover:text-ink-900">Plantillas</a>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900 sm:text-5xl">Imágenes para <em class="text-accent-600">{fm.redes}</em></h1>
+    <p class="mt-3 max-w-2xl text-lg text-gray-700">{fm.nombre}: {medida} píxeles, en PNG. Las {SLUGS.length} plantillas salen en este tamaño; en una URL se pide con <code>?formato={f}</code>.</p>
+    <nav class="mt-8 flex gap-2 overflow-x-auto pb-2 text-sm">
+      {Object.entries(FORMATOS).map(([k, x]) => (
+        <a href={`/formatos/${k}/`} aria-current={k === f ? 'page' : undefined} class={`shrink-0 rounded-full border px-4 py-1.5 ${k === f ? 'border-ink-900 bg-ink-900 text-white' : 'border-gray-300 text-gray-700 hover:border-ink-900 hover:text-ink-900'}`}>{x.nombre} <span class="opacity-60">{x.W}×{x.H}</span></a>
+      ))}
+    </nav>
+  </section>
+  <section class={`mx-auto mt-8 grid max-w-6xl gap-8 px-4 pb-20 sm:px-6 ${fm.H > fm.W ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
+    {SLUGS.map((s) => (
+      <a href={`/plantillas/${s}/${f}/`} class="group block">
+        <img src={muestra(s, f)} alt={`Plantilla ${PLANTILLAS[s].nombre} en ${medida}`} width={fm.W} height={fm.H} loading="lazy" decoding="async" class="w-full rounded-lg border border-gray-200 bg-white transition group-hover:-translate-y-0.5 group-hover:shadow-xl" />
+        <p class="mt-3 font-semibold text-ink-900">{PLANTILLAS[s].nombre}</p>
+      </a>
+    ))}
+  </section>
+</Base>

@@ -1,0 +1,65 @@
+---
+// Una página por plantilla y tamaño (32 × 5): la muestra, para qué redes sirve
+// y la URL con ?formato=. El editor vive en /plantillas/<plantilla>/.
+import Base from '@/layouts/Base.astro'
+import { FORMATOS, GRUPOS, PLANTILLAS, SLUGS, muestra, urlOg, type Plantilla } from '@/lib/sitio'
+
+export function getStaticPaths() {
+  return SLUGS.flatMap((slug) => Object.keys(FORMATOS).map((formato) => ({ params: { slug, formato } })))
+}
+const slug = Astro.params.slug as Plantilla
+const f = Astro.params.formato as keyof typeof FORMATOS
+const pl = PLANTILLAS[slug]
+const fm = FORMATOS[f]
+const medida = `${fm.W}×${fm.H}`
+const url = 'https://tu-dominio.com' + urlOg(slug, { ...(pl.ejemplo as Record<string, string>), ...(f === 'og' ? {} : { formato: f }) })
+const grupo = GRUPOS.find((g) => g.plantillas.includes(slug))!
+const vecinas = grupo.plantillas.filter((s) => s !== slug).slice(0, 4)
+---
+<Base title={`Plantilla ${pl.nombre} para ${fm.redes} (${medida}) | Fábrica OG`} description={`${pl.descripcion} En ${medida} píxeles, para ${fm.redes}. Gratis, en PNG.`} path={`/plantillas/${slug}/${f}/`}>
+  <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6">
+    <p class="text-sm text-gray-600"><a href="/plantillas/" class="hover:text-ink-900">Plantillas</a> · <a href={`/plantillas/categoria/${grupo.slug}/`} class="hover:text-ink-900">{grupo.nombre}</a> · <a href={`/formatos/${f}/`} class="hover:text-ink-900">{fm.nombre}</a></p>
+    <h1 class="mt-2 font-serif text-4xl text-ink-900">{pl.nombre} <span class="text-gray-500">para {fm.redes}</span></h1>
+    <p class="mt-3 max-w-2xl text-lg text-gray-700">{pl.descripcion}</p>
+  </section>
+
+  <section class="mx-auto mt-10 grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">
+    <div class={`min-w-0 ${fm.H > fm.W ? 'mx-auto w-full max-w-sm' : ''}`}>
+      <img src={muestra(slug, f)} alt={`Plantilla ${pl.nombre} en ${medida}`} width={fm.W} height={fm.H} class="w-full rounded-xl border border-gray-200 bg-white shadow-lg" />
+    </div>
+    <div class="flex flex-col gap-6">
+      <dl class="grid grid-cols-2 gap-4 rounded-xl border border-gray-200 bg-white p-5 text-sm">
+        <div><dt class="text-gray-500">Tamaño</dt><dd class="font-semibold text-ink-900">{medida} px</dd></div>
+        <div><dt class="text-gray-500">Para</dt><dd class="font-semibold text-ink-900">{fm.redes}</dd></div>
+        {pl.cuando && <div class="col-span-2"><dt class="text-gray-500">Cuándo usarla</dt><dd class="text-ink-900">{pl.cuando}</dd></div>}
+      </dl>
+      <div class="flex flex-wrap gap-3">
+        <a href={`/plantillas/${slug}/`} class="rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white hover:bg-accent-700">Editar el texto</a>
+        <a href={muestra(slug, f)} download={`${slug}-${f}.png`} class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-ink-900 hover:border-ink-900">Descargar la muestra</a>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-ink-900">En otros tamaños</p>
+        <div class="mt-2 flex flex-wrap gap-2 text-sm">
+          {Object.entries(FORMATOS).filter(([k]) => k !== f).map(([k, x]) => <a href={`/plantillas/${slug}/${k}/`} class="rounded-full border border-gray-300 px-3 py-1 text-gray-700 hover:border-ink-900 hover:text-ink-900">{x.redes}</a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-12 max-w-6xl px-4 sm:px-6">
+    <h2 class="font-semibold text-ink-900">Por URL, en tu servidor</h2>
+    <pre class="mt-3 overflow-x-auto rounded-xl bg-ink-900 p-5 text-sm text-gray-100"><code>{url}</code></pre>
+  </section>
+
+  <section class="mx-auto mt-16 max-w-6xl px-4 pb-20 sm:px-6">
+    <h2 class="font-serif text-2xl text-ink-900">Más de {grupo.nombre.toLowerCase()} en {medida}</h2>
+    <div class={`mt-6 grid gap-6 ${fm.H > fm.W ? 'grid-cols-2 sm:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+      {vecinas.map((s) => (
+        <a href={`/plantillas/${s}/${f}/`} class="group block">
+          <img src={muestra(s, f)} alt={`Plantilla ${PLANTILLAS[s].nombre}`} width={fm.W} height={fm.H} loading="lazy" decoding="async" class="w-full rounded-lg border border-gray-200 transition group-hover:shadow-lg" />
+          <p class="mt-2 text-sm font-semibold text-ink-900">{PLANTILLAS[s].nombre}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
