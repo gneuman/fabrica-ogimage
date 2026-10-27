@@ -4,10 +4,10 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import fabricaOg from './motor/astro.js'
 
-// El dominio se decide al publicar: va en la variable de build SITIO
-// (Cloudflare: Settings → Build → Variables). Sin ella, canonical y sitemap
-// salen con el subdominio de workers.dev.
-const site = process.env.SITIO ?? 'https://fabrica-ogimage.gneuman.workers.dev'
+// El dominio del sitio público (canonical, sitemap, robots y las OG). Quien
+// monte su copia lo cambia con la variable de build SITIO
+// (Cloudflare: Settings → Build → Variables).
+const site = process.env.SITIO ?? 'https://og.gabrielneuman.com'
 
 export default defineConfig({
   site,

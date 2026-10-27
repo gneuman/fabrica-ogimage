@@ -84,7 +84,7 @@ npm run galeria:agregar -- https://empresa.com saas marketing
 
 - En Workers Builds basta el **Deploy command** `npx wrangler deploy`: `wrangler.jsonc` corre
   `npm run build` antes de subir (deja el Build command vacío para no construir dos veces).
-  Tarda unos 6 minutos: dibuja las muestras en los cinco tamaños. Variable de build `SITIO` con el dominio final.
+  Tarda unos 6 minutos: dibuja las muestras en los cinco tamaños. El sitio público vive en `og.gabrielneuman.com`; en tu copia pon la variable de build `SITIO` con tu dominio.
 - **Solo sitio, gratis** (por defecto, `API_OG=off` en `wrangler.jsonc`): el editor dibuja en el
   navegador, las OG del sitio salen en el build y `/og/*` responde 404. `/api/ubicacion/` (país y
   ciudad para el editor) sigue funcionando. Así corre el sitio público.
