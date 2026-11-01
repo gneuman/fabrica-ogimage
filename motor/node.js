@@ -39,6 +39,9 @@ export function recursosNode({ base } = {}) {
     fuentes,
     leer: async (ruta) => {
       const [tipo, archivo] = ruta.split('/')
+      // Logos propios (motor/logos/, ya con su color) antes que Simple Icons.
+      const propio = tipo === 'marcas' && path.join(aqui, 'logos', path.basename(archivo))
+      if (propio && fs.existsSync(propio)) return fs.readFileSync(propio, 'utf8')
       const f = path.join(DIRS[tipo] ?? '', path.basename(archivo))
       if (!fs.existsSync(f)) return null
       const svg = fs.readFileSync(f, 'utf8')

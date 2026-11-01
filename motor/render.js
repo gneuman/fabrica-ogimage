@@ -4,7 +4,7 @@
 // forma de leer recursos.
 import satori, { init as iniciarYoga } from 'satori/standalone'
 import { Resvg, initWasm } from '@resvg/resvg-wasm'
-import { FORMATOS, PLANTILLAS } from './plantillas.js'
+import { FORMATOS, PLANTILLAS, leerPunto } from './plantillas.js'
 import { normalizar } from './normalizar.js'
 
 export { normalizar }
@@ -60,15 +60,17 @@ export async function generarSvg(slug, entrada, recursos) {
     const datos = (svg) => aDataUri('image/svg+xml', new TextEncoder().encode(svg))
     const pinta = (svg) => (svg ? datos(svg.replaceAll('currentColor', pl.puntosConIcono)) : '')
     p.items = await Promise.all((p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 6).map(async (t) => {
-      const [, icono, texto] = t.match(/^([a-z0-9.-]+)\s*:\s*(.+)$/i) ?? [null, 'sparkles', t]
-      const nombre = icono.toLowerCase()
-      const marca = /^[a-z0-9]+$/.test(nombre) ? await recursos.leer(`marcas/${nombre}.svg`) : null
-      if (marca) {
+      const { etiqueta, conNombre, slugs, texto } = leerPunto(t)
+      for (const slug of slugs) {
+        const marca = /^[a-z0-9]+$/.test(slug) ? await recursos.leer(`marcas/${slug}.svg`) : null
+        if (!marca) continue
         const hex = marca.match(/fill="(#[0-9a-f]{6})"/i)?.[1]
         const svg = hex && contraste(hex, pl.fondoIcono ?? '#ffffff') < 2.2 ? marca.replace(`fill="${hex}"`, `fill="${p.texto}"`) : marca
-        return { texto, marca: true, svg: datos(svg) }
+        return { nombre: etiqueta, texto, marca: true, svg: datos(svg) }
       }
-      return { texto, svg: pinta((await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))) }
+      let icono = null
+      for (const slug of slugs) if ((icono = await recursos.leer(`iconos/${slug}.svg`))) break
+      return { nombre: conNombre ? etiqueta : '', texto, svg: pinta(icono ?? (await recursos.leer('iconos/sparkles.svg'))) }
     }))
   }
   if (p.icono !== undefined) {

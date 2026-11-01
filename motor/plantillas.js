@@ -193,9 +193,9 @@ function infoTitular(p, tam) {
 function infoMarco(p, cuerpo) {
   const u = p.alto ? Math.min(p.W / 1080, p.H / 1250) : p.H / 840
   const m = u * 72
-  const tam = u * (p.alto ? escala(p.titulo, [[34, 84], [56, 72], [999, 62]]) : escala(p.titulo, [[34, 76], [56, 64], [999, 54]]))
+  const tam = u * (p.alto ? escala(p.titulo, [[24, 100], [40, 92], [60, 82], [999, 72]]) : escala(p.titulo, [[34, 76], [56, 64], [999, 54]]))
   const eb = p.eb && h('div', { fontSize: u * 28, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: INFO_AZUL, marginBottom: u * 18 }, p.eb)
-  const remate = p.remate && h('div', { flexWrap: 'wrap', fontSize: u * (p.alto ? 38 : 34), fontWeight: 500, lineHeight: 1.35, color: p.texto }, resaltar(p.remate, p.texto, { fontWeight: 700 }))
+  const remate = p.remate && h('div', { flexWrap: 'wrap', fontSize: u * (p.alto ? 42 : 34), fontWeight: 500, lineHeight: 1.35, color: p.texto }, resaltar(p.remate, p.texto, { fontWeight: 700 }))
   const lado = u * 96
   const firma = h('div', { alignItems: 'center' },
     p.foto
@@ -211,7 +211,7 @@ function infoMarco(p, cuerpo) {
   if (p.alto) {
     return h('div', base,
       eb, infoTitular(p, tam),
-      h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center', gap: u * 48, paddingTop: u * 40 }, cuerpo(u), remate),
+      h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center', gap: u * 44, paddingTop: u * 36 }, cuerpo(u), remate),
       pie)
   }
   return h('div', base,
@@ -219,6 +219,21 @@ function infoMarco(p, cuerpo) {
       h('div', { flexDirection: 'column', width: '42%', marginRight: u * 56, gap: u * 32 }, h('div', { flexDirection: 'column' }, eb, infoTitular(p, tam)), remate),
       h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center' }, cuerpo(u))),
     pie)
+}
+
+/**
+ * Un punto de herramientas: "Lovable: texto" o "mail: texto". `conNombre` si la
+ * etiqueta es un nombre escrito (mayúscula o espacios): ese sale en negritas.
+ * `slugs`: los logos o íconos a probar, del más específico al más general
+ * ("Claude Code o Cursor" → claudecodeocursor, claudecode, claude).
+ */
+export function leerPunto(t) {
+  const m = String(t).match(/^([^:|]{1,40}?)\s*:\s*(.+)$/)
+  if (!m) return { etiqueta: '', conNombre: false, slugs: ['sparkles'], texto: String(t).trim() }
+  const etiqueta = m[1].trim()
+  const palabras = etiqueta.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/\s+/).map((w) => w.replace(/[^a-z0-9.-]/g, '')).filter(Boolean)
+  const slugs = [...new Set([palabras.join(''), palabras.slice(0, 2).join(''), palabras[0]].filter(Boolean))]
+  return { etiqueta, conNombre: /[A-ZÁÉÍÓÚÑ]|\s/.test(etiqueta), slugs: slugs.length ? slugs : ['sparkles'], texto: m[2].trim() }
 }
 
 export const PLANTILLAS = {
@@ -1249,7 +1264,7 @@ export const PLANTILLAS = {
     dibujar: (p) => infoMarco(p, (u) => {
       const tarjeta = (cifra, texto, oscura) => h('div', { flex: 1, flexDirection: 'column', borderRadius: u * 24, padding: u * 44, background: oscura ? p.texto : 'transparent', border: oscura ? undefined : `${u * 4}px solid ${p.texto}`, color: oscura ? p.fondo : p.texto },
         h('div', { fontFamily: 'Archivo', fontWeight: 900, fontSize: u * escala(cifra, [[2, 200], [4, 150], [6, 110], [99, 84]]), lineHeight: 1, color: oscura ? '#9db4f0' : p.acento }, cifra),
-        texto && h('div', { marginTop: u * 20, fontSize: u * 34, fontWeight: 500, lineHeight: 1.3 }, texto))
+        texto && h('div', { marginTop: u * 20, fontSize: u * (p.alto ? 38 : 34), fontWeight: 500, lineHeight: 1.3 }, texto))
       return h('div', { gap: u * 32, width: '100%' }, tarjeta(p.cifra1 || '0', p.texto1, true), tarjeta(p.cifra2 || '0', p.texto2, false))
     }),
   },
@@ -1261,17 +1276,19 @@ export const PLANTILLAS = {
     marca: INFO,
     puntosConIcono: '#3b5bdb',
     fondoIcono: '#ffffff',
-    ayuda: { puntos: 'De 3 a 6, separados con |, cada uno "ícono: texto". El ícono es un logo de marca de simpleicons.org (claude, github, notion, n8n, gmail…) o, si no hay, un ícono de lucide.dev (bot, mail…). Sin ícono conocido sale sparkles.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
+    ayuda: { puntos: 'De 3 a 6, separados con |, cada uno "Nombre: texto" o "ícono: texto". Con Nombre (mayúscula o espacios, p. ej. "Lovable", "Claude Code") sale en negritas sobre el texto y con el logo de la marca. El logo sale de motor/logos/ o de simpleicons.org (claude, github, notion, n8n…); si no hay, un ícono de lucide.dev (bot, mail…); si tampoco, sparkles.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
     ejemplo: { eb: 'Mi semana con agentes', titulo: 'Lo que ya *no hago a mano*', puntos: 'mail: Un agente contesta el primer correo | calendar: La agenda se confirma sola | file-text: La propuesta sale de la llamada | chart-line: El reporte del viernes se arma solo | bell: Me avisa solo lo que pide una decisión', remate: 'No es más trabajo. *Es otro trabajo: decidir.*', foto: '/muestras/persona.png', nombre: 'Gabriel Neuman', sitio: 'gabrielneuman.com' },
     dibujar: (p) => infoMarco(p, (u) => {
       const items = p.items ?? []
-      const tam = items.length > 4 ? 32 : 36
-      const lado = u * (items.length > 4 ? 64 : 76)
-      return h('div', { flexDirection: 'column', width: '100%', gap: u * (items.length > 4 ? (p.alto ? 18 : 12) : 22) },
-        items.map((it) => h('div', { alignItems: 'center', padding: `${u * (p.alto ? 14 : 10)}px ${u * 22}px`, borderRadius: u * 20, background: '#ffffff', border: `${u * 2}px solid #c5d5f8` },
+      const muchos = items.length > 4
+      const lado = u * (muchos ? 68 : 80)
+      return h('div', { flexDirection: 'column', width: '100%', gap: u * (muchos ? (p.alto ? 14 : 10) : 18) },
+        items.map((it) => h('div', { alignItems: 'center', padding: `${u * (p.alto ? (muchos ? 12 : 16) : 10)}px ${u * 26}px`, borderRadius: u * 20, background: '#ffffff', border: `${u * 2}px solid #c5d5f8` },
           h('div', { width: lado, height: lado, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: u * 16, background: it.marca ? '#ffffff' : '#c5d5f8', border: it.marca ? `${u * 2}px solid #c5d5f8` : undefined },
-            it.svg && img(it.svg, { width: lado * (it.marca ? 0.6 : 0.56), height: lado * (it.marca ? 0.6 : 0.56) })),
-          h('div', { flex: 1, marginLeft: u * 26, fontSize: u * tam, fontWeight: 500, lineHeight: 1.25, color: p.texto }, it.texto))))
+            it.svg && img(it.svg, { width: lado * (it.marca ? 0.62 : 0.56), height: lado * (it.marca ? 0.62 : 0.56), objectFit: 'contain' })),
+          h('div', { flex: 1, flexDirection: 'column', marginLeft: u * 28 },
+            it.nombre && h('div', { fontSize: u * (muchos ? 30 : 34), fontWeight: 700, lineHeight: 1.15, color: p.texto, marginBottom: u * 4 }, it.nombre),
+            h('div', { fontSize: u * (it.nombre ? (muchos ? 26 : 30) : (muchos ? 32 : 36)), fontWeight: 500, lineHeight: 1.25, color: p.texto }, it.texto)))))
     }),
   },
   antesahora: {

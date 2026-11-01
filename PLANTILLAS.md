@@ -715,7 +715,7 @@ Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo
 |---|---|
 | `eb` | Cejilla. Renglón corto en mayúsculas sobre el título: de qué trata. |
 | `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
-| `puntos` | Puntos. De 3 a 6, separados con \|, cada uno "ícono: texto". El ícono es un logo de marca de simpleicons.org (claude, github, notion, n8n, gmail…) o, si no hay, un ícono de lucide.dev (bot, mail…). Sin ícono conocido sale sparkles. |
+| `puntos` | Puntos. De 3 a 6, separados con \|, cada uno "Nombre: texto" o "ícono: texto". Con Nombre (mayúscula o espacios, p. ej. "Lovable", "Claude Code") sale en negritas sobre el texto y con el logo de la marca. El logo sale de motor/logos/ o de simpleicons.org (claude, github, notion, n8n…); si no hay, un ícono de lucide.dev (bot, mail…); si tampoco, sparkles. |
 | `remate` | Remate. La conclusión; *entre asteriscos* va en negritas. |
 | `foto` | Foto (URL) |
 | `nombre` | Nombre (firma). Va junto a la foto, abajo a la izquierda. |
