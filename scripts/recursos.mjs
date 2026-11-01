@@ -24,6 +24,8 @@ for (const f of fs.readdirSync('public/_recursos/marcas')) {
   const ruta = `public/_recursos/marcas/${f}`
   fs.writeFileSync(ruta, marcaConColor(fs.readFileSync(ruta, 'utf8'), f.slice(0, -4)))
 }
+// Logos propios (motor/logos/, los que Simple Icons no trae), ya con su color: ganan.
+for (const f of fs.readdirSync('motor/logos').filter((f) => f.endsWith('.svg'))) fs.copyFileSync(`motor/logos/${f}`, `public/_recursos/marcas/${f}`)
 fs.mkdirSync('public/_recursos/fuentes', { recursive: true })
 for (const f of ['inter-500.woff', 'inter-700.woff', 'lilita-400.woff', 'lora-700.woff', 'mono-500.woff', 'archivo-900.woff', 'lora-500-italic.woff']) fs.copyFileSync(`motor/fuentes/${f}`, `public/_recursos/fuentes/${f}`)
 console.log(`recursos: ${emoji} emoji, ${iconos} íconos, ${marcas} logos, 7 fuentes`)
