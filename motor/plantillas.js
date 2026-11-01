@@ -1260,7 +1260,8 @@ export const PLANTILLAS = {
     campos: ['eb', 'titulo', 'puntos', 'remate', 'foto', 'nombre', 'sitio', 'fondo', 'texto', 'acento'],
     marca: INFO,
     puntosConIcono: '#3b5bdb',
-    ayuda: { puntos: 'De 3 a 6, separados con |, cada uno "ícono: texto" con el nombre del ícono en lucide.dev (p. ej. bot: Contesta el primer correo). Sin ícono conocido sale sparkles.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
+    fondoIcono: '#ffffff',
+    ayuda: { puntos: 'De 3 a 6, separados con |, cada uno "ícono: texto". El ícono es un logo de marca de simpleicons.org (claude, github, notion, n8n, gmail…) o, si no hay, un ícono de lucide.dev (bot, mail…). Sin ícono conocido sale sparkles.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
     ejemplo: { eb: 'Mi semana con agentes', titulo: 'Lo que ya *no hago a mano*', puntos: 'mail: Un agente contesta el primer correo | calendar: La agenda se confirma sola | file-text: La propuesta sale de la llamada | chart-line: El reporte del viernes se arma solo | bell: Me avisa solo lo que pide una decisión', remate: 'No es más trabajo. *Es otro trabajo: decidir.*', foto: '/muestras/persona.png', nombre: 'Gabriel Neuman', sitio: 'gabrielneuman.com' },
     dibujar: (p) => infoMarco(p, (u) => {
       const items = p.items ?? []
@@ -1268,8 +1269,8 @@ export const PLANTILLAS = {
       const lado = u * (items.length > 4 ? 64 : 76)
       return h('div', { flexDirection: 'column', width: '100%', gap: u * (items.length > 4 ? (p.alto ? 18 : 12) : 22) },
         items.map((it) => h('div', { alignItems: 'center', padding: `${u * (p.alto ? 14 : 10)}px ${u * 22}px`, borderRadius: u * 20, background: '#ffffff', border: `${u * 2}px solid #c5d5f8` },
-          h('div', { width: lado, height: lado, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: u * 16, background: '#c5d5f8' },
-            it.svg && img(it.svg, { width: lado * 0.56, height: lado * 0.56 })),
+          h('div', { width: lado, height: lado, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: u * 16, background: it.marca ? '#ffffff' : '#c5d5f8', border: it.marca ? `${u * 2}px solid #c5d5f8` : undefined },
+            it.svg && img(it.svg, { width: lado * (it.marca ? 0.6 : 0.56), height: lado * (it.marca ? 0.6 : 0.56) })),
           h('div', { flex: 1, marginLeft: u * 26, fontSize: u * tam, fontWeight: 500, lineHeight: 1.25, color: p.texto }, it.texto))))
     }),
   },

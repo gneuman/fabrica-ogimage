@@ -42,4 +42,4 @@ Para **usar** una plantilla: `PLANTILLAS.md` en la raíz (se genera en cada buil
 - Solo hay Inter 500/700, Lilita 400, Lora 700, Lora itálica 500 (`fontStyle: 'italic'`), Archivo 900 y Mono 500 (`motor/fuentes/`). Sin 300.
 - Nada de `filter` ni `inset` en `boxShadow` (deja bandas). Los efectos finos (brillo, blur) van
   en un SVG propio pasado como `img` (ver `planeta()`), que resvg sí dibuja.
-- Íconos: nombres de [lucide.dev](https://lucide.dev); emoji: Twemoji, automáticos en el texto.
+- Íconos: nombres de [lucide.dev](https://lucide.dev); en `herramientas` también logos de [simpleicons.org](https://simpleicons.org) por slug (render.js, `puntosConIcono`); emoji: Twemoji, automáticos en el texto.

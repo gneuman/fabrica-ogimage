@@ -20,7 +20,8 @@
     "@resvg/resvg-wasm": "^2.6.2",
     "@twemoji/svg": "^15.0.0",
     "lucide-static": "^1.52.0",
-    "satori": "0.32.0"
+    "satori": "0.32.0",
+    "simple-icons": "^16.36.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

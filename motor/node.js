@@ -12,6 +12,13 @@ const requerir = createRequire(import.meta.url)
 const DIRS = {
   emoji: path.dirname(requerir.resolve('@twemoji/svg/package.json')),
   iconos: path.join(path.dirname(requerir.resolve('lucide-static/package.json')), 'icons'),
+  marcas: path.join(path.join(path.dirname(requerir.resolve('simple-icons')), ''), 'icons'),
+}
+// Simple Icons trae el SVG sin color; el color de la marca va en su lista. Se le pone como fill.
+let hexMarca
+export function marcaConColor(svg, slug) {
+  hexMarca ??= new Map(JSON.parse(fs.readFileSync(path.join(DIRS.marcas, '../data/simple-icons.json'), 'utf8')).map((i) => [i.slug, i.hex]))
+  return svg.replace('<svg ', `<svg fill="#${hexMarca.get(slug) ?? '000000'}" `)
 }
 
 export const fuentes = [
@@ -33,7 +40,9 @@ export function recursosNode({ base } = {}) {
     leer: async (ruta) => {
       const [tipo, archivo] = ruta.split('/')
       const f = path.join(DIRS[tipo] ?? '', path.basename(archivo))
-      return fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null
+      if (!fs.existsSync(f)) return null
+      const svg = fs.readFileSync(f, 'utf8')
+      return tipo === 'marcas' ? marcaConColor(svg, path.basename(archivo, '.svg')) : svg
     },
     bajar: async (url) => {
       if (url.startsWith('/')) {

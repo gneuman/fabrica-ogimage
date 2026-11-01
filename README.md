@@ -116,4 +116,4 @@ enterarte de lo nuevo, suscríbete a [El CEO agéntico](https://www.gabrielneuma
 
 ## Créditos
 
-Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC). Licencia: MIT (ver LICENSE).
+Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC), logos de marca de Simple Icons (CC0; las marcas son de sus dueños). Licencia: MIT (ver LICENSE).
