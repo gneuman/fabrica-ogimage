@@ -13,6 +13,7 @@ fuente, la plantilla pone un ícono genérico.
 | `linkedin.svg` | LinkedIn | gnb-meta `logos.json` (Simple Icons, CC0, versión anterior) |
 | `lovable.svg` | Lovable | svgl (github.com/pheralb/svgl, `static/library/lovable.svg`; marca: lovable.dev/brand). Más nítido que `lovable.png` de gnb-meta, mismo logo |
 | `bolt.svg` | Bolt (bolt.new) | svgl (`static/library/bolt-new.svg`), con el `fill` corregido (`#0000000` → `#000000`) |
+| `claudecode.svg` | Claude Code | El asterisco de Claude (Simple Icons `claude`, CC0). Gabriel prefiere el asterisco al ícono pixelado de `claudecode` (2026-11-01) |
 
 Para agregar uno: el SVG oficial de la marca (su página de prensa o brand),
 Wikimedia Commons o svgl; el archivo se llama como el slug (`minúsculas`, sin
