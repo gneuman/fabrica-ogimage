@@ -61,6 +61,7 @@ export const GRUPOS: { slug: string; nombre: string; descripcion: string; planti
   { slug: 'podcast', nombre: 'Podcast y video', descripcion: 'Para episodios, invitados y miniaturas de YouTube.', plantillas: ['podcast', 'entrevista', 'miniatura', 'escaparate', 'ceoagentico', 'ceoportada', 'ceopromo'] },
   { slug: 'personas', nombre: 'Personas y equipos', descripcion: 'Para páginas de autor, equipo, ponentes y alianzas.', plantillas: ['perfil', 'equipo', 'contactos', 'alianza'] },
   { slug: 'producto', nombre: 'Producto y ofertas', descripcion: 'Para mostrar un producto, una captura, un precio o una comparativa.', plantillas: ['captura', 'telefono', 'caja', 'recibo', 'versus', 'precio', 'ciudad'] },
+  { slug: 'infografias', nombre: 'Infografías', descripcion: 'Para posts con datos, listas de herramientas o un antes y ahora, con firma y foto.', plantillas: ['doscifras', 'herramientas', 'antesahora'] },
 ]
 const agrupadas = GRUPOS.flatMap((g) => g.plantillas)
 const sueltas = SLUGS.filter((s) => agrupadas.filter((a) => a === s).length !== 1)

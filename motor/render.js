@@ -53,6 +53,24 @@ export async function generarSvg(slug, entrada, recursos) {
     }))
     p.flechaSvg = pinta(await recursos.leer('iconos/arrow-right.svg'))
   }
+  // Puntos con ícono (herramientas): "bot: Responde correos | calendar: …", cada ícono en el color de la plantilla.
+  // Si el ícono es un slug de Simple Icons (claude, github, n8n…), va el logo de la marca en su color;
+  // si ese color casi no se ve sobre el fondo del ícono, en el color del texto. Si no, Lucide; si no, sparkles.
+  if (pl.puntosConIcono) {
+    const datos = (svg) => aDataUri('image/svg+xml', new TextEncoder().encode(svg))
+    const pinta = (svg) => (svg ? datos(svg.replaceAll('currentColor', pl.puntosConIcono)) : '')
+    p.items = await Promise.all((p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 6).map(async (t) => {
+      const [, icono, texto] = t.match(/^([a-z0-9.-]+)\s*:\s*(.+)$/i) ?? [null, 'sparkles', t]
+      const nombre = icono.toLowerCase()
+      const marca = /^[a-z0-9]+$/.test(nombre) ? await recursos.leer(`marcas/${nombre}.svg`) : null
+      if (marca) {
+        const hex = marca.match(/fill="(#[0-9a-f]{6})"/i)?.[1]
+        const svg = hex && contraste(hex, pl.fondoIcono ?? '#ffffff') < 2.2 ? marca.replace(`fill="${hex}"`, `fill="${p.texto}"`) : marca
+        return { texto, marca: true, svg: datos(svg) }
+      }
+      return { texto, svg: pinta((await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))) }
+    }))
+  }
   if (p.icono !== undefined) {
     const nombre = (p.icono || 'sparkles').toLowerCase().replace(/[^a-z0-9-]/g, '')
     const svg = (await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))
@@ -90,4 +108,14 @@ export async function generarPng(slug, entrada, recursos, { escala = 1 } = {}) {
   const ancho = (FORMATOS[String(entrada?.formato ?? '')] ?? FORMATOS.og).W
   const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: ancho * escala }, font: { loadSystemFonts: false } })
   return resvg.render().asPng()
+}
+
+/** Contraste WCAG entre dos colores #rrggbb (1 a 21). */
+function contraste(a, b) {
+  const lum = (hex) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl
+  }
+  const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m)
+  return (x + 0.05) / (y + 0.05)
 }

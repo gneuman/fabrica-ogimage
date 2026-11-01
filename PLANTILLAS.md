@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.mjs en cada build. No se edita a mano: se cambia motor/plantillas.js. -->
 
-32 plantillas. Todas salen en los cinco tamaños con `?formato=`:
+35 plantillas. Todas salen en los cinco tamaños con `?formato=`:
 
 | formato | PNG | para |
 |---|---|---|
@@ -676,4 +676,79 @@ Tarjeta de oferta: aviso arriba, marca, titular, dos contadores y una tabla de p
 
 ```
 /og/precio/?extracto=*El%20precio%20sube%20con%20los%20pr%C3%B3ximos%20100%20lugares*%2C%20entra%20hoy%20y%20te%20quedas%20con%20esta%20tarifa.&sitio=El%20CEO%20ag%C3%A9ntico&titulo=Entra%20hoy.%20Paga%20menos%2C%20siempre.&sub=Con%20los%20pr%C3%B3ximos%20100%20lugares%20el%20precio%20sube.%20El%20de%20hoy%20se%20queda%20contigo.&puntos=Mensual%3A%2039%20USD%2Fmes%20%3E%2049%20USD%2Fmes%20%7C%20Anual%3A%20195%20USD%2Fa%C3%B1o%20%3E%20249%20USD%2Fa%C3%B1o&cifra=64%20lugares&fecha=7%20d%C3%ADas&boton=Entra%20al%20precio%20de%20hoy
+```
+
+## `doscifras`: INFO: dos cifras
+
+Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja sobre cinta, dos cifras frente a frente (tarjeta oscura y tarjeta con borde, la segunda en rojo), remate, fuente y firma con foto.
+
+**Cuándo:** El post compara dos números medidos (lo que pasó contra lo que se esperaba). Las cifras tienen que estar respaldadas.
+
+| campo | qué es |
+|---|---|
+| `eb` | Cejilla. Renglón corto en mayúsculas sobre el título: de qué trata. |
+| `titulo` | Título. En mayúsculas sola; lo que va *entre asteriscos* sale en cursiva roja con cinta, en su propio renglón si va al final. |
+| `cifra1` | Primera cifra. La cifra de la tarjeta oscura. |
+| `texto1` | Texto de la primera cifra |
+| `cifra2` | Segunda cifra. La cifra de la tarjeta con borde, en el acento. |
+| `texto2` | Texto de la segunda cifra |
+| `remate` | Remate. La conclusión; *entre asteriscos* va en negritas. |
+| `fuente` | Fuente de la cifra. Abajo a la derecha, p. ej. "Fuente: mi CRM, 2026-10-01". |
+| `foto` | Foto (URL) |
+| `nombre` | Nombre (firma). Va junto a la foto, abajo a la izquierda. |
+| `sitio` | Sitio |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/doscifras/?eb=De%20d%C3%B3nde%20llegan%20mis%20clientes&titulo=0%20de%2024%20llegaron%20*por%20el%20formulario*&cifra1=15&texto1=por%20recomendaci%C3%B3n%3A%20me%20vieron%20o%20me%20escucharon&cifra2=0&texto2=por%20el%20formulario%20de%20agenda%20del%20sitio&remate=El%20formulario%20no%20vende.%20*Lo%20que%20publicas%20y%20lo%20que%20dices%20en%20voz%20alta%2C%20s%C3%AD.*&fuente=Fuente%3A%20mi%20CRM%2C%2024%20proyectos%20pagados%2C%202026-10-01&foto=%2Fmuestras%2Fpersona.png&nombre=Gabriel%20Neuman&sitio=gabrielneuman.com
+```
+
+## `herramientas`: INFO: herramientas
+
+Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja, de 3 a 6 renglones con ícono en azul y una línea cada uno, remate y firma con foto.
+
+**Cuándo:** El post enumera las herramientas o piezas de un sistema y qué hace cada una.
+
+| campo | qué es |
+|---|---|
+| `eb` | Cejilla. Renglón corto en mayúsculas sobre el título: de qué trata. |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `puntos` | Puntos. De 3 a 6, separados con \|, cada uno "ícono: texto". El ícono es un logo de marca de simpleicons.org (claude, github, notion, n8n, gmail…) o, si no hay, un ícono de lucide.dev (bot, mail…). Sin ícono conocido sale sparkles. |
+| `remate` | Remate. La conclusión; *entre asteriscos* va en negritas. |
+| `foto` | Foto (URL) |
+| `nombre` | Nombre (firma). Va junto a la foto, abajo a la izquierda. |
+| `sitio` | Sitio |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/herramientas/?eb=Mi%20semana%20con%20agentes&titulo=Lo%20que%20ya%20*no%20hago%20a%20mano*&puntos=mail%3A%20Un%20agente%20contesta%20el%20primer%20correo%20%7C%20calendar%3A%20La%20agenda%20se%20confirma%20sola%20%7C%20file-text%3A%20La%20propuesta%20sale%20de%20la%20llamada%20%7C%20chart-line%3A%20El%20reporte%20del%20viernes%20se%20arma%20solo%20%7C%20bell%3A%20Me%20avisa%20solo%20lo%20que%20pide%20una%20decisi%C3%B3n&remate=No%20es%20m%C3%A1s%20trabajo.%20*Es%20otro%20trabajo%3A%20decidir.*&foto=%2Fmuestras%2Fpersona.png&nombre=Gabriel%20Neuman&sitio=gabrielneuman.com
+```
+
+## `antesahora`: INFO: antes y ahora
+
+Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja y dos columnas: "antes" tachada en rojo sobre blanco y "ahora" en tarjeta oscura, con remate, fuente y firma con foto.
+
+**Cuándo:** El post contrasta cómo se hacía algo (o lo que se cree) con cómo se hace ahora (o lo que se midió).
+
+| campo | qué es |
+|---|---|
+| `eb` | Cejilla. Renglón corto en mayúsculas sobre el título: de qué trata. |
+| `titulo` | Título. Pon *entre asteriscos* lo que va en color de acento. |
+| `izquierda` | Opción de la izquierda. Lo de antes, de 2 a 4 puntos separados con \|. Sale tachado. Si el primero termina en ":" es la etiqueta de la columna (por defecto "Antes"). |
+| `derecha` | Opción de la derecha (resaltada). Lo de ahora, de 2 a 4 puntos separados con \|. Igual: "Medí: …" cambia la etiqueta (por defecto "Ahora"). |
+| `remate` | Remate. La conclusión; *entre asteriscos* va en negritas. |
+| `fuente` | Fuente de la cifra. Abajo a la derecha, p. ej. "Fuente: mi CRM, 2026-10-01". |
+| `foto` | Foto (URL) |
+| `nombre` | Nombre (firma). Va junto a la foto, abajo a la izquierda. |
+| `sitio` | Sitio |
+| `fondo` | Fondo |
+| `texto` | Texto |
+| `acento` | Acento |
+
+```
+/og/antesahora/?eb=C%C3%B3mo%20se%20mueve%20un%20equipo%20chico&titulo=Lo%20que%20hac%C3%ADa%20*y%20lo%20que%20hago*&izquierda=Juntas%20para%20saber%20c%C3%B3mo%20vamos%20%7C%20Reporte%20a%20mano%20cada%20viernes%20%7C%20Seguimiento%20por%20WhatsApp&derecha=El%20avance%20llega%20solo%20al%20canal%20%7C%20Un%20agente%20arma%20el%20reporte%20%7C%20Yo%20decido%20con%20el%20dato%20enfrente&remate=Menos%20juntas.%20*M%C3%A1s%20decisiones.*&fuente=&foto=%2Fmuestras%2Fpersona.png&nombre=Gabriel%20Neuman&sitio=gabrielneuman.com
 ```

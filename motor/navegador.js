@@ -6,9 +6,10 @@ import { generarPng, iniciar } from './render.js'
 let fuentes
 const cargarFuentes = async () =>
   (fuentes ??= await Promise.all(
-    [['Inter', 700, 'inter-700.woff'], ['Inter', 500, 'inter-500.woff'], ['Lilita', 400, 'lilita-400.woff'], ['Lora', 700, 'lora-700.woff'], ['Mono', 500, 'mono-500.woff']].map(async ([name, weight, f]) => ({
+    [['Inter', 700, 'inter-700.woff'], ['Inter', 500, 'inter-500.woff'], ['Lilita', 400, 'lilita-400.woff'], ['Lora', 700, 'lora-700.woff'], ['Mono', 500, 'mono-500.woff'], ['Archivo', 900, 'archivo-900.woff'], ['Lora', 500, 'lora-500-italic.woff', 'italic']].map(async ([name, weight, f, style = 'normal']) => ({
       name,
       weight,
+      style,
       data: await fetch(`/_recursos/fuentes/${f}`).then((r) => r.arrayBuffer()),
     })),
   ))

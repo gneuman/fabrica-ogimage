@@ -35,8 +35,10 @@ En Astro, como integración: `import fabricaOg from 'fabrica-ogimage/astro'`.
    una comisión, sin costo extra para ti).
 
 32 plantillas en 5 tamaños (link, cuadrado, vertical 4:5, horizontal e historia: `?formato=vertical`): marca, artículo, titular, emoji, ícono, perfil, botón, captura, teléfono, ciudad
-(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tweet, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo, alianza, caja, recibo, contactos, equipo y precio.
+(detecta la ubicación de quien pide la imagen), cita, cifra, versus, evento, duelo, cohort, miniatura, escaparate, tweet, ruta, lista, podcast, entrevista, ceoagentico, ceoportada, ceopromo, alianza, caja, recibo, contactos, equipo, precio, doscifras, herramientas y antesahora.
 Qué hace cada una, sus campos y una URL de ejemplo: [`PLANTILLAS.md`](PLANTILLAS.md). Cómo hacer una nueva: [`motor/README.md`](motor/README.md).
+
+¿Vas a hacer infografías con tu propia marca? Llena [`REFERENCIA-MARCA.md`](REFERENCIA-MARCA.md) (colores, tipografías, nombre y foto, lo que nunca hace tu marca) y pásale los colores a `doscifras`, `herramientas` o `antesahora` con `fondo`, `texto` y `acento`.
 El sitio trae un editor por plantilla, una galería de inspiración y la documentación (`/usar/`).
 
 ## La API de imágenes
@@ -114,4 +116,4 @@ enterarte de lo nuevo, suscríbete a [El CEO agéntico](https://www.gabrielneuma
 
 ## Créditos
 
-Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC). Licencia: MIT (ver LICENSE).
+Emoji de Twemoji (CC-BY 4.0), íconos de Lucide (ISC), logos de marca de Simple Icons (CC0; las marcas son de sus dueños). Licencia: MIT (ver LICENSE).
