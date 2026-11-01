@@ -53,6 +53,14 @@ export async function generarSvg(slug, entrada, recursos) {
     }))
     p.flechaSvg = pinta(await recursos.leer('iconos/arrow-right.svg'))
   }
+  // Puntos con ícono (herramientas): "bot: Responde correos | calendar: …", cada ícono en el color de la plantilla.
+  if (pl.puntosConIcono) {
+    const pinta = (svg) => (svg ? aDataUri('image/svg+xml', new TextEncoder().encode(svg.replaceAll('currentColor', pl.puntosConIcono))) : '')
+    p.items = await Promise.all((p.puntos || '').split(/\s*\|\s*/).filter(Boolean).slice(0, 6).map(async (t) => {
+      const [, icono, texto] = t.match(/^([a-z0-9-]+)\s*:\s*(.+)$/i) ?? [null, 'sparkles', t]
+      return { texto, svg: pinta((await recursos.leer(`iconos/${icono.toLowerCase()}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))) }
+    }))
+  }
   if (p.icono !== undefined) {
     const nombre = (p.icono || 'sparkles').toLowerCase().replace(/[^a-z0-9-]/g, '')
     const svg = (await recursos.leer(`iconos/${nombre}.svg`)) ?? (await recursos.leer('iconos/sparkles.svg'))

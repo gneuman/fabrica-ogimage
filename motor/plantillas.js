@@ -165,6 +165,62 @@ function planeta(acento, lado) {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
 }
 
+// Infografías editoriales (doscifras, herramientas, antesahora).
+// Diseñadas en px de 1080 de ancho: `u` pasa de esos px al lienzo de cada formato.
+const INFO = { fondo: '#f7f6f2', texto: '#0f1733', acento: '#e2553d' }
+const INFO_AZUL = '#3b5bdb'
+
+/** Titular: Archivo en mayúsculas; lo *marcado* en Lora cursiva del acento, sobre cinta amarilla, en su renglón si va al final. */
+function infoTitular(p, tam) {
+  const trozos = p.titulo.split(/(\*[^*]+\*)/).filter((t) => t.trim())
+  const hijos = []
+  trozos.forEach((trozo, i) => {
+    const marcado = trozo.startsWith('*') && trozo.endsWith('*')
+    const palabras = trozo.replace(/\*/g, '').trim().split(/\s+/)
+    if (marcado && i === trozos.length - 1 && i > 0) hijos.push(h('div', { width: '100%', height: 0 }))
+    palabras.forEach((w, j) => hijos.push(marcado
+      ? h('span', { fontFamily: 'Lora', fontStyle: 'italic', fontWeight: 500, fontSize: tam * 1.05, lineHeight: 1.05, textTransform: 'none', color: p.acento, paddingRight: j < palabras.length - 1 ? '0.26em' : '0.08em', backgroundImage: 'linear-gradient(to bottom, transparent 58%, #f6e3a1 58%, #f6e3a1 92%, transparent 92%)' }, w)
+      : h('span', { marginRight: '0.26em' }, w)))
+  })
+  return h('div', { flexWrap: 'wrap', alignItems: 'baseline', fontFamily: 'Archivo', fontWeight: 900, fontSize: tam, lineHeight: 1.02, textTransform: 'uppercase', letterSpacing: '-0.01em' }, hijos)
+}
+
+/**
+ * El marco común: cejilla, titular, cuerpo (lo que dibuja cada plantilla), remate,
+ * y abajo la firma (foto, nombre, sitio) a la izquierda y la fuente a la derecha.
+ * En los formatos anchos, titular y remate a la izquierda y el cuerpo a la derecha.
+ */
+function infoMarco(p, cuerpo) {
+  const u = p.alto ? Math.min(p.W / 1080, p.H / 1250) : p.H / 840
+  const m = u * 72
+  const tam = u * (p.alto ? escala(p.titulo, [[34, 84], [56, 72], [999, 62]]) : escala(p.titulo, [[34, 76], [56, 64], [999, 54]]))
+  const eb = p.eb && h('div', { fontSize: u * 28, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: INFO_AZUL, marginBottom: u * 18 }, p.eb)
+  const remate = p.remate && h('div', { flexWrap: 'wrap', fontSize: u * (p.alto ? 38 : 34), fontWeight: 500, lineHeight: 1.35, color: p.texto }, resaltar(p.remate, p.texto, { fontWeight: 700 }))
+  const lado = u * 96
+  const firma = h('div', { alignItems: 'center' },
+    p.foto
+      ? img(p.foto, { width: lado, height: lado, borderRadius: 999, objectFit: 'cover', objectPosition: 'top', background: '#c5d5f8' })
+      : h('div', { width: lado, height: lado, borderRadius: 999, background: '#c5d5f8', alignItems: 'center', justifyContent: 'center', fontSize: u * 34, fontWeight: 700, color: p.texto }, iniciales(p.nombre)),
+    h('div', { flexDirection: 'column', marginLeft: u * 20 },
+      p.nombre && h('div', { fontSize: u * 30, fontWeight: 700, color: p.texto }, p.nombre),
+      p.sitio && h('div', { fontSize: u * 26, fontWeight: 500, color: '#1a2547' }, p.sitio)))
+  const pie = h('div', { alignItems: 'flex-end', justifyContent: 'space-between', width: '100%', marginTop: u * 40 },
+    firma,
+    p.fuente && h('div', { maxWidth: '50%', marginLeft: u * 24, textAlign: 'right', fontSize: u * 22, fontWeight: 500, lineHeight: 1.3, color: '#1a2547' }, p.fuente))
+  const base = { width: p.W, height: p.H, flexDirection: 'column', padding: m, background: p.fondo, color: p.texto, fontFamily: 'Inter' }
+  if (p.alto) {
+    return h('div', base,
+      eb, infoTitular(p, tam),
+      h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center', gap: u * 48, paddingTop: u * 40 }, cuerpo(u), remate),
+      pie)
+  }
+  return h('div', base,
+    h('div', { flex: 1, alignItems: 'center' },
+      h('div', { flexDirection: 'column', width: '42%', marginRight: u * 56, gap: u * 32 }, h('div', { flexDirection: 'column' }, eb, infoTitular(p, tam)), remate),
+      h('div', { flex: 1, flexDirection: 'column', justifyContent: 'center' }, cuerpo(u))),
+    pie)
+}
+
 export const PLANTILLAS = {
   marca: {
     nombre: 'Marca',
@@ -1182,6 +1238,65 @@ export const PLANTILLAS = {
             derecha)))
     },
   },
+  doscifras: {
+    nombre: 'INFO: dos cifras',
+    descripcion: 'Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja sobre cinta, dos cifras frente a frente (tarjeta oscura y tarjeta con borde, la segunda en rojo), remate, fuente y firma con foto.',
+    cuando: 'El post compara dos números medidos (lo que pasó contra lo que se esperaba). Las cifras tienen que estar respaldadas.',
+    campos: ['eb', 'titulo', 'cifra1', 'texto1', 'cifra2', 'texto2', 'remate', 'fuente', 'foto', 'nombre', 'sitio', 'fondo', 'texto', 'acento'],
+    marca: INFO,
+    ayuda: { titulo: 'En mayúsculas sola; lo que va *entre asteriscos* sale en cursiva roja con cinta, en su propio renglón si va al final.', cifra1: 'La cifra de la tarjeta oscura.', cifra2: 'La cifra de la tarjeta con borde, en el acento.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
+    ejemplo: { eb: 'De dónde llegan mis clientes', titulo: '0 de 24 llegaron *por el formulario*', cifra1: '15', texto1: 'por recomendación: me vieron o me escucharon', cifra2: '0', texto2: 'por el formulario de agenda del sitio', remate: 'El formulario no vende. *Lo que publicas y lo que dices en voz alta, sí.*', fuente: 'Fuente: mi CRM, 24 proyectos pagados, 2026-10-01', foto: '/muestras/persona.png', nombre: 'Gabriel Neuman', sitio: 'gabrielneuman.com' },
+    dibujar: (p) => infoMarco(p, (u) => {
+      const tarjeta = (cifra, texto, oscura) => h('div', { flex: 1, flexDirection: 'column', borderRadius: u * 24, padding: u * 44, background: oscura ? p.texto : 'transparent', border: oscura ? undefined : `${u * 4}px solid ${p.texto}`, color: oscura ? p.fondo : p.texto },
+        h('div', { fontFamily: 'Archivo', fontWeight: 900, fontSize: u * escala(cifra, [[2, 200], [4, 150], [6, 110], [99, 84]]), lineHeight: 1, color: oscura ? '#9db4f0' : p.acento }, cifra),
+        texto && h('div', { marginTop: u * 20, fontSize: u * 34, fontWeight: 500, lineHeight: 1.3 }, texto))
+      return h('div', { gap: u * 32, width: '100%' }, tarjeta(p.cifra1 || '0', p.texto1, true), tarjeta(p.cifra2 || '0', p.texto2, false))
+    }),
+  },
+  herramientas: {
+    nombre: 'INFO: herramientas',
+    descripcion: 'Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja, de 3 a 6 renglones con ícono en azul y una línea cada uno, remate y firma con foto.',
+    cuando: 'El post enumera las herramientas o piezas de un sistema y qué hace cada una.',
+    campos: ['eb', 'titulo', 'puntos', 'remate', 'foto', 'nombre', 'sitio', 'fondo', 'texto', 'acento'],
+    marca: INFO,
+    puntosConIcono: '#3b5bdb',
+    ayuda: { puntos: 'De 3 a 6, separados con |, cada uno "ícono: texto" con el nombre del ícono en lucide.dev (p. ej. bot: Contesta el primer correo). Sin ícono conocido sale sparkles.', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
+    ejemplo: { eb: 'Mi semana con agentes', titulo: 'Lo que ya *no hago a mano*', puntos: 'mail: Un agente contesta el primer correo | calendar: La agenda se confirma sola | file-text: La propuesta sale de la llamada | chart-line: El reporte del viernes se arma solo | bell: Me avisa solo lo que pide una decisión', remate: 'No es más trabajo. *Es otro trabajo: decidir.*', foto: '/muestras/persona.png', nombre: 'Gabriel Neuman', sitio: 'gabrielneuman.com' },
+    dibujar: (p) => infoMarco(p, (u) => {
+      const items = p.items ?? []
+      const tam = items.length > 4 ? 32 : 36
+      const lado = u * (items.length > 4 ? 64 : 76)
+      return h('div', { flexDirection: 'column', width: '100%', gap: u * (items.length > 4 ? (p.alto ? 18 : 12) : 22) },
+        items.map((it) => h('div', { alignItems: 'center', padding: `${u * (p.alto ? 14 : 10)}px ${u * 22}px`, borderRadius: u * 20, background: '#ffffff', border: `${u * 2}px solid #c5d5f8` },
+          h('div', { width: lado, height: lado, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: u * 16, background: '#c5d5f8' },
+            it.svg && img(it.svg, { width: lado * 0.56, height: lado * 0.56 })),
+          h('div', { flex: 1, marginLeft: u * 26, fontSize: u * tam, fontWeight: 500, lineHeight: 1.25, color: p.texto }, it.texto))))
+    }),
+  },
+  antesahora: {
+    nombre: 'INFO: antes y ahora',
+    descripcion: 'Infografía editorial (lienzo claro, tinta y un solo acento): titular en Archivo con *remate* en Lora cursiva roja y dos columnas: "antes" tachada en rojo sobre blanco y "ahora" en tarjeta oscura, con remate, fuente y firma con foto.',
+    cuando: 'El post contrasta cómo se hacía algo (o lo que se cree) con cómo se hace ahora (o lo que se midió).',
+    campos: ['eb', 'titulo', 'izquierda', 'derecha', 'remate', 'fuente', 'foto', 'nombre', 'sitio', 'fondo', 'texto', 'acento'],
+    marca: INFO,
+    ayuda: { izquierda: 'Lo de antes, de 2 a 4 puntos separados con |. Sale tachado. Si el primero termina en ":" es la etiqueta de la columna (por defecto "Antes").', derecha: 'Lo de ahora, de 2 a 4 puntos separados con |. Igual: "Medí: …" cambia la etiqueta (por defecto "Ahora").', remate: 'La conclusión; *entre asteriscos* va en negritas.' },
+    ejemplo: { eb: 'Cómo se mueve un equipo chico', titulo: 'Lo que hacía *y lo que hago*', izquierda: 'Juntas para saber cómo vamos | Reporte a mano cada viernes | Seguimiento por WhatsApp', derecha: 'El avance llega solo al canal | Un agente arma el reporte | Yo decido con el dato enfrente', remate: 'Menos juntas. *Más decisiones.*', fuente: '', foto: '/muestras/persona.png', nombre: 'Gabriel Neuman', sitio: 'gabrielneuman.com' },
+    dibujar: (p) => infoMarco(p, (u) => {
+      const columna = (texto, defecto, ahora) => {
+        let puntos = (texto || '').split(/\s*\|\s*/).filter(Boolean)
+        let etiqueta = defecto
+        if (puntos[0]?.endsWith(':')) etiqueta = puntos.shift().slice(0, -1)
+        puntos = puntos.slice(0, 4)
+        const tam = puntos.length > 3 ? 28 : 31
+        return h('div', { flex: 1, flexDirection: 'column', borderRadius: u * 24, padding: u * 36, background: ahora ? p.texto : '#ffffff', color: ahora ? p.fondo : p.texto },
+          h('div', { fontFamily: 'Archivo', fontWeight: 900, fontSize: u * 32, textTransform: 'uppercase', color: ahora ? '#9db4f0' : '#1a2547' }, etiqueta),
+          puntos.map((t) => h('div', { marginTop: u * 22, alignItems: 'flex-start', fontSize: u * tam, fontWeight: 500, lineHeight: 1.3 },
+            h('div', { width: u * 12, height: u * 12, borderRadius: 99, marginTop: u * tam * 0.48, marginRight: u * 16, flexShrink: 0, background: ahora ? '#9db4f0' : p.acento }),
+            h('div', { flex: 1, textDecoration: ahora ? undefined : `line-through ${p.acento}`, opacity: ahora ? 1 : 0.8 }, t))))
+      }
+      return h('div', { gap: u * 28, width: '100%' }, columna(p.izquierda, 'Antes', false), columna(p.derecha, 'Ahora', true))
+    }),
+  },
 }
 
 function iniciales(nombre = '') {
@@ -1221,4 +1336,12 @@ export const CAMPOS = {
   resumen: { etiqueta: 'Resumen', tipo: 'texto', ayuda: 'Mayúsculas espaciadas bajo la raya; *entre asteriscos* va en el acento.' },
   etiquetas: { etiqueta: 'Etiquetas', tipo: 'texto', ayuda: 'Hasta 4, separadas con |.' },
   puntos: { etiqueta: 'Puntos', tipo: 'texto', ayuda: 'De 2 a 4, separados con |.' },
+  eb: { etiqueta: 'Cejilla', tipo: 'texto', ayuda: 'Renglón corto en mayúsculas sobre el título: de qué trata.' },
+  nombre: { etiqueta: 'Nombre (firma)', tipo: 'texto', ayuda: 'Va junto a la foto, abajo a la izquierda.' },
+  cifra1: { etiqueta: 'Primera cifra', tipo: 'texto' },
+  texto1: { etiqueta: 'Texto de la primera cifra', tipo: 'texto' },
+  cifra2: { etiqueta: 'Segunda cifra', tipo: 'texto' },
+  texto2: { etiqueta: 'Texto de la segunda cifra', tipo: 'texto' },
+  remate: { etiqueta: 'Remate', tipo: 'texto', ayuda: 'La conclusión; *entre asteriscos* va en negritas.' },
+  fuente: { etiqueta: 'Fuente de la cifra', tipo: 'texto', ayuda: 'Abajo a la derecha, p. ej. "Fuente: mi CRM, 2026-10-01".' },
 }

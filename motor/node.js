@@ -20,6 +20,8 @@ export const fuentes = [
   { name: 'Lilita', data: fs.readFileSync(path.join(aqui, 'fuentes/lilita-400.woff')), weight: 400 },
   { name: 'Lora', data: fs.readFileSync(path.join(aqui, 'fuentes/lora-700.woff')), weight: 700 },
   { name: 'Mono', data: fs.readFileSync(path.join(aqui, 'fuentes/mono-500.woff')), weight: 500 },
+  { name: 'Archivo', data: fs.readFileSync(path.join(aqui, 'fuentes/archivo-900.woff')), weight: 900 },
+  { name: 'Lora', data: fs.readFileSync(path.join(aqui, 'fuentes/lora-500-italic.woff')), weight: 500, style: 'italic' },
 ]
 
 const TIPOS = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml' }
